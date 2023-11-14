@@ -109,7 +109,7 @@ class home extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                'Rp 20,957',
+                                'Rp 205,957',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 30,
