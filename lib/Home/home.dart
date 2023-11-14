@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class home extends StatelessWidget {
-  const home({Key? key}) : super(key: key);
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,63 +67,7 @@ class home extends StatelessWidget {
                     ],
                   ),
                 ),
-                Positioned(
-                  top: 160,
-                  left: 45,
-                  child: Container(
-                    height: 170,
-                    width: 320,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 46, 122, 88),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 8),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 3),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Total Balance',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 26,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Icon(
-                                Icons.remove_red_eye,
-                                color: Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12, top: 40),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Rp 205,957',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
+                SizedBox(height: 140),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -134,6 +78,62 @@ class home extends StatelessWidget {
                   ],
                 ),
               ],
+            ),
+            Positioned(
+              top: 170,
+              left: 50,
+              child: Container(
+                height: 170,
+                width: 320,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 46, 122, 88),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total Balance',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 26,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Icon(
+                            Icons.remove_red_eye,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, top: 40),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Rp 205,957',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -163,4 +163,10 @@ class home extends StatelessWidget {
       ],
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: Home(),
+  ));
 }
