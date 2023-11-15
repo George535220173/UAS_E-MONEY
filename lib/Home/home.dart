@@ -174,28 +174,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget buildIconButton(IconData icon, String label) {
-    return Column(
-      children: [
-        IconButton(
-          onPressed: () {
-            // Implement action for each button
-          },
-          icon: Icon(icon),
-          iconSize: 40,
-          color: Color.fromARGB(255, 168, 78, 224),
-        ),
-        SizedBox(height: 5),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
 
     Widget buildNavigationButton(IconData icon, String label, Widget page) {
     return Column(
