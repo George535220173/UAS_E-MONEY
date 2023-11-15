@@ -56,7 +56,7 @@ class TransferPage extends StatelessWidget {
                 FilteringTextInputFormatter.digitsOnly 
               ],
               decoration: InputDecoration(
-                hintText: 'Enter amount',
+                hintText: 'Enter Amount',
                 border: OutlineInputBorder(),
               ),
             ),
