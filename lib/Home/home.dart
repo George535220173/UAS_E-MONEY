@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class home extends StatefulWidget {
-  const home({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<home> {
+class _HomeState extends State<Home> {
   bool isEyeOpen = true;
 
   @override
@@ -32,7 +32,6 @@ class _HomeState extends State<home> {
                   child: Stack(
                     children: [
                       Positioned(
-
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7),
                           child: Container(
@@ -69,17 +68,6 @@ class _HomeState extends State<home> {
                     ],
                   ),
                 ),
-                SizedBox(height: 310),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildIconButton(Icons.arrow_downward, 'Withdraw'),
-                    buildIconButton(Icons.arrow_upward, 'Deposit'),
-                    buildIconButton(Icons.swap_horiz, 'Transfer'),
-                    buildIconButton(Icons.history, 'History'),
-                  ],
-                ),
-                SizedBox(height: 20),
               ],
             ),
             Positioned(
@@ -147,6 +135,33 @@ class _HomeState extends State<home> {
                     ),
                   ],
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 540),
+              child: Container(
+                width: double.infinity,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(138, 194, 194, 194),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.only(top: 560),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildIconButton(Icons.arrow_downward, 'Withdraw'),
+                  buildIconButton(Icons.arrow_upward, 'Deposit'),
+                  buildIconButton(Icons.swap_horiz, 'Transfer'),
+                  buildIconButton(Icons.history, 'History'),
+                ],
               ),
             ),
           ],
