@@ -141,13 +141,13 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 540),
+            Positioned(
+              bottom: 0,
               child: Container(
                 width: double.infinity,
                 height: 120,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(138, 194, 194, 194),
+                  color: Color.fromARGB(137, 197, 60, 60),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -161,10 +161,14 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildNavigationButton(Icons.arrow_downward, 'Withdraw', WithdrawPage()),
-                  buildNavigationButton(Icons.arrow_upward, 'Deposit', DepositPage()),
-                  buildNavigationButton(Icons.swap_horiz, 'Transfer', TransferPage()),
-                  buildNavigationButton(Icons.history, 'History', TransactionHistoryPage()),
+                  buildNavigationButton(
+                      Icons.arrow_downward, 'Withdraw', WithdrawPage()),
+                  buildNavigationButton(
+                      Icons.arrow_upward, 'Deposit', DepositPage()),
+                  buildNavigationButton(
+                      Icons.swap_horiz, 'Transfer', TransferPage()),
+                  buildNavigationButton(
+                      Icons.history, 'History', TransactionHistoryPage()),
                 ],
               ),
             ),
@@ -175,7 +179,7 @@ class _HomeState extends State<Home> {
   }
 
 
-    Widget buildNavigationButton(IconData icon, String label, Widget page) {
+  Widget buildNavigationButton(IconData icon, String label, Widget page) {
     return Column(
       children: [
         IconButton(
