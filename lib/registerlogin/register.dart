@@ -105,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 15),
 
             // Sign Up Button
 // Sign Up Button
