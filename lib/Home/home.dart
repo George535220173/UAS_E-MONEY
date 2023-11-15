@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uas_emoney/Withdraw/withdraw.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -157,7 +158,7 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildIconButton(Icons.arrow_downward, 'Withdraw'),
+                  buildNavigationButton(Icons.arrow_downward, 'Withdraw', WithdrawPage()),
                   buildIconButton(Icons.arrow_upward, 'Deposit'),
                   buildIconButton(Icons.swap_horiz, 'Transfer'),
                   buildIconButton(Icons.history, 'History'),
@@ -176,6 +177,32 @@ class _HomeState extends State<Home> {
         IconButton(
           onPressed: () {
             // Implement action for each button
+          },
+          icon: Icon(icon),
+          iconSize: 40,
+          color: Color.fromARGB(255, 168, 78, 224),
+        ),
+        SizedBox(height: 5),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+
+    Widget buildNavigationButton(IconData icon, String label, Widget page) {
+    return Column(
+      children: [
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            );
           },
           icon: Icon(icon),
           iconSize: 40,
