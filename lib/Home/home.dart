@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:uas_emoney/Withdraw/withdraw.dart';
 import 'package:uas_emoney/Deposit/deposit.dart';
 import 'package:uas_emoney/Transfer/transfer.dart';
 import 'package:uas_emoney/History/history.dart';
+import 'package:uas_emoney/money.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,6 +15,25 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isEyeOpen = true;
+  final NumberFormat currencyFormatter = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
+
+  // Use a ValueNotifier to hold the balance value
+  final ValueNotifier<double> totalBalanceNotifier = ValueNotifier<double>(Money.totalBalance);
+
+  @override
+  void initState() {
+    super.initState();
+    Money.onBalanceChange = () {
+      // Update the ValueNotifier when totalBalance changes
+      totalBalanceNotifier.value = Money.totalBalance;
+    };
+  }
+
+  @override
+  void dispose() {
+    Money.onBalanceChange = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,14 +147,22 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.only(left: 12, top: 40),
                       child: Row(
                         children: [
-                          Text(
-                            isEyeOpen ? 'Rp 202,957' : '******',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 30,
-                              color: Colors.white,
-                            ),
-                          )
+                          // Use ValueListenableBuilder to listen for changes
+                          ValueListenableBuilder<double>(
+                            valueListenable: totalBalanceNotifier,
+                            builder: (context, value, child) {
+                              return Text(
+                                isEyeOpen
+                                    ? currencyFormatter.format(value)
+                                    : '******',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 30,
+                                  color: Colors.white,
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -174,8 +203,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-
-    Widget buildNavigationButton(IconData icon, String label, Widget page) {
+  Widget buildNavigationButton(IconData icon, String label, Widget page) {
     return Column(
       children: [
         IconButton(

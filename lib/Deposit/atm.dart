@@ -16,15 +16,15 @@ class atmPage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 10),
-              Icon(Icons.money, size: 200, color: Color.fromARGB(255, 147, 76, 175)),
+              Image.network('https://o.remove.bg/downloads/23dd2227-6721-4e7a-b2b9-2e9a57728741/image-removebg-preview.png'),
               SizedBox(height: 20),
-              buildElevatedButton(context, 'BCA'),
+              buildElevatedButton(context, 'BCA', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png'),
               SizedBox(height: 10),
-              buildElevatedButton(context, 'BNI'),
+              buildElevatedButton(context, 'BNI', 'https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png'),
               SizedBox(height: 10),
-              buildElevatedButton(context, 'BRI'),
+              buildElevatedButton(context, 'BRI', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/1280px-BANK_BRI_logo.svg.png'),
               SizedBox(height: 10),
-              buildElevatedButton(context, 'MANDIRI'),
+              buildElevatedButton(context, 'Mandiri', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png'),
             ],
           ),
         ),
@@ -32,7 +32,7 @@ class atmPage extends StatelessWidget {
     );
   }
 
-  Widget buildElevatedButton(BuildContext context, String bankName) {
+  Widget buildElevatedButton(BuildContext context, String bankName, String logoImageUrl) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -43,11 +43,25 @@ class atmPage extends StatelessWidget {
           primary: Color.fromARGB(255, 147, 76, 175),
           padding: const EdgeInsets.all(12.0),
         ),
-        child: Text(
-          bankName,
-          style: TextStyle(
-            fontSize: 18,
-          ),
+        child: Row(
+          children: [
+            Image.network(
+              logoImageUrl,
+              width: 70,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(width: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                bankName,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
