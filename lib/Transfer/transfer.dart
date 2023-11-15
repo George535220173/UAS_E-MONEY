@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; 
 
 class TransferPage extends StatelessWidget {
   const TransferPage({Key? key}) : super(key: key);
@@ -8,13 +9,23 @@ class TransferPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Transfer'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175), // E-money theme color
+        backgroundColor: Color.fromARGB(255, 147, 76, 175), 
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundColor: Color.fromARGB(255, 147, 76, 175),
+              child: Icon(
+                Icons.account_circle,
+                size: 60,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 20),
             Text(
               'Recipient',
               style: TextStyle(
@@ -27,6 +38,7 @@ class TransferPage extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Enter recipient username or ID',
                 border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person),
               ),
             ),
             SizedBox(height: 20),
@@ -39,6 +51,10 @@ class TransferPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             TextField(
+              keyboardType: TextInputType.number, 
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly 
+              ],
               decoration: InputDecoration(
                 hintText: 'Enter amount',
                 border: OutlineInputBorder(),
@@ -47,18 +63,24 @@ class TransferPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Implement transfer logic
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175), // E-money theme color
+                primary: Color.fromARGB(255, 147, 76, 175), 
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  'Transfer',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.send),
+                    SizedBox(width: 10),
+                    Text(
+                      'Transfer',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
