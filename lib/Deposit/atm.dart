@@ -45,16 +45,15 @@ class atmPage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Add the bank logo image here
             Image.network(
               logoImageUrl,
-              width: 70, // Adjust the width as needed
-              height: 40, // Adjust the height as needed
+              width: 70,
+              height: 40,
               fit: BoxFit.contain,
             ),
-            SizedBox(width: 10), // Add some space between the image and text
+            SizedBox(width: 10),
             Align(
-              alignment: Alignment.centerLeft, // Align text to the left
+              alignment: Alignment.centerLeft,
               child: Text(
                 bankName,
                 style: TextStyle(

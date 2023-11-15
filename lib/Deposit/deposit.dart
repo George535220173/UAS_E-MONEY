@@ -12,7 +12,7 @@ class DepositPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Deposit'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175), // E-money theme color
+        backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -45,8 +45,8 @@ class DepositPage extends StatelessWidget {
             navigateToPage(context, page);
           },
           style: ElevatedButton.styleFrom(
-            primary: Color.fromARGB(255, 147, 76, 175), // Set button color to E-money theme color
-            padding: EdgeInsets.symmetric(vertical: 10), // Adjust the vertical padding
+            primary: Color.fromARGB(255, 147, 76, 175),
+            padding: EdgeInsets.symmetric(vertical: 10),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -54,7 +54,7 @@ class DepositPage extends StatelessWidget {
               SizedBox(width: 20),
               Icon(
                 icon,
-                color: Colors.white, // Set icon color to white
+                color: Colors.white,
                 size: 40,
               ),
               SizedBox(width: 20),
@@ -63,7 +63,7 @@ class DepositPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white, // Set text color to white
+                  color: Colors.white,
                 ),
               ),
             ],
