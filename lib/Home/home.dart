@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
-class home extends StatelessWidget {
+class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<home> {
+  bool isEyeOpen = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Stack(
+          alignment: Alignment.topCenter,
           children: [
             Column(
               children: [
@@ -24,19 +32,13 @@ class home extends StatelessWidget {
                   child: Stack(
                     children: [
                       Positioned(
-                        top: 15,
-                        left: 350,
+
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7),
                           child: Container(
                             height: 40,
                             width: 40,
                             color: Colors.transparent,
-                            child: Icon(
-                              Icons.person,
-                              size: 30,
-                              color: Colors.white,
-                            ),
                           ),
                         ),
                       ),
@@ -67,63 +69,7 @@ class home extends StatelessWidget {
                     ],
                   ),
                 ),
-                Positioned(
-                  top: 160,
-                  left: 45,
-                  child: Container(
-                    height: 170,
-                    width: 320,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 46, 122, 88),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 8),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 3),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Total Balance',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 26,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Icon(
-                                Icons.remove_red_eye,
-                                color: Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12, top: 40),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Rp 205,957',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
+                SizedBox(height: 130),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -133,7 +79,75 @@ class home extends StatelessWidget {
                     buildIconButton(Icons.history, 'History'),
                   ],
                 ),
+                SizedBox(height: 20),
               ],
+            ),
+            Positioned(
+              top: 160,
+              child: Container(
+                height: 170,
+                width: 320,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 46, 122, 88),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total Balance',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 26,
+                              color: Colors.white,
+                            ),
+                          ),
+                          IconButton(
+                            icon: isEyeOpen
+                                ? Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.white,
+                                  )
+                                : Icon(
+                                    Icons.visibility_off,
+                                    color: Colors.white,
+                                  ),
+                            onPressed: () {
+                              setState(() {
+                                isEyeOpen = !isEyeOpen;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, top: 40),
+                      child: Row(
+                        children: [
+                          Text(
+                            isEyeOpen ? 'Rp 222,957' : '******',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
