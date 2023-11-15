@@ -36,7 +36,7 @@ class TransferPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextField(
-                controller: recipientController,
+                // controller: recipientController,
                 decoration: InputDecoration(
                   hintText: 'Masukkan nama penerima atau ID',
                   border: OutlineInputBorder(),
@@ -53,7 +53,7 @@ class TransferPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextField(
-                controller: amountController,
+                // controller: amountController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
@@ -64,7 +64,7 @@ class TransferPage extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  _onTransferButtonPressed(context);
+                  _showPasswordDialog(context);
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 147, 76, 175),
@@ -93,15 +93,66 @@ class TransferPage extends StatelessWidget {
     );
   }
 
-  void _onTransferButtonPressed(BuildContext context) {
-    String recipient = recipientController.text;
-    String amount = amountController.text;
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TransferSuccessPage(recipient, amount),
-      ),
+  void _showPasswordDialog(BuildContext context) {
+    TextEditingController passwordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Konfirmasi Password"),
+          content: TextField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: 'Masukkan Password',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                String enteredPassword = passwordController.text;
+                _handlePasswordVerification(context, enteredPassword);
+              },
+              child: Text("Konfirmasi"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Batal"),
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  void _handlePasswordVerification(BuildContext context, String enteredPassword) {
+    String correctPassword = "12345"; // Password yang benar
+
+    if (enteredPassword == correctPassword) {
+      // Password benar, lanjutkan dengan logika transfer
+      // Ganti bagian ini dengan logika transfer yang sesuai
+      String recipient = "Penerima"; // Ganti dengan data sesuai kebutuhan
+      String amount = "100000"; // Ganti dengan data sesuai kebutuhan
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TransferSuccessPage(recipient, amount),
+        ),
+      );
+    } else {
+      // Password salah, munculkan pesan kesalahan
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password salah. Silakan coba lagi.'),
+        ),
+      );
+    }
   }
 }
 
@@ -118,11 +169,11 @@ class TransferSuccessPage extends StatelessWidget {
         title: Text('Transfer Berhasil'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
-      body: Center( 
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, 
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
@@ -170,6 +221,3 @@ class TransferSuccessPage extends StatelessWidget {
     );
   }
 }
-
-TextEditingController recipientController = TextEditingController();
-TextEditingController amountController = TextEditingController();
