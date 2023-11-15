@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
                   width: double.infinity,
                   height: 240,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 131, 15, 180),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20),
@@ -86,7 +86,7 @@ class Home extends StatelessWidget {
                 height: 170,
                 width: 320,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 46, 122, 88),
+                  color: Color.fromARGB(255, 90, 38, 97),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -150,7 +150,7 @@ class Home extends StatelessWidget {
           },
           icon: Icon(icon),
           iconSize: 40,
-          color: Colors.green,
+          color: Color.fromARGB(255, 150, 69, 162),
         ),
         SizedBox(height: 5),
         Text(
