@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uas_emoney/Transaction.dart';
+import 'package:uas_emoney/money.dart';
 
 class TransferPage extends StatelessWidget {
   const TransferPage({Key? key}) : super(key: key);
@@ -131,11 +133,18 @@ class TransferPage extends StatelessWidget {
   }
 
   void _handlePasswordVerification(BuildContext context, String enteredPassword) {
-    String correctPassword = "12345"; // Password yang benar
+  String correctPassword = "12345"; 
 
-    if (enteredPassword == correctPassword) {
-      String recipient = recipientController.text;
-      String amount = amountController.text;
+  if (enteredPassword == correctPassword) {
+    String recipient = recipientController.text;
+    String amount = amountController.text;
+
+    double transferAmount = double.tryParse(amount) ?? 0.0;
+
+    if (Money.totalBalance >= transferAmount) {
+      Money.transfer(transferAmount);
+
+      Money.transactionHistory.add(Transaction(recipient, transferAmount, DateTime.now()));
 
       Navigator.pushReplacement(
         context,
@@ -148,11 +157,23 @@ class TransferPage extends StatelessWidget {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Password salah. Silakan coba lagi.'),
+          content: Text('Saldo tidak mencukupi untuk transfer.'),
         ),
       );
+      recipientController.clear();
+      amountController.clear();
     }
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Password salah. Silakan coba lagi.'),
+      ),
+    );
+    recipientController.clear();
+    amountController.clear();
   }
+}
+
 }
 
 class TransferSuccessPage extends StatelessWidget {
@@ -220,6 +241,5 @@ class TransferSuccessPage extends StatelessWidget {
     );
   }
 }
-
 TextEditingController recipientController = TextEditingController();
 TextEditingController amountController = TextEditingController();
