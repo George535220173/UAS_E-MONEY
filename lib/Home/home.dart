@@ -127,7 +127,7 @@ class _HomeState extends State<Home> {
                       child: Row(
                         children: [
                           Text(
-                            isEyeOpen ? 'Rp 222,957' : '******',
+                            isEyeOpen ? 'Rp 202,957' : '******',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 30,
@@ -173,6 +173,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
 
     Widget buildNavigationButton(IconData icon, String label, Widget page) {
     return Column(
