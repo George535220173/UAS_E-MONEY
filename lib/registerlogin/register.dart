@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uas_emoney/registerlogin/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -21,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
         title: Text('Register'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -105,10 +104,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 16),
 
             // Sign Up Button
-// Sign Up Button
             ElevatedButton(
               onPressed: () {
                 // Validate email and password
@@ -142,13 +140,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 }
               },
+              
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 255, 255, 255), // Background color
+                primary: Color.fromARGB(255, 234, 234, 234), // Background color
                 onPrimary: Color.fromARGB(255, 149, 53, 173), // Text color
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  side: BorderSide(color: const Color.fromARGB(155, 51, 132, 199)), // Warna garis luar
                 ),
               ),
               child: Text('Sign Up'),

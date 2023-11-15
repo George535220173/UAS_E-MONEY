@@ -27,51 +27,45 @@ class _LoginPageState extends State<LoginPage> {
                 height: 100,
               ),
               
-              SizedBox(
-                height: 30,
-                ),
+              SizedBox(height: 30),
 
               Text(
                 'Sign in to Continue',
                 style: TextStyle(
-                    fontSize: 20,
-                    color: const Color.fromARGB(255, 75, 149, 209)),
+                  fontSize: 20,
+                  color: const Color.fromARGB(255, 75, 149, 209),
+                ),
               ),
 
-              SizedBox(
-                height: 40,
-              ),
+              SizedBox(height: 40),
               
-              //bagian email
+              // Bagian email
               SizedBox(
                 width: 320,
-                child: SizedBox(
-                  width: 320,
-                  child: TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.info),
-                        onPressed: () {
-                          if (!emailController.text.endsWith('@gmail.com')) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Invalid email format'),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.info),
+                      onPressed: () {
+                        if (!emailController.text.endsWith('@gmail.com')) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Invalid email format'),
+                            ),
+                          );
+                        }
+                      },
                     ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
                 ),
               ),
 
               SizedBox(height: 15),
 
-              //bagian password
+              // Bagian password
               SizedBox(
                 width: 320,
                 child: TextField(
@@ -88,24 +82,21 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                     ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 30.0), // Sesuaikan dengan kebutuhan Anda
+                    contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
                   obscureText: !isPasswordVisible,
                 ),
               ),
 
-              SizedBox(
-                height: 20, 
-              ),
+              SizedBox(height: 20),
 
               // Login Button
               ElevatedButton(
                 onPressed: () {
-                  // Lakukan autentikasi login (biasanya akan memeriksa di database)
-                  // Anda bisa menambahkan logika login di sini
+                  // Implement your login logic here
+                  // Example: Check email and password against database
 
-                  // Pindah ke halaman utama setelah login
+                  // Move to the home page after successful login
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -113,6 +104,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue, // Background color
+                  onPrimary: Colors.white, // Text color
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
                 child: Text('Log In'),
               ),
 
