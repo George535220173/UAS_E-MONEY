@@ -135,7 +135,7 @@ class _HomeState extends State<home> {
                       child: Row(
                         children: [
                           Text(
-                            isEyeOpen ? 'Rp 205,957' : 'Rp *****',
+                            isEyeOpen ? 'Rp 222,957' : '******',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 30,
