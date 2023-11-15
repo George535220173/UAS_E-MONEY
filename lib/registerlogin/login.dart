@@ -2,23 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:uas_emoney/Home/home.dart';
 import 'package:uas_emoney/registerlogin/register.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: LoginPage(),
-    );
-  }
-}
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -32,67 +15,89 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Logo
               Image.network(
-                'https://e7.pngegg.com/pngimages/700/675/png-clipart-hat-shaman-wizard-top-hat-hatpin-thumbnail.png', // Ganti dengan path logo topi wizard
+                'https://media.istockphoto.com/id/1028818726/id/vektor/topi-wizard-ikon-terkait-halloween-desain-kerangka-terisi-goresan-yang-dapat-diedit.jpg?s=170667a&w=0&k=20&c=AjAMfn6NFTRj6j3aowaVIlppwdN1VrHWYh3IAYAgc54=',
                 width: 100,
                 height: 100,
               ),
+              
+              SizedBox(
+                height: 30,
+                ),
 
-              SizedBox(height: 20),
+              Text(
+                'Sign in to Continue',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: const Color.fromARGB(255, 75, 149, 209)),
+              ),
 
-              // Email Input
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.info),
-                    onPressed: () {
-                      if (!emailController.text.endsWith('@gmail.com')) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Invalid email format'),
-                          ),
-                        );
-                      }
-                    },
+              SizedBox(
+                height: 40,
+              ),
+              
+              //bagian email
+              SizedBox(
+                width: 320,
+                child: SizedBox(
+                  width: 320,
+                  child: TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.info),
+                        onPressed: () {
+                          if (!emailController.text.endsWith('@gmail.com')) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Invalid email format'),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                    ),
                   ),
                 ),
               ),
 
-              SizedBox(height: 10),
+              SizedBox(height: 15),
 
-              // Password Input
-              TextField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: isPasswordVisible
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        isPasswordVisible = !isPasswordVisible;
-                      });
-                    },
+              //bagian password
+              SizedBox(
+                width: 320,
+                child: TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      icon: isPasswordVisible
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 30.0), // Sesuaikan dengan kebutuhan Anda
                   ),
+                  obscureText: !isPasswordVisible,
                 ),
-                obscureText: !isPasswordVisible,
               ),
 
-              SizedBox(height: 20),
+              SizedBox(
+                height: 20, 
+              ),
 
               // Login Button
               ElevatedButton(
@@ -114,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
 
               // Garis Pemisah
-              Divider(),
+              Divider(thickness: 2, color: Colors.black),
 
               SizedBox(height: 20),
 
