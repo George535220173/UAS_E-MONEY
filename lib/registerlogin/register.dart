@@ -9,6 +9,9 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  bool isPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,36 +24,132 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
+            // Box Email
+            Container(
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Box Password
+            Container(
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: TextField(
+                controller: passwordController,
+                obscureText: !isPasswordVisible,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  suffixIcon: IconButton(
+                    icon: isPasswordVisible
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        isPasswordVisible = !isPasswordVisible;
+                      });
+                    },
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Box Confirm Password
+            Container(
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: TextField(
+                controller: confirmPasswordController,
+                obscureText: !isConfirmPasswordVisible,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  suffixIcon: IconButton(
+                    icon: isConfirmPasswordVisible
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        isConfirmPasswordVisible = !isConfirmPasswordVisible;
+                      });
+                    },
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                ),
               ),
             ),
             SizedBox(height: 16),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-              obscureText: true,
-            ),
-            SizedBox(height: 16),
+
+            // Sign Up Button
             ElevatedButton(
               onPressed: () {
-                // Simpan informasi registrasi (misalnya, di database)
-                String email = emailController.text;
-                String password = passwordController.text;
+                // Validate email and password
+                bool isEmailValid = emailController.text.endsWith('@gmail.com');
+                bool isPasswordMatch =
+                    passwordController.text == confirmPasswordController.text;
 
-                // Pindah ke halaman login setelah registrasi
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
+                if (!isEmailValid) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Invalid email format'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                } else if (!isPasswordMatch) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Password does not match'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                } else {
+                  // Register logic here
+
+                  // Move to login page after successful registration
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                }
               },
-              child: Text('Register'),
+              
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 234, 234, 234), // Background color
+                onPrimary: Color.fromARGB(255, 149, 53, 173), // Text color
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Text('Sign Up'),
             ),
           ],
         ),
