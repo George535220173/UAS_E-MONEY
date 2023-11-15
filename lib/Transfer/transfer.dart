@@ -118,44 +118,58 @@ class TransferSuccessPage extends StatelessWidget {
         title: Text('Transfer Berhasil'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.check_circle,
-              size: 80,
-              color: Colors.green,
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Transfer Berhasil!',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+      body: Center( 
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, 
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.check_circle,
+                size: 80,
+                color: Colors.green,
               ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Selamat, Anda telah berhasil mentransfer:',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Penerima: $recipient',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Jumlah: Rp $amount',
-              textAlign: TextAlign.center,
-            ),
-          ],
+              SizedBox(height: 20),
+              Text(
+                'Transfer Berhasil!',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Selamat, Anda telah berhasil mentransfer kepada',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Penerima: $recipient',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Jumlah: Rp $amount',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
 TextEditingController recipientController = TextEditingController();
 TextEditingController amountController = TextEditingController();
