@@ -23,7 +23,7 @@ class _HomeState extends State<home> {
                   width: double.infinity,
                   height: 240,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: const Color.fromARGB(255, 147, 76, 175),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20),
@@ -69,7 +69,7 @@ class _HomeState extends State<home> {
                     ],
                   ),
                 ),
-                SizedBox(height: 130),
+                SizedBox(height: 310),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -88,7 +88,7 @@ class _HomeState extends State<home> {
                 height: 170,
                 width: 320,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 46, 122, 88),
+                  color: Color.fromARGB(255, 95, 42, 118),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -164,7 +164,7 @@ class _HomeState extends State<home> {
           },
           icon: Icon(icon),
           iconSize: 40,
-          color: Colors.green,
+          color: Color.fromARGB(255, 168, 78, 224),
         ),
         SizedBox(height: 5),
         Text(
