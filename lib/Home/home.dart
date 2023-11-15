@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uas_emoney/Withdraw/withdraw.dart';
+import 'package:uas_emoney/Deposit/deposit.dart';
+import 'package:uas_emoney/Transfer/transfer.dart';
+import 'package:uas_emoney/History/history.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -159,9 +162,9 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   buildNavigationButton(Icons.arrow_downward, 'Withdraw', WithdrawPage()),
-                  buildIconButton(Icons.arrow_upward, 'Deposit'),
-                  buildIconButton(Icons.swap_horiz, 'Transfer'),
-                  buildIconButton(Icons.history, 'History'),
+                  buildNavigationButton(Icons.arrow_upward, 'Deposit', DepositPage()),
+                  buildNavigationButton(Icons.swap_horiz, 'Transfer', TransferPage()),
+                  buildNavigationButton(Icons.history, 'History', TransactionHistoryPage()),
                 ],
               ),
             ),
