@@ -36,7 +36,7 @@ class TransferPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextField(
-                // controller: recipientController,
+                controller: recipientController,
                 decoration: InputDecoration(
                   hintText: 'Masukkan nama penerima atau ID',
                   border: OutlineInputBorder(),
@@ -53,7 +53,7 @@ class TransferPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextField(
-                // controller: amountController,
+                controller: amountController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
@@ -134,10 +134,8 @@ class TransferPage extends StatelessWidget {
     String correctPassword = "12345"; // Password yang benar
 
     if (enteredPassword == correctPassword) {
-      // Password benar, lanjutkan dengan logika transfer
-      // Ganti bagian ini dengan logika transfer yang sesuai
-      String recipient = "Penerima"; // Ganti dengan data sesuai kebutuhan
-      String amount = "100000"; // Ganti dengan data sesuai kebutuhan
+      String recipient = recipientController.text;
+      String amount = amountController.text;
 
       Navigator.pushReplacement(
         context,
@@ -145,8 +143,9 @@ class TransferPage extends StatelessWidget {
           builder: (context) => TransferSuccessPage(recipient, amount),
         ),
       );
+      recipientController.clear();
+      amountController.clear();
     } else {
-      // Password salah, munculkan pesan kesalahan
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Password salah. Silakan coba lagi.'),
@@ -221,3 +220,6 @@ class TransferSuccessPage extends StatelessWidget {
     );
   }
 }
+
+TextEditingController recipientController = TextEditingController();
+TextEditingController amountController = TextEditingController();
