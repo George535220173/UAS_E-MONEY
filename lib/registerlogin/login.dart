@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uas_emoney/Home/home.dart';
 import 'package:uas_emoney/registerlogin/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
               
               SizedBox(
                 height: 30,
-                ),
+              ),
 
               Text(
                 'Sign in to Continue',
@@ -42,36 +43,33 @@ class _LoginPageState extends State<LoginPage> {
                 height: 40,
               ),
               
-              //bagian email
+              // Bagian email
               SizedBox(
                 width: 320,
-                child: SizedBox(
-                  width: 320,
-                  child: TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.info),
-                        onPressed: () {
-                          if (!emailController.text.endsWith('@gmail.com')) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Invalid email format'),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.info),
+                      onPressed: () {
+                        if (!emailController.text.endsWith('@gmail.com')) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Invalid email format'),
+                            ),
+                          );
+                        }
+                      },
                     ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
                 ),
               ),
 
               SizedBox(height: 15),
 
-              //bagian password
+              // Bagian password
               SizedBox(
                 width: 320,
                 child: TextField(
@@ -101,17 +99,31 @@ class _LoginPageState extends State<LoginPage> {
 
               // Login Button
               ElevatedButton(
-                onPressed: () {
-                  // Lakukan autentikasi login (biasanya akan memeriksa di database)
-                  // Anda bisa menambahkan logika login di sini
+                onPressed: () async {
+                  try {
+                    // Lakukan autentikasi login dengan Firebase Authentication
+                    UserCredential userCredential =
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
 
-                  // Pindah ke halaman utama setelah login
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Home(),
-                    ),
-                  );
+                    // Jika login berhasil, pindah ke halaman utama
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Home(),
+                      ),
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'user-not-found') {
+                      print('No user found for that email.');
+                    } else if (e.code == 'wrong-password') {
+                      print('Wrong password provided for that user.');
+                    } else {
+                      print(e.message);
+                    }
+                  }
                 },
                 child: Text('Log In'),
               ),
