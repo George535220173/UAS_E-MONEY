@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "396718071402",
+    "project_id": "projectuas-f511f",
+    "storage_bucket": "projectuas-f511f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396718071402:android:198a32fda5bcce0dcb7413",
+        "android_client_info": {
+          "package_name": "com.example.uas_emoney"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC31Uv-ilsYD0YP7akHM3y4dQroZCsLRJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

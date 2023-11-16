@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uas_emoney/registerlogin/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -108,8 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             // Sign Up Button
             ElevatedButton(
-              onPressed: () {
-                // Validate email and password
+              onPressed: () async {
                 bool isEmailValid = emailController.text.endsWith('@gmail.com');
                 bool isPasswordMatch =
                     passwordController.text == confirmPasswordController.text;
@@ -129,21 +129,34 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   );
                 } else {
-                  // Register logic here
+                  try {
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
 
-                  // Move to login page after successful registration
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
+                    // Save additional user data to Firestore (optional)
+                    // ...
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    print('FirebaseAuthException during registration: $e');
+                    // Handle FirebaseAuthException (weak-password, email-already-in-use, etc.)
+                  } catch (e) {
+                    print('Error during registration: $e');
+                    // Handle other exceptions
+                  }
                 }
               },
-              
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 234, 234, 234), // Background color
-                onPrimary: Color.fromARGB(255, 149, 53, 173), // Text color
+                primary: Color.fromARGB(255, 234, 234, 234),
+                onPrimary: Color.fromARGB(255, 149, 53, 173),
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
