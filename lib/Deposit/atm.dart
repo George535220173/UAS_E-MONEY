@@ -16,7 +16,7 @@ class atmPage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 10),
-              Image.network('https://o.remove.bg/downloads/23dd2227-6721-4e7a-b2b9-2e9a57728741/image-removebg-preview.png'),
+              buildResizedImage('https://upload.wikimedia.org/wikipedia/commons/5/59/Logo_ATM.png', width: 200, height: 200),
               SizedBox(height: 20),
               buildElevatedButton(context, 'BCA', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png'),
               SizedBox(height: 10),
@@ -29,6 +29,15 @@ class atmPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+  
+  Widget buildResizedImage(String imageUrl, {double width = 100, double height = 100}) {
+    return Image.network(
+      imageUrl,
+      width: width,
+      height: height,
+      fit: BoxFit.contain,
     );
   }
 
