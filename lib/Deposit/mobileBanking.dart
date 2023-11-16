@@ -7,7 +7,7 @@ class mobileBankingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Internet/Mobile Banking'),
+        title: Text('Mobile Banking'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Center(
@@ -124,9 +124,18 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> bcaaaaa'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text('> Login ke akun m-BCA anda.'),
+        SizedBox(height: 8),
+        Text('> Pilih m-Transfer.'),
+        SizedBox(height: 8),
+        Text('> Pilih BCA Virtual Account.'),
+        SizedBox(height: 8),
+        Text('> Masukkan 77665 + nomor ponsel anda :'),
+        Text('   77665 08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
@@ -135,9 +144,18 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> bniii'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text('> Login ke akun BNI Mobile anda.'),
+        SizedBox(height: 8),
+        Text('> Pilih Transfer.'),
+        SizedBox(height: 8),
+        Text('> Pilih Virtual Account Billing.'),
+        SizedBox(height: 8),
+        Text('> Masukkan 0987 + nomor ponsel anda :'),
+        Text('   0987 08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
@@ -146,9 +164,16 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> briiii'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text('> Login ke akun BRI Mobile anda.'),
+        SizedBox(height: 8),
+        Text('> Pilih Dompet Digital.'),
+        SizedBox(height: 8),
+        Text('> Pilih Wizdrawal dan masukkan nomor ponsel anda :'),
+        Text('   08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
@@ -157,9 +182,20 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> mandiriii'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text("> Login ke akun Livin' by Mandiri anda."),
+        SizedBox(height: 8),
+        Text('> Pilih Pembayaran.'),
+        SizedBox(height: 8),
+        Text('> Pilih Buat Pembayaran Baru.'),
+        SizedBox(height: 8),
+        Text('> Pilih Multipayment'),
+        SizedBox(height: 8),
+        Text('> Pilih Wizdrawal dan masukkan nomor ponsel anda :'),
+        Text('   08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
