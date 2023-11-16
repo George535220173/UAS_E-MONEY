@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
 
 class WithdrawPage extends StatefulWidget {
@@ -72,6 +73,9 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   double withdrawAmount = double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ?? 0.0;
                   if (withdrawAmount > 0 && withdrawAmount <= Money.totalBalance) {
                     Money.transfer(withdrawAmount);
+                    
+                    Money.transactionHistory.add(Transaction('Withdraw', withdrawAmount, DateTime.now()));
+
                     print('withdraw amount: $selectedAmount');
                   } else {
                     print('Invalid amount');
