@@ -84,7 +84,7 @@ class TransactionHistoryPage extends StatelessWidget {
         backgroundColor: Colors.grey,
         child: Icon(Icons.monetization_on, color: Colors.white),
       ),
-      title: Text(' ${transaction.recipient}'),
+      title: Text('${transaction.recipient}'),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
