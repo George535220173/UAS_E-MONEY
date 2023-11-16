@@ -245,6 +245,26 @@ class _debitPageState extends State<debitPage> {
 
     if (cardNumberError.isEmpty && cvvError.isEmpty && expirationMonth.isNotEmpty && expirationYear.isNotEmpty) {
       double amount = double.parse(selectedAmount.replaceAll(',', ''));
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content:
+              Text('Balance has been updated.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: Text('Done!'),
+            ),
+          ],
+        );
+      },
+    );
       Money.deposit(amount);
     } else {
       showDialog(
