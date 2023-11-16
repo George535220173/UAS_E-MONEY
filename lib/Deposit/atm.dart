@@ -7,7 +7,7 @@ class atmPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deposit with ATM'),
+        title: Text('ATM'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Center(
@@ -31,7 +31,7 @@ class atmPage extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget buildResizedImage(String imageUrl, {double width = 100, double height = 100}) {
     return Image.network(
       imageUrl,
