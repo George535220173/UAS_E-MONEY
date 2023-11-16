@@ -58,7 +58,7 @@ class TransactionHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transaction History'),
+        title: Text('History'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Padding(
@@ -84,7 +84,7 @@ class TransactionHistoryPage extends StatelessWidget {
         backgroundColor: Colors.grey,
         child: Icon(Icons.monetization_on, color: Colors.white),
       ),
-      title: Text('Transfer to ${transaction.recipient}'),
+      title: Text(' ${transaction.recipient}'),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

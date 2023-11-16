@@ -6,6 +6,7 @@ class Money {
   static Function()? onBalanceChange;
   static List<Transaction> transactionHistory = [];
 
+
   static void deposit(double amount) {
     totalBalance += amount;
     _notifyBalanceChange();

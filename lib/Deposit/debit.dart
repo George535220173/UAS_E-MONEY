@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
 
 class debitPage extends StatefulWidget {
@@ -209,5 +210,7 @@ class _debitPageState extends State<debitPage> {
   void depositAmount() {
     double amount = double.parse(selectedAmount.replaceAll(',', ''));
     Money.deposit(amount);
+
+    Money.transactionHistory.add(Transaction('User', amount, DateTime.now()));
   }
 }
