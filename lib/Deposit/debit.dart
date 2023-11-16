@@ -10,9 +10,27 @@ class debitPage extends StatefulWidget {
 }
 
 class _debitPageState extends State<debitPage> {
-  String selectedAmount = '100,000'; // Default selected amount
+  String selectedAmount = '100,000';
+  TextEditingController cardNumberController = TextEditingController();
   TextEditingController monthController = TextEditingController();
   TextEditingController yearController = TextEditingController();
+  TextEditingController cvvController = TextEditingController();
+  String cardNumberError = '';
+  String cvvError = '';
+  FocusNode cardNumberFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    cardNumberFocusNode.addListener(() {
+      if (!cardNumberFocusNode.hasFocus) {
+        setState(() {
+          cardNumberError = _validateCardNumber(cardNumberController.text);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +62,15 @@ class _debitPageState extends State<debitPage> {
               ),
             ),
             SizedBox(height: 10),
-            buildCardInfoField('Card Number', 16),
+            buildCardInfoField('Card Number', 16, cardNumberError),
             SizedBox(height: 10),
             buildExpirationDateFields(),
             SizedBox(height: 10),
-            buildCardInfoField('CVV', 3),
+            buildCardInfoField('CVV', 3, cvvError),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                depositAmount(); // Call the deposit function
+                depositAmount();
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 147, 76, 175),
@@ -89,16 +107,26 @@ class _debitPageState extends State<debitPage> {
     );
   }
 
-  Widget buildCardInfoField(String labelText, int maxLength) {
+  Widget buildCardInfoField(String labelText, int maxLength, String errorText) {
     return TextField(
+      controller: labelText == 'Card Number' ? cardNumberController : cvvController,
+      focusNode: labelText == 'Card Number' ? cardNumberFocusNode : null,
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(maxLength),
       ],
+      onChanged: (text) {
+        if (labelText == 'CVV') {
+          setState(() {
+            cvvError = _validateCVV(text);
+          });
+        }
+      },
       decoration: InputDecoration(
         labelText: labelText,
         border: OutlineInputBorder(),
+        errorText: errorText,
       ),
     );
   }
@@ -207,7 +235,58 @@ class _debitPageState extends State<debitPage> {
   }
 
   void depositAmount() {
-    double amount = double.parse(selectedAmount.replaceAll(',', ''));
-    Money.deposit(amount);
+    String cardNumber = _getCardInfoFieldValue('Card Number');
+    String expirationMonth = monthController.text;
+    String expirationYear = yearController.text;
+    String cvv = _getCardInfoFieldValue('CVV');
+
+    cardNumberError = _validateCardNumber(cardNumber);
+    cvvError = _validateCVV(cvv);
+
+    if (cardNumberError.isEmpty && cvvError.isEmpty && expirationMonth.isNotEmpty && expirationYear.isNotEmpty) {
+      double amount = double.parse(selectedAmount.replaceAll(',', ''));
+      Money.deposit(amount);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Incomplete or Invalid Card Information'),
+            content: Text('Please fill in all fields correctly.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  String _getCardInfoFieldValue(String labelText) {
+    if (labelText == 'Card Number') {
+      return cardNumberController.text;
+    } else if (labelText == 'CVV') {
+      return cvvController.text;
+    }
+    return '';
+  }
+
+  String _validateCardNumber(String cardNumber) {
+    if (cardNumber.length != 16) {
+      return 'Card number must be 16 digits';
+    }
+    return '';
+  }
+
+  String _validateCVV(String cvv) {
+    if (cvv.length != 3) {
+      return 'CVV must be 3 digits';
+    }
+    return '';
   }
 }
