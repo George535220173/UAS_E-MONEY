@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uas_emoney/registerlogin/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'login.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -108,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             // Sign Up Button
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validate email and password
                 bool isEmailValid = emailController.text.endsWith('@gmail.com');
                 bool isPasswordMatch =
@@ -129,18 +131,41 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   );
                 } else {
-                  // Register logic here
+                  try {
+                    // Register logic here using Firebase Authentication
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
 
-                  // Move to login page after successful registration
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
+                    // Save additional user data to Firestore
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(userCredential.user!.uid)
+                        .set({
+                      'email': emailController.text,
+                      // Add additional fields as needed
+                    });
+
+                    // Move to login page after successful registration
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      print('The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      print('The account already exists for that email.');
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
                 }
               },
-              
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 234, 234, 234), // Background color
                 onPrimary: Color.fromARGB(255, 149, 53, 173), // Text color
