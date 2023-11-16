@@ -22,7 +22,7 @@ class atmPage extends StatelessWidget {
               SizedBox(height: 10),
               buildElevatedButton(context, 'BNI', 'https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png'),
               SizedBox(height: 10),
-              buildElevatedButton(context, 'BRI', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/1280px-BANK_BRI_logo.svg.png'),
+              buildElevatedButton(context, 'Mega', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Bank_Mega_2013.svg/2560px-Bank_Mega_2013.svg.png'),
               SizedBox(height: 10),
               buildElevatedButton(context, 'Mandiri', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png'),
             ],
@@ -97,8 +97,8 @@ class atmPage extends StatelessWidget {
               SizedBox(height: 10),
               if (bankName == 'BCA') ...[
                 _instruksiBCA()
-              ] else if (bankName == 'BRI') ...[
-                _instruksiBRI()
+              ] else if (bankName == 'Mega') ...[
+                _instruksiMega()
               ] else if (bankName == 'BNI') ...[
                 _instruksiBNI()
               ] else ...[
@@ -115,9 +115,20 @@ class atmPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> bcaaaaa'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text("> Masukkan kartu ATM dan PIN BCA anda."),
+        SizedBox(height: 8),
+        Text('> Pilih Transaksi Lainnya.'),
+        SizedBox(height: 8),
+        Text('> Pilih Transfer.'),
+        SizedBox(height: 8),
+        Text('> Pilih Ke Rek BCA Virtual Account.'),
+        SizedBox(height: 8),
+        Text('> Masukkan 77665 + nomor ponsel anda :'),
+        Text('   77665 08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
@@ -125,19 +136,43 @@ class atmPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> bniii'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text("> Masukkan kartu ATM dan PIN BNI anda."),
+        SizedBox(height: 8),
+        Text('> Pilih Lainnya.'),
+        SizedBox(height: 8),
+        Text('> Pilih Transfer.'),
+        SizedBox(height: 8),
+        Text('> Pilih Virtual Account Billing.'),
+        SizedBox(height: 8),
+        Text('> Masukkan 0987 + nomor ponsel anda :'),
+        Text('   0987 08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
-  Column _instruksiBRI() {
+  Column _instruksiMega() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> briiii'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text("> Masukkan kartu ATM dan PIN Mega anda."),
+        SizedBox(height: 8),
+        Text('> Pilih Pembayaran.'),
+        SizedBox(height: 8),
+        Text('> Pilih Lainnya.'),
+        SizedBox(height: 8),
+        Text('> Pilih Dompet Elektronik.'),
+        SizedBox(height: 8),
+        Text('> Pilih Wizdrawal.'),
+        SizedBox(height: 8),
+        Text('> Masukkan nomor ponsel anda :'),
+        Text('   08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
@@ -145,9 +180,22 @@ class atmPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> mandiriii'),
-        Text('> 1blabla'),
-        Text('> 1blabla'),
+        Text("> Masukkan kartu ATM dan PIN Mandiri anda."),
+        SizedBox(height: 8),
+        Text('> Pilih Bayar/Beli.'),
+        SizedBox(height: 8),
+        Text('> Pilih Lainnya, kemudian pilih Lainnya lagi.'),
+        SizedBox(height: 8),
+        Text('> Pilih E-Commerce.'),
+        SizedBox(height: 8),
+        Text('> Masukkan kode Wizdrawal 19001.'),
+        SizedBox(height: 8),
+        Text('> Masukkan nomor ponsel anda :'),
+        Text('   08xx-xxxx-xxxx'),
+        SizedBox(height: 8),
+        Text('> Masukkan nominal deposit.'),
+        SizedBox(height: 8),
+        Text('> Selesaikan transaksi.'),
       ],
     );
   }
