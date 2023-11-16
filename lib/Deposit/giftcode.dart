@@ -1,6 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
+
+class GiftCodeTransaction extends Transaction {
+  final String code;
+
+  GiftCodeTransaction(String recipient, double amount, DateTime date, this.code)
+      : super(recipient, amount, date);
+}
 
 class giftcodePage extends StatefulWidget {
   const giftcodePage({Key? key}) : super(key: key);
@@ -155,6 +163,8 @@ class _giftcodePageState extends State<giftcodePage> {
 
     if (isCodeVisible && enteredCode == generatedCode) {
       Money.redeemGiftCode(enteredCode, selectedAmount.toDouble());
+
+       Money.transactionHistory.add(GiftCodeTransaction('GiftCode', selectedAmount.toDouble(), DateTime.now(), enteredCode));
       showDialog(
         context: context,
         builder: (BuildContext context) {
