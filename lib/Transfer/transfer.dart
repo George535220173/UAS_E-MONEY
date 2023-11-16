@@ -5,6 +5,7 @@ import 'package:uas_emoney/money.dart';
 
 class TransferPage extends StatelessWidget {
   const TransferPage({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +145,8 @@ class TransferPage extends StatelessWidget {
     if (Money.totalBalance >= transferAmount) {
       Money.transfer(transferAmount);
 
-      Money.transactionHistory.add(Transaction(recipient, transferAmount, DateTime.now()));
+      String transactionDescription = 'Transfer ke $recipient';
+      Money.transactionHistory.add(Transaction(transactionDescription, transferAmount, DateTime.now()));
 
       Navigator.pushReplacement(
         context,

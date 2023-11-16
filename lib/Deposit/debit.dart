@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
 
 class debitPage extends StatefulWidget {
@@ -266,6 +267,10 @@ class _debitPageState extends State<debitPage> {
       },
     );
       Money.deposit(amount);
+
+      String transactionDescription = 'Deposit ke $cardNumber';
+      Money.transactionHistory.add(Transaction(transactionDescription, amount, DateTime.now()));
+      
     } else {
       showDialog(
         context: context,
