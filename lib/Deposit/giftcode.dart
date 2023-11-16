@@ -15,6 +15,7 @@ class _giftcodePageState extends State<giftcodePage> {
   int selectedAmount = 20000; // Default amount
   late String generatedCode = ''; // Initialize with an empty string
   TextEditingController enteredCodeController = TextEditingController();
+  bool isCodeVisible = false; // Newly added
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +23,39 @@ class _giftcodePageState extends State<giftcodePage> {
       appBar: AppBar(
         title: Text('Redeem Gift Code'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('Select Amount:'),
+            SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Enter Gift Code:'),
+                SizedBox(width: 10),
+                Container(
+                  width: 200, // Decreased width
+                  child: TextField(
+                    controller: enteredCodeController,
+                    onChanged: (value) {
+                      // You can add additional logic here if needed
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Code',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+                  onPressed: () {
+                    _redeemCode();
+                  },
+                  child: Text('Redeem'),
+                ),
+            SizedBox(height: 20), // Add spacing
             DropdownButton<int>(
               value: selectedAmount,
               items: amounts.map((amount) {
@@ -47,23 +76,18 @@ class _giftcodePageState extends State<giftcodePage> {
               child: Text('Pay'),
             ),
             SizedBox(height: 20), // Add spacing
-            Text('Generated Code: $generatedCode'), // Display the generated code
             SizedBox(height: 20), // Add spacing
-            TextField(
-              controller: enteredCodeController,
-              onChanged: (value) {
-                // You can add additional logic here if needed
-              },
-              decoration: InputDecoration(
-                labelText: 'Enter Gift Code',
-                border: OutlineInputBorder(),
-              ),
+            Text(
+              'Generated Code: ${isCodeVisible ? generatedCode : '*******'}',
+              style: TextStyle(fontSize: 24), // Increased font size
             ),
             ElevatedButton(
               onPressed: () {
-                _redeemCode();
+                setState(() {
+                  isCodeVisible = !isCodeVisible;
+                });
               },
-              child: Text('Redeem'),
+              child: Text('Toggle Code Visibility'),
             ),
           ],
         ),
@@ -85,7 +109,7 @@ class _giftcodePageState extends State<giftcodePage> {
   void _redeemCode() {
     String enteredCode = enteredCodeController.text;
 
-    if (enteredCode == generatedCode) {
+    if (isCodeVisible && enteredCode == generatedCode) {
       // Entered code matches the generated code, redeem the gift
       Money.redeemGiftCode(enteredCode, selectedAmount.toDouble());
       Navigator.pop(context); // Close the gift code page
