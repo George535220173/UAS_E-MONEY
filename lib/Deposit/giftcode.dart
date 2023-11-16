@@ -12,33 +12,37 @@ class giftcodePage extends StatefulWidget {
 class _giftcodePageState extends State<giftcodePage> {
   final List<String> giftCodes = [];
   final List<int> amounts = [20000, 50000, 100000, 250000];
-  int selectedAmount = 20000; // Default amount
-  late String generatedCode = ''; // Initialize with an empty string
+  int selectedAmount = 20000;
+  late String generatedCode = '';
   TextEditingController enteredCodeController = TextEditingController();
-  bool isCodeVisible = false; // Newly added
+  bool isCodeVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Redeem Gift Code'),
+        backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 40),
+            SizedBox(height: 50),
+            Text(
+              'Enter Gift Code:',
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Enter Gift Code:'),
                 SizedBox(width: 10),
                 Container(
-                  width: 200, // Decreased width
+                  width: 200,
                   child: TextField(
                     controller: enteredCodeController,
                     onChanged: (value) {
-                      // You can add additional logic here if needed
                     },
                     decoration: InputDecoration(
                       labelText: 'Code',
@@ -50,12 +54,43 @@ class _giftcodePageState extends State<giftcodePage> {
             ),
             SizedBox(height: 10),
             ElevatedButton(
-                  onPressed: () {
-                    _redeemCode();
-                  },
-                  child: Text('Redeem'),
-                ),
-            SizedBox(height: 20), // Add spacing
+              onPressed: () {
+                _redeemCode();
+              },
+              child: Text('Redeem'),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 147, 76, 175),
+              ),
+            ),
+            Divider(
+                height: 100,
+                thickness: 10,
+                color: Color.fromARGB(255, 147, 76, 175)),
+            Text(
+              'Generated Code:',
+              style: TextStyle(fontSize: 24),
+            ),
+            Text(
+              '${isCodeVisible ? generatedCode : '*******'}',
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isCodeVisible = !isCodeVisible;
+                });
+              },
+              child: Text('Show/Hide Code'),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 147, 76, 175),
+              ),
+            ),
+            SizedBox(height: 50),
+            Text(
+              'Choose amount',
+              style: TextStyle(fontSize: 24),
+            ),
             DropdownButton<int>(
               value: selectedAmount,
               items: amounts.map((amount) {
@@ -70,24 +105,15 @@ class _giftcodePageState extends State<giftcodePage> {
                 });
               },
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _generateAndDisplayCode,
-              child: Text('Pay'),
-            ),
-            SizedBox(height: 20), // Add spacing
-            SizedBox(height: 20), // Add spacing
-            Text(
-              'Generated Code: ${isCodeVisible ? generatedCode : '*******'}',
-              style: TextStyle(fontSize: 24), // Increased font size
-            ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  isCodeVisible = !isCodeVisible;
-                });
+                _generateAndDisplayCode();
               },
-              child: Text('Toggle Code Visibility'),
+              child: Text('Pay'),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 147, 76, 175),
+              ),
             ),
           ],
         ),
@@ -96,26 +122,77 @@ class _giftcodePageState extends State<giftcodePage> {
   }
 
   void _generateAndDisplayCode() {
-    // Generate a random string code
     generatedCode = _generateRandomCode();
 
-    // Save the generated code
     giftCodes.add(generatedCode);
 
-    // Display the generated code in the UI
     setState(() {});
+
+    int paymentAmount = selectedAmount + Random().nextInt(100) + 1;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Payment'),
+          content:
+              Text('Transfer credit of Rp.$paymentAmount to 0812 3456 7890'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Done!'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _redeemCode() {
     String enteredCode = enteredCodeController.text;
 
     if (isCodeVisible && enteredCode == generatedCode) {
-      // Entered code matches the generated code, redeem the gift
       Money.redeemGiftCode(enteredCode, selectedAmount.toDouble());
-      Navigator.pop(context); // Close the gift code page
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Code Redeemed'),
+            content: Text('Balance has been updated.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     } else {
-      // Show an error message or take appropriate action
-      print('Invalid gift code');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Invalid Gift Code'),
+            content: Text(
+                'The entered gift code is invalid. Please check and try again.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -124,7 +201,7 @@ class _giftcodePageState extends State<giftcodePage> {
     Random random = Random();
     String code = '';
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 2; i++) {
       code += characters[random.nextInt(characters.length)];
     }
 
