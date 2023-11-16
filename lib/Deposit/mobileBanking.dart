@@ -7,7 +7,7 @@ class mobileBankingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deposit with Internet/Mobile Banking'),
+        title: Text('Internet/Mobile Banking'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Center(

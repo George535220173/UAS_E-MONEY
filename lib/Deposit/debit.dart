@@ -18,7 +18,7 @@ class _debitPageState extends State<debitPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deposit with Debit Visa/Mastercard'),
+        title: Text('Debit Visa/Mastercard'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Padding(

@@ -1,4 +1,5 @@
 import 'package:uas_emoney/Transaction.dart';
+import 'package:uas_emoney/Deposit/giftcode.dart';
 
 class Money {
   static double totalBalance = 0.0;
@@ -19,5 +20,10 @@ class Money {
     if (onBalanceChange != null) {
       onBalanceChange!();
     }
+  }
+
+  static void redeemGiftCode(String code, double selectedAmount) {
+    // You can use the selected amount here
+    deposit(selectedAmount);
   }
 }
