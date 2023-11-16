@@ -21,6 +21,10 @@ class Money {
       onBalanceChange!();
     }
   }
+   static void withdraw( double amount) {
+    totalBalance -= amount;
+    _notifyBalanceChange();
+   }
 
   static void redeemGiftCode(String code, double selectedAmount) {
     // You can use the selected amount here

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uas_emoney/money.dart';
 
 class WithdrawPage extends StatefulWidget {
   const WithdrawPage({Key? key}) : super(key: key);
@@ -10,12 +11,14 @@ class WithdrawPage extends StatefulWidget {
 class _WithdrawPageState extends State<WithdrawPage> {
   String selectedAmount = ''; // Default amount
 
+  List<String> nominalValues = ['50000', '100000', '200000', '300000', '500000', '1000000'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Withdraw'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175), // Warna tema e-money
+        backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -31,14 +34,14 @@ class _WithdrawPageState extends State<WithdrawPage> {
             ),
             SizedBox(height: 10),
             TextField(
+              readOnly: true,
+              controller: TextEditingController(text: 'Rp. $selectedAmount'),
               decoration: InputDecoration(
-                hintText: 'Enter custom amount',
+                hintText: 'Select nominal amount',
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                setState(() {
-                  selectedAmount = value;
-                });
+              onTap: () {
+                _showNominalDialog(context);
               },
             ),
             SizedBox(height: 20),
@@ -50,24 +53,35 @@ class _WithdrawPageState extends State<WithdrawPage> {
               ),
             ),
             SizedBox(height: 10),
-            Column(
-              children: [
-                _buildNominalRadioButton('Rp. 50,000', '50000'),
-                _buildNominalRadioButton('Rp. 100,000', '100000'),
-                _buildNominalRadioButton('Rp. 200,000', '200000'),
-                _buildNominalRadioButton('Rp. 300,000', '300000'),
-                _buildNominalRadioButton('Rp. 500,000', '500000'),
-                _buildNominalRadioButton('Rp. 1,000,000', '1000000'),
-              ],
+            GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 2.0,
+              ),
+              itemCount: nominalValues.length,
+              itemBuilder: (context, index) {
+                return _buildNominalContainer(index);
+              },
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Implement withdrawal logic
-                print('Withdraw amount: $selectedAmount');
+                if (selectedAmount.isNotEmpty) {
+                  double withdrawAmount = double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ?? 0.0;
+                  if (withdrawAmount > 0 && withdrawAmount <= Money.totalBalance) {
+                    Money.transfer(withdrawAmount);
+                    print('withdraw amount: $selectedAmount');
+                  } else {
+                    print('Invalid amount');
+                  }
+                } else {
+                  print('Pilih nominal untuk penarikan');
+                }                
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175), // Warna tema e-money
+                primary: Color.fromARGB(255, 147, 76, 175),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -85,20 +99,52 @@ class _WithdrawPageState extends State<WithdrawPage> {
     );
   }
 
-  Widget _buildNominalRadioButton(String label, String amount) {
-    return Row(
-      children: [
-        Radio(
-          value: amount,
-          groupValue: selectedAmount,
-          onChanged: (String? value) {
-            setState(() {
-              selectedAmount = value!;
-            });
-          },
+  Widget _buildNominalContainer(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedAmount = nominalValues[index];
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(8.0),
         ),
-        Text(label),
-      ],
+        child: Center(
+          child: Text(
+            'Rp. ${double.parse(nominalValues[index]).toStringAsFixed(0)}',
+            style: TextStyle(fontSize: 16.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNominalDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Nominal Amount'),
+          content: Column(
+            children: nominalValues
+                .map(
+                  (value) => ListTile(
+                    title: Text('Rp. ${double.parse(value).toStringAsFixed(0)}'),
+                    onTap: () {
+                      setState(() {
+                        selectedAmount = value;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      },
     );
   }
 }
