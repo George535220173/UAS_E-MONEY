@@ -30,7 +30,7 @@ class TransferPage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'Penerima',
+                'ID Penerima',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -40,7 +40,7 @@ class TransferPage extends StatelessWidget {
               TextField(
                 controller: recipientController,
                 decoration: InputDecoration(
-                  hintText: 'Masukkan nama penerima atau ID',
+                  hintText: 'Masukkan ID',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
@@ -102,12 +102,12 @@ class TransferPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Konfirmasi Password"),
+          title: Text("Konfirmasi Pin"),
           content: TextField(
             controller: passwordController,
             obscureText: true,
             decoration: InputDecoration(
-              hintText: 'Masukkan Password',
+              hintText: 'Masukkan Pin',
               border: OutlineInputBorder(),
             ),
           ),
@@ -166,7 +166,7 @@ class TransferPage extends StatelessWidget {
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Password salah. Silakan coba lagi.'),
+        content: Text('Pin salah. Silakan coba lagi.'),
       ),
     );
     recipientController.clear();
@@ -220,7 +220,7 @@ class TransferSuccessPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Penerima: $recipient',
+                'ID: $recipient',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
