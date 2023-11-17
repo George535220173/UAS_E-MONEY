@@ -36,20 +36,21 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-      Money.initializeTotalBalance().then((_) {
+    Money.initializeTotalBalance().then((_) {
       setState(() {}); // Trigger a rebuild when initialization is complete
     });
     // Call getUserData when the widget is initialized
     getUserData().then((userData) {
-    double balance = (userData['balance'] ?? 0).toDouble();    // Set the initial balance
+      double balance =
+          (userData['balance'] ?? 0).toDouble(); // Set the initial balance
       totalBalanceNotifier.value = balance;
     });
 
     Money.onBalanceChange = () {
       // Update the balance when totalBalance changes
       getUserData().then((userData) {
-      double balance = (userData['balance'] ?? 0).toDouble();        
-      totalBalanceNotifier.value = balance;
+        double balance = (userData['balance'] ?? 0).toDouble();
+        totalBalanceNotifier.value = balance;
       });
     };
   }
@@ -64,179 +65,182 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 240,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 147, 76, 175),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+        child: SingleChildScrollView(
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 240,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 147, 76, 175),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(7),
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            color: Colors.transparent,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(7),
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              color: Colors.transparent,
+                            ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30, left: 15),
+                          child: FutureBuilder(
+                            future: getUserData(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              }
+
+                              if (snapshot.hasError) {
+                                return Text('Error loading user data');
+                              }
+
+                              String firstName =
+                                  snapshot.data?['firstName'] ?? '';
+                              String lastName =
+                                  snapshot.data?['lastName'] ?? '';
+
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Selamat Siang,',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    '$firstName $lastName',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 23,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 160,
+                child: Container(
+                  height: 170,
+                  width: 320,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 95, 42, 118),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total Balance',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 26,
+                                color: Colors.white,
+                              ),
+                            ),
+                            IconButton(
+                              icon: isEyeOpen
+                                  ? Icon(
+                                      Icons.remove_red_eye,
+                                      color: Colors.white,
+                                    )
+                                  : Icon(
+                                      Icons.visibility_off,
+                                      color: Colors.white,
+                                    ),
+                              onPressed: () {
+                                setState(() {
+                                  isEyeOpen = !isEyeOpen;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 7,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 30, left: 15),
-                        child: FutureBuilder(
-                          future: getUserData(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return CircularProgressIndicator();
-                            }
-
-                            if (snapshot.hasError) {
-                              return Text('Error loading user data');
-                            }
-
-                            String firstName =
-                                snapshot.data?['firstName'] ?? '';
-                            String lastName = snapshot.data?['lastName'] ?? '';
-
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Selamat Siang,',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  '$firstName $lastName',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 23,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
+                        padding: const EdgeInsets.only(left: 12, top: 40),
+                        child: Row(
+                          children: [
+                            // Use ValueListenableBuilder to listen for changes
+                            buildBalanceWidget()
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-            Positioned(
-              top: 160,
-              child: Container(
-                height: 170,
-                width: 320,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 95, 42, 118),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total Balance',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 26,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            icon: isEyeOpen
-                                ? Icon(
-                                    Icons.remove_red_eye,
-                                    color: Colors.white,
-                                  )
-                                : Icon(
-                                    Icons.visibility_off,
-                                    color: Colors.white,
-                                  ),
-                            onPressed: () {
-                              setState(() {
-                                isEyeOpen = !isEyeOpen;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 7,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12, top: 40),
-                      child: Row(
-                        children: [
-                          // Use ValueListenableBuilder to listen for changes
-                          buildBalanceWidget()
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 540),
-              child: Container(
-                width: double.infinity,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(138, 194, 194, 194),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+              Padding(
+                padding: EdgeInsets.only(top: 600),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(138, 194, 194, 194),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 50),
-            Padding(
-              padding: const EdgeInsets.only(top: 560),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildNavigationButton(
-                      Icons.arrow_downward, 'Withdraw', WithdrawPage()),
-                  buildNavigationButton(
-                      Icons.arrow_upward, 'Deposit', DepositPage()),
-                  buildNavigationButton(
-                      Icons.swap_horiz, 'Transfer', TransferPage()),
-                  buildNavigationButton(
-                      Icons.history, 'History', TransactionHistoryPage()),
-                ],
+              SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.only(top: 615),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildNavigationButton(
+                        Icons.arrow_downward, 'Withdraw', WithdrawPage()),
+                    buildNavigationButton(
+                        Icons.arrow_upward, 'Deposit', DepositPage()),
+                    buildNavigationButton(
+                        Icons.swap_horiz, 'Transfer', TransferPage()),
+                    buildNavigationButton(
+                        Icons.history, 'History', TransactionHistoryPage()),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-    FutureBuilder<Map<String, dynamic>> buildBalanceWidget() {
+  FutureBuilder<Map<String, dynamic>> buildBalanceWidget() {
     return FutureBuilder(
       future: getUserData(),
       builder: (context, snapshot) {
