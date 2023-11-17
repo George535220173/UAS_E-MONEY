@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 100,
                 height: 100,
               ),
-              
+
               SizedBox(
                 height: 30,
               ),
@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 40,
               ),
-              
+
               // Bagian email
               SizedBox(
                 width: 320,
@@ -87,47 +87,51 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     contentPadding: EdgeInsets.symmetric(
-                        horizontal: 30.0), // Sesuaikan dengan kebutuhan Anda
+                        horizontal: 30.0),
                   ),
                   obscureText: !isPasswordVisible,
                 ),
               ),
 
               SizedBox(
-                height: 20, 
+                height: 20,
               ),
 
-              // Login Button
+// Login Button
               ElevatedButton(
                 onPressed: () async {
+                  if (emailController.text.isEmpty ||
+                      passwordController.text.isEmpty) {
+                    _showErrorDialog('Email and password are required');
+                    return;
+                  }
+
                   try {
-                    // Lakukan autentikasi login dengan Firebase Authentication
                     UserCredential userCredential =
                         await FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: emailController.text,
                       password: passwordController.text,
                     );
 
-                    // Jika login berhasil, pindah ke halaman utama
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(),
-                      ),
-                    );
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == 'user-not-found') {
-                      print('No user found for that email.');
-                    } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user.');
+                    // Check if login is successful
+                    if (userCredential.user != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(),
+                          ),
+                        );
                     } else {
-                      print(e.message);
+                      _showErrorDialog(
+                          'Email or password is incorrect or not registered.');
                     }
+                  } on FirebaseAuthException catch (e) {
+                    _showErrorDialog(
+                        'Email or password is incorrect or not registered.');
                   }
                 },
                 child: Text('Log In'),
               ),
-
               SizedBox(height: 20),
 
               // Garis Pemisah
@@ -152,6 +156,26 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Failed to log in'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
