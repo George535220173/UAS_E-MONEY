@@ -12,7 +12,14 @@ class WithdrawPage extends StatefulWidget {
 class _WithdrawPageState extends State<WithdrawPage> {
   String selectedAmount = ''; // Default amount
 
-  List<String> nominalValues = ['50000', '100000', '200000', '300000', '500000', '1000000'];
+  List<String> nominalValues = [
+    '50000',
+    '100000',
+    '200000',
+    '300000',
+    '500000',
+    '1000000'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +75,22 @@ class _WithdrawPageState extends State<WithdrawPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                String type = 'Withdraw';
                 // Implement withdrawal logic
                 if (selectedAmount.isNotEmpty) {
-                  double withdrawAmount = double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ?? 0.0;
-                  if (withdrawAmount > 0 && withdrawAmount <= Money.totalBalance) {
+                  double withdrawAmount =
+                      double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ??
+                          0.0;
+                  if (withdrawAmount > 0 &&
+                      withdrawAmount <= Money.totalBalance) {
                     Money.transfer(withdrawAmount);
-                    
-                    Money.transactionHistory.add(Transaction(recipient: 'Withdraw', amount: withdrawAmount, date: DateTime.now()));
+
+                    Money.transactionHistory.add(Transaction(
+                        type: type,
+                        amount: withdrawAmount,
+                        date: DateTime.now()));
+
+                    _showSuccessMessage(type, withdrawAmount);
 
                     print('withdraw amount: $selectedAmount');
                   } else {
@@ -82,7 +98,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   }
                 } else {
                   print('Pilih nominal untuk penarikan');
-                }                
+                }
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 147, 76, 175),
@@ -136,7 +152,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
             children: nominalValues
                 .map(
                   (value) => ListTile(
-                    title: Text('Rp. ${double.parse(value).toStringAsFixed(0)}'),
+                    title:
+                        Text('Rp. ${double.parse(value).toStringAsFixed(0)}'),
                     onTap: () {
                       setState(() {
                         selectedAmount = value;
@@ -147,6 +164,26 @@ class _WithdrawPageState extends State<WithdrawPage> {
                 )
                 .toList(),
           ),
+        );
+      },
+    );
+  }
+
+  void _showSuccessMessage(String type, double amount) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('$type: ${Money.formatCurrency(amount)} berhasil'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
         );
       },
     );

@@ -270,7 +270,7 @@ class _debitPageState extends State<debitPage> {
       Money.deposit(amount);
 
       String transactionDescription = 'Deposit ke $cardNumber';
-      Money.transactionHistory.add(Transaction(recipient: transactionDescription, amount: amount, date: DateTime.now()));
+      Money.transactionHistory.add(Transaction(type: transactionDescription, amount: amount, date: DateTime.now()));
       
     } else {
       showDialog(
