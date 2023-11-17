@@ -1,7 +1,11 @@
 class Transaction {
-  final String recipient;
+  final String recipient; // Sesuaikan dengan field yang ada di Firestore
   final double amount;
   final DateTime date;
 
-  Transaction(this.recipient, this.amount, this.date);
+  Transaction({
+    required this.recipient,
+    required this.amount,
+    required this.date,
+  });
 }

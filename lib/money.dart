@@ -10,23 +10,23 @@ class Money {
   static Function()? onBalanceChange;
   static List<Transaction> transactionHistory = [];
 
-  static void deposit(double amount) async {
-    totalBalance += amount;
-    await _updateFirestoreBalance(amount);
-    _notifyBalanceChange();
-  }
+static void deposit(double amount) async {
+  totalBalance += amount;
+  await _updateFirestoreBalance(amount, "Deposit"); // Menambahkan "Deposit" sebagai jenis transaksi
+  _notifyBalanceChange();
+}
 
-  static void transfer(double amount) async {
-    totalBalance -= amount;
-    await _updateFirestoreBalance(-amount);
-    _notifyBalanceChange();
-  }
+static void transfer(double amount) async {
+  totalBalance -= amount;
+  await _updateFirestoreBalance(-amount, "Transfer"); // Menambahkan "Transfer" sebagai jenis transaksi
+  _notifyBalanceChange();
+}
 
-  static void withdraw(double amount) async {
-    totalBalance -= amount;
-    await _updateFirestoreBalance(-amount);
-    _notifyBalanceChange();
-  }
+static void withdraw(double amount) async {
+  totalBalance -= amount;
+  await _updateFirestoreBalance(-amount, "Withdraw"); // Menambahkan "Withdraw" sebagai jenis transaksi
+  _notifyBalanceChange();
+}
 
 static void _notifyBalanceChange() {
   print('Balance changed. New balance: $totalBalance');
@@ -35,7 +35,7 @@ static void _notifyBalanceChange() {
   }
 }
 
-static Future<void> _updateFirestoreBalance(double amount) async {
+static Future<void> _updateFirestoreBalance(double amount, String transactionType) async {
   try {
     String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
     firestore.DocumentReference userDocRef =
@@ -47,7 +47,16 @@ static Future<void> _updateFirestoreBalance(double amount) async {
       double currentBalance = (snapshot.get('balance') ?? 0).toDouble();
       double newBalance = currentBalance + amount;
 
+      // Update balance
       transaction.update(userDocRef, {'balance': newBalance});
+
+      // Add transaction to history
+      firestore.CollectionReference historyCollection = userDocRef.collection('history');
+      await historyCollection.add({
+        'type': transactionType,
+        'amount': amount,
+        'date': DateTime.now(),
+      });
     });
   } catch (error) {
     print('Error updating Firestore balance: $error');
