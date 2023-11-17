@@ -133,7 +133,7 @@ class TransferPage extends StatelessWidget {
     );
   }
 
-  void _handlePasswordVerification(BuildContext context, String enteredPassword) {
+void _handlePasswordVerification(BuildContext context, String enteredPassword) {
   String correctPassword = "12345"; 
 
   if (enteredPassword == correctPassword) {
@@ -147,6 +147,11 @@ class TransferPage extends StatelessWidget {
 
       String transactionDescription = 'Transfer ke $recipient';
       Money.transactionHistory.add(Transaction(transactionDescription, transferAmount, DateTime.now()));
+
+      // Perbarui balance di Home.dart
+      if (Money.onBalanceChange != null) {
+        Money.onBalanceChange!();
+      }
 
       Navigator.pushReplacement(
         context,

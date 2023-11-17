@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uas_emoney/Withdraw/withdraw.dart';
@@ -5,6 +6,7 @@ import 'package:uas_emoney/Deposit/deposit.dart';
 import 'package:uas_emoney/Transfer/transfer.dart';
 import 'package:uas_emoney/History/history.dart';
 import 'package:uas_emoney/money.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,17 +17,40 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isEyeOpen = true;
-  final NumberFormat currencyFormatter = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
+  final NumberFormat currencyFormatter =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
 
   // Use a ValueNotifier to hold the balance value
-  final ValueNotifier<double> totalBalanceNotifier = ValueNotifier<double>(Money.totalBalance);
+  final ValueNotifier<double> totalBalanceNotifier =
+      ValueNotifier<double>(Money.totalBalance);
+
+  Future<Map<String, dynamic>> getUserData() async {
+    String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    return userSnapshot.data() as Map<String, dynamic>;
+  }
 
   @override
   void initState() {
     super.initState();
+
+      Money.initializeTotalBalance().then((_) {
+      setState(() {}); // Trigger a rebuild when initialization is complete
+    });
+    // Call getUserData when the widget is initialized
+    getUserData().then((userData) {
+    double balance = (userData['balance'] ?? 0).toDouble();    // Set the initial balance
+      totalBalanceNotifier.value = balance;
+    });
+
     Money.onBalanceChange = () {
-      // Update the ValueNotifier when totalBalance changes
-      totalBalanceNotifier.value = Money.totalBalance;
+      // Update the balance when totalBalance changes
+      getUserData().then((userData) {
+      double balance = (userData['balance'] ?? 0).toDouble();        
+      totalBalanceNotifier.value = balance;
+      });
     };
   }
 
@@ -68,28 +93,46 @@ class _HomeState extends State<Home> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 30, left: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Selamat Siang',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              'Peserta',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 23,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
+                        child: FutureBuilder(
+                          future: getUserData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            }
+
+                            if (snapshot.hasError) {
+                              return Text('Error loading user data');
+                            }
+
+                            String firstName =
+                                snapshot.data?['firstName'] ?? '';
+                            String lastName = snapshot.data?['lastName'] ?? '';
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Selamat Siang,',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  '$firstName $lastName',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 23,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -148,21 +191,7 @@ class _HomeState extends State<Home> {
                       child: Row(
                         children: [
                           // Use ValueListenableBuilder to listen for changes
-                          ValueListenableBuilder<double>(
-                            valueListenable: totalBalanceNotifier,
-                            builder: (context, value, child) {
-                              return Text(
-                                isEyeOpen
-                                    ? currencyFormatter.format(value)
-                                    : '******',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                ),
-                              );
-                            },
-                          ),
+                          buildBalanceWidget()
                         ],
                       ),
                     ),
@@ -190,16 +219,52 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildNavigationButton(Icons.arrow_downward, 'Withdraw', WithdrawPage()),
-                  buildNavigationButton(Icons.arrow_upward, 'Deposit', DepositPage()),
-                  buildNavigationButton(Icons.swap_horiz, 'Transfer', TransferPage()),
-                  buildNavigationButton(Icons.history, 'History', TransactionHistoryPage()),
+                  buildNavigationButton(
+                      Icons.arrow_downward, 'Withdraw', WithdrawPage()),
+                  buildNavigationButton(
+                      Icons.arrow_upward, 'Deposit', DepositPage()),
+                  buildNavigationButton(
+                      Icons.swap_horiz, 'Transfer', TransferPage()),
+                  buildNavigationButton(
+                      Icons.history, 'History', TransactionHistoryPage()),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+    FutureBuilder<Map<String, dynamic>> buildBalanceWidget() {
+    return FutureBuilder(
+      future: getUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        if (snapshot.hasError) {
+          return Text('Error loading user data');
+        }
+
+        double totalBalance = (snapshot.data?['balance'] ?? 0).toDouble();
+        totalBalance = Money.totalBalance;
+
+        return ValueListenableBuilder<double>(
+          valueListenable: totalBalanceNotifier,
+          builder: (context, value, child) {
+            return Text(
+              isEyeOpen ? currencyFormatter.format(value) : '******',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 30,
+                color: Colors.white,
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
