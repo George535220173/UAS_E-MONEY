@@ -10,9 +10,16 @@ class WithdrawPage extends StatefulWidget {
 }
 
 class _WithdrawPageState extends State<WithdrawPage> {
-  String selectedAmount = ''; // Default amount
+  String selectedAmount = '';
 
-  List<String> nominalValues = ['50000', '100000', '200000', '300000', '500000', '1000000'];
+  List<String> nominalValues = [
+    '50000',
+    '100000',
+    '200000',
+    '300000',
+    '500000',
+    '1000000'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -68,21 +75,63 @@ class _WithdrawPageState extends State<WithdrawPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Implement withdrawal logic
                 if (selectedAmount.isNotEmpty) {
-                  double withdrawAmount = double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ?? 0.0;
-                  if (withdrawAmount > 0 && withdrawAmount <= Money.totalBalance) {
+                  double withdrawAmount =
+                      double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ??
+                          0.0;
+                  if (withdrawAmount > 0 &&
+                      withdrawAmount <= Money.totalBalance) {
                     Money.transfer(withdrawAmount);
-                    
-                    Money.transactionHistory.add(Transaction(recipient: 'Withdraw', amount: withdrawAmount, date: DateTime.now()));
 
-                    print('withdraw amount: $selectedAmount');
+                    Money.transactionHistory.add(Transaction(
+                        recipient: 'Withdraw',
+                        amount: withdrawAmount,
+                        date: DateTime.now()));
+
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Success'),
+                          content: Text(
+                              'Rp.$withdrawAmount has been deducted from your balance.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   } else {
-                    print('Invalid amount');
+                    double balanceShort = withdrawAmount - Money.totalBalance;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Not enough balance'),
+                          content: Text(
+                              'You are Rp.$balanceShort short from being able to withdraw.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 } else {
                   print('Pilih nominal untuk penarikan');
-                }                
+                }
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 147, 76, 175),
@@ -136,7 +185,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
             children: nominalValues
                 .map(
                   (value) => ListTile(
-                    title: Text('Rp. ${double.parse(value).toStringAsFixed(0)}'),
+                    title:
+                        Text('Rp. ${double.parse(value).toStringAsFixed(0)}'),
                     onTap: () {
                       setState(() {
                         selectedAmount = value;
