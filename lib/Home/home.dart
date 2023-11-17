@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,9 +22,61 @@ class _HomeState extends State<Home> {
   final NumberFormat currencyFormatter =
       NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
 
-  // Use a ValueNotifier to hold the balance value
   final ValueNotifier<double> totalBalanceNotifier =
       ValueNotifier<double>(Money.totalBalance);
+
+  late String greeting;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _updateGreeting(); // Set initial greeting
+    Timer.periodic(Duration(minutes: 1), (timer) {
+      _updateGreeting(); // Update greeting every minute
+    });
+
+    Money.initializeTotalBalance().then((_) {
+      setState(() {});
+    });
+
+    getUserData().then((userData) {
+      double balance = (userData['balance'] ?? 0).toDouble();
+      totalBalanceNotifier.value = balance;
+    });
+
+    Money.onBalanceChange = () {
+      getUserData().then((userData) {
+        double balance = (userData['balance'] ?? 0).toDouble();
+        totalBalanceNotifier.value = balance;
+      });
+    };
+  }
+
+  Future<void> _updateGreeting() async {
+    var now = DateTime.now();
+    var timeZoneOffset = now.timeZoneOffset;
+    var jakartaTimeZone = TimeZone(
+        timeZoneOffset.isNegative ? -7 * 60 : 7 * 60, 'WIB'); // Jakarta timezone
+
+var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
+    ? jakartaTimeZone.offset
+    : -jakartaTimeZone.offset));
+
+
+
+    if (jakartaTime.hour < 12) {
+      greeting = 'Selamat Pagi,';
+    } else if (jakartaTime.hour < 17) {
+      greeting = 'Selamat Siang,';
+    } else if (jakartaTime.hour < 20) {
+      greeting = 'Selamat Sore,';
+    } else {
+      greeting = 'Selamat malam,';
+    }
+
+    setState(() {});
+  }
 
   Future<Map<String, dynamic>> getUserData() async {
     String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -30,29 +84,6 @@ class _HomeState extends State<Home> {
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
     return userSnapshot.data() as Map<String, dynamic>;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    Money.initializeTotalBalance().then((_) {
-      setState(() {}); // Trigger a rebuild when initialization is complete
-    });
-    // Call getUserData when the widget is initialized
-    getUserData().then((userData) {
-      double balance =
-          (userData['balance'] ?? 0).toDouble(); // Set the initial balance
-      totalBalanceNotifier.value = balance;
-    });
-
-    Money.onBalanceChange = () {
-      // Update the balance when totalBalance changes
-      getUserData().then((userData) {
-        double balance = (userData['balance'] ?? 0).toDouble();
-        totalBalanceNotifier.value = balance;
-      });
-    };
   }
 
   @override
@@ -116,7 +147,7 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Selamat Siang,',
+                                    greeting,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w300,
                                       fontSize: 16,
@@ -193,8 +224,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 12, top: 40),
                         child: Row(
                           children: [
-                            // Use ValueListenableBuilder to listen for changes
-                            buildBalanceWidget()
+                            buildBalanceWidget(),
                           ],
                         ),
                       ),
@@ -297,4 +327,11 @@ class _HomeState extends State<Home> {
       ],
     );
   }
+}
+
+class TimeZone {
+  final int offset;
+  final String name;
+
+  TimeZone(this.offset, this.name);
 }
