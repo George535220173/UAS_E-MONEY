@@ -189,6 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         .set({
                       'firstName': firstNameController.text,
                       'lastName': lastNameController.text,
+                      'email' : emailController.text,
                       'pin': '',
                       'balance': 0,
                     });
