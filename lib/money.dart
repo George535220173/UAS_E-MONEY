@@ -13,7 +13,13 @@ class Money {
 
 static void deposit(double amount) async {
   totalBalance += amount;
-  await _updateFirestoreBalance(amount, "Deposit"); // Menambahkan "Deposit" sebagai jenis transaksi
+  await _updateFirestoreBalance(amount, "Deposit Via Debit"); // Menambahkan "Deposit" sebagai jenis transaksi
+  _notifyBalanceChange();
+}
+
+static void giftCode(double amount) async {
+  totalBalance += amount;
+  await _updateFirestoreBalance(amount, "Deposit Via Giftcode"); // Menambahkan "Deposit" sebagai jenis transaksi
   _notifyBalanceChange();
 }
 
@@ -83,7 +89,7 @@ static Future<void> _updateFirestoreBalance(double amount, String transactionTyp
 
   static void redeemGiftCode(String code, double selectedAmount) {
     // You can use the selected amount here
-    deposit(selectedAmount);
+    giftCode(selectedAmount);
   }
 
     static String formatCurrency(double amount) {
