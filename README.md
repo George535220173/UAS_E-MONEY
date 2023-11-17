@@ -1,16 +1,10 @@
 # uas_emoney
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Proyek E-MONEY bernama Wizdrawal. Mencakup banyak fungsionalitasi termasuk menggunakan Firebase Authentication dan Firebase Firestore untuk Database
+Dikerjakan oleh:
+535220173 - George Weilis Junior
+535220190 - Ryan Satria
+535220227 - Tiga Wira Prasidya
+535220192 - Adang Irawan
+535220191 - Amos Valentino
+523220180 - Randy Gunawan
