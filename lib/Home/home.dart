@@ -25,8 +25,6 @@ class _HomeState extends State<Home> {
       ValueNotifier<double>(Money.totalBalance);
 
   Future<Map<String, dynamic>> getUserData() async {
-    // Fetch user data from Firestore or any other source
-    // Replace the following code with your logic to get user data
     String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
     DocumentSnapshot userSnapshot =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
@@ -37,9 +35,18 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    // Call getUserData when the widget is initialized
+    getUserData().then((userData) {
+    double balance = (userData['balance'] ?? 0).toDouble();    // Set the initial balance
+      totalBalanceNotifier.value = balance;
+    });
+
     Money.onBalanceChange = () {
-      // Update the ValueNotifier when totalBalance changes
-      totalBalanceNotifier.value = Money.totalBalance;
+      // Update the balance when totalBalance changes
+      getUserData().then((userData) {
+      double balance = (userData['balance'] ?? 0).toDouble();        
+      totalBalanceNotifier.value = balance;
+      });
     };
   }
 
@@ -87,7 +94,7 @@ class _HomeState extends State<Home> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return CircularProgressIndicator(); // or a placeholder widget
+                              return CircularProgressIndicator();
                             }
 
                             if (snapshot.hasError) {
