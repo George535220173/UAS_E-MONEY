@@ -40,6 +40,7 @@ class _debitPageState extends State<debitPage> {
         title: Text('Debit Visa/Mastercard'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
