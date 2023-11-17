@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uas_emoney/Home/home.dart';
+import 'PinStorage.dart'; // Import the PinStorage file
 
-class PinCodeWidget extends StatefulWidget {
-  const PinCodeWidget({super.key});
+class createWidget extends StatefulWidget {
+  const createWidget({Key? key}) : super(key: key);
 
   @override
-  State<PinCodeWidget> createState() => _PinCodeWidgetState();
+  State<createWidget> createState() => _PinCodeWidgetState();
 }
 
-class _PinCodeWidgetState extends State<PinCodeWidget> {
-  String enteredPin = '';
+class _PinCodeWidgetState extends State<createWidget> {
   bool isPinVisible = false;
-
 
   Widget numButton(int number) {
     return Padding(
@@ -19,8 +19,18 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
       child: TextButton(
         onPressed: () {
           setState(() {
-            if (enteredPin.length < 6) {
-              enteredPin += number.toString();
+            if (PinStorage.pin.length < 6) {
+              PinStorage.pin += number.toString();
+            }
+            // Check if the entered PIN is correct
+            if (PinStorage.pin == '123456') {
+              // If correct, navigate to the home page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(),
+                ),
+              );
             }
           });
         },
@@ -47,7 +57,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
           children: [
             const Center(
               child: Text(
-                'Enter Your Pin',
+                'Create Your PIN',
                 style: TextStyle(
                   fontSize: 32,
                   color: Colors.black,
@@ -65,20 +75,20 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                 (index) {
                   return Container(
                     margin: const EdgeInsets.all(7.0),
-                    width: isPinVisible ? 43 : 20,//buat besar kecilin bulet2
+                    width: isPinVisible ? 43 : 20, //buat besar kecilin bulet2
                     height: isPinVisible ? 43 : 20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6.0),
-                      color: index < enteredPin.length
+                      color: index < PinStorage.pin.length
                           ? isPinVisible
                               ? const Color.fromARGB(255, 208, 0, 225)
                               : const Color.fromARGB(255, 208, 0, 255)
                           : const Color.fromARGB(255, 208, 0, 255).withOpacity(0.1),
                     ),
-                    child: isPinVisible && index < enteredPin.length
+                    child: isPinVisible && index < PinStorage.pin.length
                         ? Center(
                             child: Text(
-                              enteredPin[index],
+                              PinStorage.pin[index],
                               style: const TextStyle(
                                 fontSize: 17,
                                 color: Colors.black,
@@ -131,9 +141,8 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                     onPressed: () {
                       setState(
                         () {
-                          if (enteredPin.isNotEmpty) {
-                            enteredPin =
-                                enteredPin.substring(0, enteredPin.length - 1);
+                          if (PinStorage.pin.isNotEmpty) {
+                            PinStorage.pin = PinStorage.pin.substring(0, PinStorage.pin.length - 1);
                           }
                         },
                       );
@@ -148,12 +157,11 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
               ),
             ),
 
-
             /// tombol reset
             TextButton(
               onPressed: () {
                 setState(() {
-                  enteredPin = '';
+                  PinStorage.pin = '';
                 });
               },
               child: const Text(

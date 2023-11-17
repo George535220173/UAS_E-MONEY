@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uas_emoney/Home/home.dart';
 import 'package:uas_emoney/registerlogin/register.dart';
+import 'package:uas_emoney/Pin/pin.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Home(),
+                      builder: (context) => PinCodeWidget(),
                     ),
                   );
                 },

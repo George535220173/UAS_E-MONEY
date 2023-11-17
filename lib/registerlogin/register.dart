@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uas_emoney/registerlogin/login.dart';
+import 'package:uas_emoney/Pin/create.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -135,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LoginPage(),
+                      builder: (context) => createWidget(),
                     ),
                   );
                 }
