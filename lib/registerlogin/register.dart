@@ -12,6 +12,9 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
 
@@ -21,11 +24,52 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         title: Text('Register'),
       ),
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Box First Name
+            Container(
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: TextField(
+                controller: firstNameController,
+                decoration: InputDecoration(
+                  labelText: 'First Name',
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
+// Box Last Name
+            Container(
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: TextField(
+                controller: lastNameController,
+                decoration: InputDecoration(
+                  labelText: 'Last Name',
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
             // Box Email
             Container(
               width: 350,
@@ -143,7 +187,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         .collection('users')
                         .doc(uid)
                         .set({
-                      'pin' : '',
+                      'firstName': firstNameController.text,
+                      'lastName': lastNameController.text,
+                      'pin': '',
                       'balance': 0,
                     });
 
