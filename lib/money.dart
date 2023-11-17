@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/Deposit/giftcode.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -83,5 +84,10 @@ static Future<void> _updateFirestoreBalance(double amount, String transactionTyp
   static void redeemGiftCode(String code, double selectedAmount) {
     // You can use the selected amount here
     deposit(selectedAmount);
+  }
+
+    static String formatCurrency(double amount) {
+    final currencyFormatter = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
+    return currencyFormatter.format(amount);
   }
 }
