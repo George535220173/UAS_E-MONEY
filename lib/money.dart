@@ -3,6 +3,7 @@ import 'package:uas_emoney/Deposit/giftcode.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
+
 class Money {
   static double totalBalance = 0.0;
   static Function()? onBalanceChange;
@@ -26,11 +27,12 @@ class Money {
     _notifyBalanceChange();
   }
 
-  static void _notifyBalanceChange() {
-    if (onBalanceChange != null) {
-      onBalanceChange!();
-    }
+static void _notifyBalanceChange() {
+  print('Balance changed. New balance: $totalBalance');
+  if (onBalanceChange != null) {
+    onBalanceChange!();
   }
+}
 
 static Future<void> _updateFirestoreBalance(double amount) async {
   try {
@@ -50,6 +52,8 @@ static Future<void> _updateFirestoreBalance(double amount) async {
     print('Error updating Firestore balance: $error');
   }
 }
+
+
 
   static void redeemGiftCode(String code, double selectedAmount) {
     // You can use the selected amount here

@@ -187,21 +187,7 @@ class _HomeState extends State<Home> {
                       child: Row(
                         children: [
                           // Use ValueListenableBuilder to listen for changes
-                          ValueListenableBuilder<double>(
-                            valueListenable: totalBalanceNotifier,
-                            builder: (context, value, child) {
-                              return Text(
-                                isEyeOpen
-                                    ? currencyFormatter.format(value)
-                                    : '******',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                ),
-                              );
-                            },
-                          ),
+                          buildBalanceWidget()
                         ],
                       ),
                     ),
@@ -243,6 +229,37 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+    );
+  }
+
+    FutureBuilder<Map<String, dynamic>> buildBalanceWidget() {
+    return FutureBuilder(
+      future: getUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        if (snapshot.hasError) {
+          return Text('Error loading user data');
+        }
+
+        double balance = (snapshot.data?['balance'] ?? 0).toDouble();
+
+        return ValueListenableBuilder<double>(
+          valueListenable: totalBalanceNotifier,
+          builder: (context, value, child) {
+            return Text(
+              isEyeOpen ? currencyFormatter.format(value) : '******',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 30,
+                color: Colors.white,
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
