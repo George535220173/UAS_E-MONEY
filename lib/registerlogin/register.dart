@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uas_emoney/registerlogin/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -136,8 +137,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       password: passwordController.text,
                     );
 
-                    // Save additional user data to Firestore (optional)
-                    // ...
+                    String uid = userCredential.user?.uid ?? '';
+
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(uid)
+                        .set({
+                      'pin' : '',
+                      'balance': 0,
+                    });
 
                     Navigator.push(
                       context,
