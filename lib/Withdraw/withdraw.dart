@@ -10,7 +10,7 @@ class WithdrawPage extends StatefulWidget {
 }
 
 class _WithdrawPageState extends State<WithdrawPage> {
-  String selectedAmount = ''; // Default amount
+  String selectedAmount = '';
 
   List<String> nominalValues = [
     '50000',
@@ -75,8 +75,6 @@ class _WithdrawPageState extends State<WithdrawPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                String type = 'Withdraw';
-                // Implement withdrawal logic
                 if (selectedAmount.isNotEmpty) {
                   double withdrawAmount =
                       double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ??
@@ -86,15 +84,50 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     Money.transfer(withdrawAmount);
 
                     Money.transactionHistory.add(Transaction(
-                        type: type,
+                        recipient: 'Withdraw',
                         amount: withdrawAmount,
                         date: DateTime.now()));
 
-                    _showSuccessMessage(type, withdrawAmount);
-
-                    print('withdraw amount: $selectedAmount');
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Success'),
+                          content: Text(
+                              'Rp.$withdrawAmount has been deducted from your balance.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   } else {
-                    print('Invalid amount');
+                    double balanceShort = withdrawAmount - Money.totalBalance;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Not enough balance'),
+                          content: Text(
+                              'You are Rp.$balanceShort short from being able to withdraw.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 } else {
                   print('Pilih nominal untuk penarikan');
@@ -164,26 +197,6 @@ class _WithdrawPageState extends State<WithdrawPage> {
                 )
                 .toList(),
           ),
-        );
-      },
-    );
-  }
-
-  void _showSuccessMessage(String type, double amount) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content: Text('$type: ${Money.formatCurrency(amount)} berhasil'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
         );
       },
     );
