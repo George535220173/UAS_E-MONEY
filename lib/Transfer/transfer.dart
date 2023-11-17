@@ -146,8 +146,7 @@ void _handlePasswordVerification(BuildContext context, String enteredPassword) {
     if (Money.totalBalance >= transferAmount) {
       Money.transfer(transferAmount);
 
-      String transactionDescription = 'Transfer ke $recipient';
-      Money.transactionHistory.add(Transaction(type: transactionDescription, amount: transferAmount, date: DateTime.now()));
+      Money.transactionHistory.add(Transaction(type: recipient, amount: transferAmount, date: DateTime.now()));
 
       // Perbarui balance di Home.dart
       if (Money.onBalanceChange != null) {

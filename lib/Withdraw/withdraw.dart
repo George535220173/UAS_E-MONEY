@@ -81,7 +81,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                           0.0;
                   if (withdrawAmount > 0 &&
                       withdrawAmount <= Money.totalBalance) {
-                    Money.transfer(withdrawAmount);
+                    Money.withdraw(withdrawAmount);
 
                     Money.transactionHistory.add(Transaction(
                         type: 'Withdraw',
