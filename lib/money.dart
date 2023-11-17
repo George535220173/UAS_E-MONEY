@@ -1,6 +1,7 @@
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/Deposit/giftcode.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uas_emoney/Home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
 
@@ -53,7 +54,22 @@ static Future<void> _updateFirestoreBalance(double amount) async {
   }
 }
 
+  static Future<void> initializeTotalBalance() async {
+    try {
+      String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
+      firestore.DocumentReference userDocRef =
+          firestore.FirebaseFirestore.instance.collection('users').doc(uid);
 
+      firestore.DocumentSnapshot snapshot =
+          await userDocRef.get(); // Get data from Firestore
+
+      // Set totalBalance based on the value in Firestore
+      totalBalance = (snapshot.get('balance') ?? 0.0).toDouble();
+      _notifyBalanceChange();
+    } catch (error) {
+      print('Error initializing totalBalance: $error');
+    }
+  }
 
   static void redeemGiftCode(String code, double selectedAmount) {
     // You can use the selected amount here

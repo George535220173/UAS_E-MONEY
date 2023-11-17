@@ -6,8 +6,9 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
+    Money.initializeTotalBalance(); 
     WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(
+    Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());

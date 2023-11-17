@@ -35,6 +35,10 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+
+      Money.initializeTotalBalance().then((_) {
+      setState(() {}); // Trigger a rebuild when initialization is complete
+    });
     // Call getUserData when the widget is initialized
     getUserData().then((userData) {
     double balance = (userData['balance'] ?? 0).toDouble();    // Set the initial balance
@@ -244,7 +248,8 @@ class _HomeState extends State<Home> {
           return Text('Error loading user data');
         }
 
-        double balance = (snapshot.data?['balance'] ?? 0).toDouble();
+        double totalBalance = (snapshot.data?['balance'] ?? 0).toDouble();
+        totalBalance = Money.totalBalance;
 
         return ValueListenableBuilder<double>(
           valueListenable: totalBalanceNotifier,
