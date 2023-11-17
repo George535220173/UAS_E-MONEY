@@ -7,6 +7,7 @@ import 'package:uas_emoney/Withdraw/withdraw.dart';
 import 'package:uas_emoney/Deposit/deposit.dart';
 import 'package:uas_emoney/Transfer/transfer.dart';
 import 'package:uas_emoney/History/history.dart';
+import 'package:uas_emoney/profile.dart'; // Sesuaikan dengan path file profile.dart
 import 'package:uas_emoney/money.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -56,14 +57,13 @@ class _HomeState extends State<Home> {
   Future<void> _updateGreeting() async {
     var now = DateTime.now();
     var timeZoneOffset = now.timeZoneOffset;
-    var jakartaTimeZone = TimeZone(
-        timeZoneOffset.isNegative ? -7 * 60 : 7 * 60, 'WIB'); // Jakarta timezone
+    var jakartaTimeZone =
+        TimeZone(timeZoneOffset.isNegative ? -7 * 60 : 7 * 60, 'WIB'); // Jakarta timezone
 
-var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
-    ? jakartaTimeZone.offset
-    : -jakartaTimeZone.offset));
-
-
+    var jakartaTime = now.toUtc().add(Duration(
+        minutes: timeZoneOffset.inMinutes > 0
+            ? jakartaTimeZone.offset
+            : -jakartaTimeZone.offset));
 
     if (jakartaTime.hour < 12) {
       greeting = 'Selamat Pagi,';
@@ -72,7 +72,7 @@ var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
     } else if (jakartaTime.hour < 20) {
       greeting = 'Selamat Sore,';
     } else {
-      greeting = 'Selamat malam,';
+      greeting = 'Selamat Malam,';
     }
 
     setState(() {});
@@ -126,45 +126,64 @@ var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 30, left: 15),
-                          child: FutureBuilder(
-                            future: getUserData(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              }
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfilePage()),
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.account_circle,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              ),
+                              FutureBuilder(
+                                future: getUserData(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CircularProgressIndicator();
+                                  }
 
-                              if (snapshot.hasError) {
-                                return Text('Error loading user data');
-                              }
+                                  if (snapshot.hasError) {
+                                    return Text('Error loading user data');
+                                  }
 
-                              String firstName =
-                                  snapshot.data?['firstName'] ?? '';
-                              String lastName =
-                                  snapshot.data?['lastName'] ?? '';
+                                  String firstName =
+                                      snapshot.data?['firstName'] ?? '';
+                                  String lastName =
+                                      snapshot.data?['lastName'] ?? '';
 
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    greeting,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    '$firstName $lastName',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 23,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        greeting,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        '$firstName $lastName',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 23,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ],
