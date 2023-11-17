@@ -6,8 +6,16 @@ import 'package:uas_emoney/money.dart';
 class GiftCodeTransaction extends Transaction {
   final String code;
 
-  GiftCodeTransaction(String recipient, double amount, DateTime date, this.code)
-      : super(recipient, amount, date);
+  GiftCodeTransaction({
+    required String recipient,
+    required double amount,
+    required DateTime date,
+    required this.code,
+  }) : super(
+          recipient: recipient,
+          amount: amount,
+          date: date,
+        );
 }
 
 class giftcodePage extends StatefulWidget {
@@ -50,8 +58,7 @@ class _giftcodePageState extends State<giftcodePage> {
                   width: 200,
                   child: TextField(
                     controller: enteredCodeController,
-                    onChanged: (value) {
-                    },
+                    onChanged: (value) {},
                     decoration: InputDecoration(
                       labelText: 'Code',
                       border: OutlineInputBorder(),
@@ -164,7 +171,15 @@ class _giftcodePageState extends State<giftcodePage> {
     if (isCodeVisible && enteredCode == generatedCode) {
       Money.redeemGiftCode(enteredCode, selectedAmount.toDouble());
 
-       Money.transactionHistory.add(GiftCodeTransaction('GiftCode', selectedAmount.toDouble(), DateTime.now(), enteredCode));
+      Money.transactionHistory.add(
+        GiftCodeTransaction(
+          recipient: 'GiftCode', // Provide the recipient value as needed
+          amount: selectedAmount.toDouble(),
+          date: DateTime.now(),
+          code: enteredCode,
+        ),
+      );
+
       showDialog(
         context: context,
         builder: (BuildContext context) {

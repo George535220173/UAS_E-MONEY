@@ -74,7 +74,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   if (withdrawAmount > 0 && withdrawAmount <= Money.totalBalance) {
                     Money.transfer(withdrawAmount);
                     
-                    Money.transactionHistory.add(Transaction('Withdraw', withdrawAmount, DateTime.now()));
+                    Money.transactionHistory.add(Transaction(recipient: 'Withdraw', amount: withdrawAmount, date: DateTime.now()));
 
                     print('withdraw amount: $selectedAmount');
                   } else {
