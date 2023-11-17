@@ -14,6 +14,7 @@ class TransferPage extends StatelessWidget {
         title: Text('Transfer'),
         backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
