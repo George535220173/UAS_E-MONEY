@@ -84,7 +84,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     Money.transfer(withdrawAmount);
 
                     Money.transactionHistory.add(Transaction(
-                        recipient: 'Withdraw',
+                        type: 'Withdraw',
                         amount: withdrawAmount,
                         date: DateTime.now()));
 

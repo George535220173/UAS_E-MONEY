@@ -84,6 +84,7 @@ class TransactionHistoryPage extends StatelessWidget {
             }
 
             return ListView.builder(
+              reverse: true,
               itemCount: transactionHistory.length,
               itemBuilder: (context, index) {
                 return buildTransactionCard(transactionHistory[index]);
@@ -105,7 +106,7 @@ class TransactionHistoryPage extends StatelessWidget {
 
     return historySnapshot.docs
         .map((doc) => Transaction(
-              recipient: doc['type'],
+              type: doc['type'],
               amount: doc['amount'],
               date: (doc['date'] as firestore.Timestamp).toDate(),
             ))
@@ -123,7 +124,7 @@ class TransactionHistoryPage extends StatelessWidget {
           backgroundColor: Colors.grey,
           child: Icon(Icons.monetization_on, color: Colors.white),
         ),
-        title: Text('${transaction.recipient}'),
+        title: Text('${transaction.type}'),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

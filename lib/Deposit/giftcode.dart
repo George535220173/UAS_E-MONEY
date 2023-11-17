@@ -12,7 +12,7 @@ class GiftCodeTransaction extends Transaction {
     required DateTime date,
     required this.code,
   }) : super(
-          recipient: recipient,
+          type: recipient,
           amount: amount,
           date: date,
         );
