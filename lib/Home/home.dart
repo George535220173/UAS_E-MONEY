@@ -282,9 +282,6 @@ var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
           return Text('Error loading user data');
         }
 
-        double totalBalance = (snapshot.data?['balance'] ?? 0).toDouble();
-        totalBalance = Money.totalBalance;
-
         return ValueListenableBuilder<double>(
           valueListenable: totalBalanceNotifier,
           builder: (context, value, child) {

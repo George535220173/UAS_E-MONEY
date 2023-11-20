@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:flutter/material.dart';
 import 'package:uas_emoney/Transaction.dart';
-import 'package:uas_emoney/money.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:uas_emoney/Transaction.dart';
 
 class TransactionHistoryPage extends StatelessWidget {
   const TransactionHistoryPage({Key? key}) : super(key: key);

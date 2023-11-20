@@ -1,8 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:uas_emoney/Transaction.dart';
-import 'package:uas_emoney/Deposit/giftcode.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:uas_emoney/Home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
 
