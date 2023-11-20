@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
+import 'package:uas_emoney/pin.dart';
 
 class WithdrawPage extends StatefulWidget {
   const WithdrawPage({Key? key}) : super(key: key);
@@ -81,31 +82,75 @@ class _WithdrawPageState extends State<WithdrawPage> {
                           0.0;
                   if (withdrawAmount > 0 &&
                       withdrawAmount <= Money.totalBalance) {
-                    Money.withdraw(withdrawAmount);
+                    // Money.withdraw(withdrawAmount);
 
-                    Money.transactionHistory.add(Transaction(
-                        type: 'Withdraw',
-                        amount: withdrawAmount,
-                        date: DateTime.now()));
+                    // Money.transactionHistory.add(Transaction(
+                    //     type: 'Withdraw',
+                    //     amount: withdrawAmount,
+                    //     date: DateTime.now()));
 
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Success'),
-                          content: Text(
-                              'Rp.$withdrawAmount has been deducted from your balance.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PinCodeWidget(
+                          onPinVerified: () {
+                            Money.withdraw(withdrawAmount);
+
+                            Money.transactionHistory.add(Transaction(
+                                type: 'Withdraw',
+                                amount: withdrawAmount,
+                                date: DateTime.now()));
+
+                            Navigator.pop(context);
+                            // This function is called when PIN is verified successfully
+                            // You can place your transaction completion logic here
+                            // For example, you can show a success dialog or navigate to a success screen.
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Success'),
+                                  content: Text(
+                                      'Rp.$withdrawAmount has been deducted from your balance.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
                               },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
+                            );
+                          },
+                          onPinFailed: () {
+                            // This function is called when PIN is incorrect
+                            // You can handle incorrect PIN logic here, for example, show an error message
+                            // and reset any changes made during the PIN entry
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Incorrect PIN'),
+                                  content:
+                                      Text('The entered PIN is incorrect.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
                     );
                   } else {
                     double balanceShort = withdrawAmount - Money.totalBalance;
