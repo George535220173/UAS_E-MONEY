@@ -59,11 +59,9 @@ class _HomeState extends State<Home> {
     var jakartaTimeZone = TimeZone(
         timeZoneOffset.isNegative ? -7 * 60 : 7 * 60, 'WIB'); // Jakarta timezone
 
-var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
-    ? jakartaTimeZone.offset
-    : -jakartaTimeZone.offset));
-
-
+    var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
+        ? jakartaTimeZone.offset
+        : -jakartaTimeZone.offset));
 
     if (jakartaTime.hour < 12) {
       greeting = 'Selamat Pagi,';
@@ -92,178 +90,189 @@ var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
     super.dispose();
   }
 
+  Future<void> _refreshData() async {
+    getUserData().then((userData) {
+      double balance = (userData['balance'] ?? 0).toDouble();
+      totalBalanceNotifier.value = balance;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 240,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 147, 76, 175),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
+        child: RefreshIndicator(
+          onRefresh: _refreshData,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 240,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 147, 76, 175),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
                       ),
-                    ),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(7),
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30, left: 15),
-                          child: FutureBuilder(
-                            future: getUserData(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              }
-
-                              if (snapshot.hasError) {
-                                return Text('Error loading user data');
-                              }
-
-                              String firstName =
-                                  snapshot.data?['firstName'] ?? '';
-                              String lastName =
-                                  snapshot.data?['lastName'] ?? '';
-
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    greeting,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    '$firstName $lastName',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 23,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Positioned(
-                top: 160,
-                child: Container(
-                  height: 170,
-                  width: 320,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 95, 42, 118),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Total Balance',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 26,
-                                color: Colors.white,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(7),
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                color: Colors.transparent,
                               ),
                             ),
-                            IconButton(
-                              icon: isEyeOpen
-                                  ? Icon(
-                                      Icons.remove_red_eye,
-                                      color: Colors.white,
-                                    )
-                                  : Icon(
-                                      Icons.visibility_off,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30, left: 15),
+                            child: FutureBuilder(
+                              future: getUserData(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                }
+
+                                if (snapshot.hasError) {
+                                  return Text('Error loading user data');
+                                }
+
+                                String firstName =
+                                    snapshot.data?['firstName'] ?? '';
+                                String lastName =
+                                    snapshot.data?['lastName'] ?? '';
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      greeting,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      '$firstName $lastName',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 23,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      top: 160,
+                      child: Container(
+                        height: 170,
+                        width: 320,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 95, 42, 118),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 8),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 3),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Total Balance',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 26,
                                       color: Colors.white,
                                     ),
-                              onPressed: () {
-                                setState(() {
-                                  isEyeOpen = !isEyeOpen;
-                                });
-                              },
+                                  ),
+                                  IconButton(
+                                    icon: isEyeOpen
+                                        ? Icon(
+                                            Icons.remove_red_eye,
+                                            color: Colors.white,
+                                          )
+                                        : Icon(
+                                            Icons.visibility_off,
+                                            color: Colors.white,
+                                          ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isEyeOpen = !isEyeOpen;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12, top: 40),
+                              child: Row(
+                                children: [
+                                  buildBalanceWidget(),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12, top: 40),
-                        child: Row(
-                          children: [
-                            buildBalanceWidget(),
-                          ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 600),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(138, 194, 194, 194),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 600),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(138, 194, 194, 194),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 50),
-              Padding(
-                padding: const EdgeInsets.only(top: 615),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildNavigationButton(
-                        Icons.arrow_downward, 'Withdraw', WithdrawPage()),
-                    buildNavigationButton(
-                        Icons.arrow_upward, 'Deposit', DepositPage()),
-                    buildNavigationButton(
-                        Icons.swap_horiz, 'Transfer', TransferPage()),
-                    buildNavigationButton(
-                        Icons.history, 'History', TransactionHistoryPage()),
+                    SizedBox(height: 50),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 615),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          buildNavigationButton(
+                              Icons.arrow_downward, 'Withdraw', WithdrawPage()),
+                          buildNavigationButton(
+                              Icons.arrow_upward, 'Deposit', DepositPage()),
+                          buildNavigationButton(
+                              Icons.swap_horiz, 'Transfer', TransferPage()),
+                          buildNavigationButton(
+                              Icons.history, 'History', TransactionHistoryPage()),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
