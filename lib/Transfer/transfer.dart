@@ -32,21 +32,49 @@ class TransferPage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'ID Penerima',
+                'Nomor Penerima',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
-              SizedBox(height: 10),
-              TextField(
-                controller: recipientController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: InputDecoration(
-                  hintText: 'Masukkan Nomor Penerima',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
+// TextField Nomor Penerima
+              Container(
+                width: 350,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '(+62)',
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: recipientController,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(
+                              11), // Batasan panjang nomor hp
+                        ],
+                        decoration: InputDecoration(
+                          hintText: 'Masukkan Nomor Penerima',
+                          border: InputBorder.none,
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 15.0),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 20),
@@ -117,7 +145,8 @@ class TransferPage extends StatelessWidget {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text('Success'),
-                  content: Text('Rp. $amount has been transfered to another account.'),
+                  content: Text(
+                      'Rp. $amount has been transfered to another account.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
