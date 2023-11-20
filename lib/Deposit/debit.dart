@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
+import 'package:uas_emoney/pin.dart';
 
 class debitPage extends StatefulWidget {
   const debitPage({Key? key}) : super(key: key);
@@ -72,7 +73,57 @@ class _debitPageState extends State<debitPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                depositAmount();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PinCodeWidget(
+                      onPinVerified: () {
+                        Navigator.pop(context);
+                        depositAmount();
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Success'),
+                              content: Text(
+                                  'Rp. $selectedAmount has been added to your balance.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      onPinFailed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Incorrect PIN'),
+                              content: Text('The entered PIN is incorrect.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 147, 76, 175),
@@ -111,7 +162,8 @@ class _debitPageState extends State<debitPage> {
 
   Widget buildCardInfoField(String labelText, int maxLength, String errorText) {
     return TextField(
-      controller: labelText == 'Card Number' ? cardNumberController : cvvController,
+      controller:
+          labelText == 'Card Number' ? cardNumberController : cvvController,
       focusNode: labelText == 'Card Number' ? cardNumberFocusNode : null,
       keyboardType: TextInputType.number,
       inputFormatters: [
@@ -245,33 +297,35 @@ class _debitPageState extends State<debitPage> {
     cardNumberError = _validateCardNumber(cardNumber);
     cvvError = _validateCVV(cvv);
 
-    if (cardNumberError.isEmpty && cvvError.isEmpty && expirationMonth.isNotEmpty && expirationYear.isNotEmpty) {
+    if (cardNumberError.isEmpty &&
+        cvvError.isEmpty &&
+        expirationMonth.isNotEmpty &&
+        expirationYear.isNotEmpty) {
       double amount = double.parse(selectedAmount.replaceAll(',', ''));
       showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content:
-              Text('Balance has been updated.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: Text('Done!'),
-            ),
-          ],
-        );
-      },
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Balance has been updated.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text('Done!'),
+              ),
+            ],
+          );
+        },
+      );
       Money.deposit(amount);
 
       String transactionDescription = 'Deposit ke $cardNumber';
-      Money.transactionHistory.add(Transaction(type: transactionDescription, amount: amount, date: DateTime.now()));
-      
+      Money.transactionHistory.add(Transaction(
+          type: transactionDescription, amount: amount, date: DateTime.now()));
     } else {
       showDialog(
         context: context,
