@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
+import 'package:uas_emoney/pin.dart';
 
 class TransferPage extends StatelessWidget {
   const TransferPage({Key? key}) : super(key: key);
-  
 
   @override
   Widget build(BuildContext context) {
@@ -98,89 +98,60 @@ class TransferPage extends StatelessWidget {
   }
 
   void _showPasswordDialog(BuildContext context) {
-    TextEditingController passwordController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Konfirmasi Pin"),
-          content: TextField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: 'Masukkan Pin',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                String enteredPassword = passwordController.text;
-                _handlePasswordVerification(context, enteredPassword);
-              },
-              child: Text("Konfirmasi"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Batal"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-void _handlePasswordVerification(BuildContext context, String enteredPassword) {
-  String correctPassword = "12345"; 
-
-  if (enteredPassword == correctPassword) {
-    String recipient = recipientController.text;
     String amount = amountController.text;
-
+    String recipient = recipientController.text;
     double transferAmount = double.tryParse(amount) ?? 0.0;
-
-    if (Money.totalBalance >= transferAmount) {
-      Money.transfer(transferAmount);
-
-      Money.transactionHistory.add(Transaction(type: recipient, amount: transferAmount, date: DateTime.now()));
-
-      // Perbarui balance di Home.dart
-      if (Money.onBalanceChange != null) {
-        Money.onBalanceChange!();
-      }
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TransferSuccessPage(recipient, amount),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PinCodeWidget(
+          onPinVerified: () {
+            Navigator.pop(context);
+            Money.transfer(transferAmount);
+            Money.transactionHistory.add(Transaction(
+                type: recipient, amount: transferAmount, date: DateTime.now()));
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Success'),
+                  content: Text('Rp. $amount has been transfered to another account.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.pop(context);
+                      },
+                      child: Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          onPinFailed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Incorrect PIN'),
+                  content: Text('The entered PIN is incorrect.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
-      );
-      recipientController.clear();
-      amountController.clear();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Saldo tidak mencukupi untuk transfer.'),
-        ),
-      );
-      recipientController.clear();
-      amountController.clear();
-    }
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Pin salah. Silakan coba lagi.'),
       ),
     );
-    recipientController.clear();
-    amountController.clear();
   }
-}
-
 }
 
 class TransferSuccessPage extends StatelessWidget {
@@ -248,5 +219,6 @@ class TransferSuccessPage extends StatelessWidget {
     );
   }
 }
+
 TextEditingController recipientController = TextEditingController();
 TextEditingController amountController = TextEditingController();
