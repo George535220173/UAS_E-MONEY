@@ -38,7 +38,7 @@ class TransferPage extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
-// TextField Nomor Penerima
+              // TextField Nomor Penerima
               Container(
                 width: 350,
                 decoration: BoxDecoration(
@@ -63,14 +63,12 @@ class TransferPage extends StatelessWidget {
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(
-                              11), // Batasan panjang nomor hp
+                          LengthLimitingTextInputFormatter(11),
                         ],
                         decoration: InputDecoration(
                           hintText: 'Masukkan Nomor Penerima',
                           border: InputBorder.none,
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15.0),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
                         ),
                       ),
                     ),
@@ -93,12 +91,39 @@ class TransferPage extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'Masukkan Jumlah',
                   border: OutlineInputBorder(),
+                  errorText: _validateAmount(amountController.text),
                 ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  _showPasswordDialog(context);
+                  // Get the entered amount from the controller
+                  String amount = amountController.text;
+                  double transferAmount = double.tryParse(amount) ?? 0.0;
+
+                  // Check if the transfer amount is greater than or equal to 10,000
+                  if (transferAmount >= 10000) {
+                    _showPasswordDialog(context);
+                  } else {
+                    // Show an error message if the amount is less than 10,000
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Error'),
+                          content: Text('Minimum transfer amount is Rp 10,000.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 147, 76, 175),
@@ -146,7 +171,7 @@ class TransferPage extends StatelessWidget {
                 return AlertDialog(
                   title: Text('Success'),
                   content: Text(
-                      'Rp. $amount has been transfered to another account.'),
+                      'Rp. $amount has been transferred to another account.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
@@ -182,6 +207,16 @@ class TransferPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _validateAmount(String value) {
+    double enteredAmount = double.tryParse(value) ?? 0.0;
+
+    if (enteredAmount < 10000) {
+      return 'Minimum transfer amount is Rp 10,000.';
+    }
+
+    return null;
   }
 }
 
