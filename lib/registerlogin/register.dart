@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-  import 'package:uas_emoney/createpin.dart';
-  import 'package:uas_emoney/registerlogin/login.dart';
-  import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uas_emoney/createpin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -74,56 +73,57 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 20),
 
 // Box Phone
-Container(
-  width: 350,
-  decoration: BoxDecoration(
-    border: Border.all(
-      color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
-    ),
-    borderRadius: BorderRadius.circular(10.0),
-  ),
-  child: Row(
-    children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          '(+62)',
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-        ),
-      ),
-      Expanded(
-        child: TextField(
-          controller: phoneController,
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(11), // Batasan panjang nomor hp
-          ],
-          onChanged: (value) {
-            if (value.startsWith('(+62)')) {
-              // Jika pengguna memasukkan manual "(08)", hapus agar tidak ada duplikasi
-              setState(() {
-                phoneController.text = value.substring(4);
-              });
-            } else {
-              setState(() {
-                // Update nomor hp dalam format yang diinginkan
-                phoneController.text = value;
-              });
-            }
-          },
-          decoration: InputDecoration(
-            labelText: 'Nomor Hp',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
-          ),
-        ),
-      ),
-    ],
-  ),
-),
-SizedBox(height: 20),
-
+            Container(
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '(+62)',
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: phoneController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(
+                            11), // Batasan panjang nomor hp
+                      ],
+                      onChanged: (value) {
+                        if (value.startsWith('(+62)')) {
+                          // Jika pengguna memasukkan manual "(08)", hapus agar tidak ada duplikasi
+                          setState(() {
+                            phoneController.text = value.substring(4);
+                          });
+                        } else {
+                          setState(() {
+                            // Update nomor hp dalam format yang diinginkan
+                            phoneController.text = value;
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Nomor Hp',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
 
             // Box Email
             Container(
