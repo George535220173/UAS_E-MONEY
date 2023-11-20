@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                       _showErrorDialog(
                           'Email or password is incorrect or not registered.');
                     }
-                  } on FirebaseAuthException catch (e) {
+                  } on FirebaseAuthException {
                     _showErrorDialog(
                         'Email or password is incorrect or not registered.');
                   }

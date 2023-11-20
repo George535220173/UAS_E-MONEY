@@ -2,7 +2,6 @@
   import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
   import 'package:uas_emoney/createpin.dart';
-  import 'package:uas_emoney/registerlogin/login.dart';
   import 'package:firebase_auth/firebase_auth.dart';
 
   class RegisterPage extends StatefulWidget {
