@@ -162,7 +162,7 @@ class TransferPage extends StatelessWidget {
         builder: (context) => PinCodeWidget(
           onPinVerified: () {
             Navigator.pop(context);
-            Money.transfer(transferAmount);
+            Money.transferToPhoneNumber(recipient, transferAmount);
             Money.transactionHistory.add(Transaction(
                 type: recipient, amount: transferAmount, date: DateTime.now()));
             showDialog(
