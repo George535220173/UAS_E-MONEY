@@ -41,8 +41,10 @@ class TransferPage extends StatelessWidget {
               SizedBox(height: 10),
               TextField(
                 controller: recipientController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
-                  hintText: 'Masukkan ID',
+                  hintText: 'Masukkan Nomor Penerima',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
