@@ -32,15 +32,7 @@ class TransactionHistoryPage extends StatelessWidget {
             if (transactionHistory == null || transactionHistory.isEmpty) {
               return Text('No transaction history available');
             }
-
-            return ListView.builder(
-              itemCount: transactionHistory.length,
-              itemBuilder: (context, index) {
-              
-                final reversedIndex = transactionHistory.length - 1 - index;
-                return buildTransactionCard(transactionHistory[reversedIndex]);
-              },
-            );
+            return _buildTransactionList(transactionHistory);
           },
         ),
       ),
@@ -53,7 +45,7 @@ class TransactionHistoryPage extends StatelessWidget {
         firestore.FirebaseFirestore.instance.collection('users').doc(uid);
 
     firestore.QuerySnapshot historySnapshot =
-        await userDocRef.collection('history').orderBy('date', descending: false).get();
+        await userDocRef.collection('history').orderBy('date', descending: true).get();
 
     List<Transaction> transaction = historySnapshot.docs
         .map((doc) => Transaction(
@@ -88,6 +80,44 @@ class TransactionHistoryPage extends StatelessWidget {
         onTap: () {
         },
       ),
+    );
+  }
+   Widget _buildTransactionList(List<Transaction> transactionHistory) {
+    Map<String, List<Transaction>> transactionsByDate = {};
+
+    for (var transaction in transactionHistory) {
+      final dateKey = DateFormat('dd/MM/yyyy').format(transaction.date);
+      transactionsByDate.putIfAbsent(dateKey, () => []);
+      transactionsByDate[dateKey]!.add(transaction);
+    }
+
+    List<String> sortedDates = transactionsByDate.keys.toList()..sort((a, b) => b.compareTo(a));
+
+    return ListView.builder(
+      itemCount: sortedDates.length * 2 - 1,
+      itemBuilder: (context, index) {
+        if (index.isOdd) {
+          return Divider();
+        }
+
+        final dateIndex = index ~/ 2;
+        final dateKey = sortedDates[dateIndex];
+        final transactionsForDate = transactionsByDate[dateKey]!;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                dateKey,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ...transactionsForDate.map((transaction) => buildTransactionCard(transaction)),
+          ],
+        );
+      },
     );
   }
 }
