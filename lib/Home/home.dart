@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uas_emoney/Withdraw/withdraw.dart';
+import 'package:uas_emoney/Withdraw/withdrawHome.dart';
 import 'package:uas_emoney/Deposit/deposit.dart';
 import 'package:uas_emoney/Transfer/transfer.dart';
 import 'package:uas_emoney/History/history.dart';
@@ -259,7 +259,7 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           buildNavigationButton(
-                              Icons.arrow_downward, 'Withdraw', WithdrawPage()),
+                              Icons.arrow_downward, 'Withdraw', WithdrawalPage()),
                           buildNavigationButton(
                               Icons.arrow_upward, 'Deposit', DepositPage()),
                           buildNavigationButton(
