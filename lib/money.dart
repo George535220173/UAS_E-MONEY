@@ -112,7 +112,7 @@ class Money {
 
   static void withdraw(double amount) async {
     totalBalance -= amount;
-    await _updateFirestoreBalance(-amount, "Withdraw");
+    await _updateFirestoreBalance(-amount, "Withdraw With Atm");
     _notifyBalanceChange();
   }
 
