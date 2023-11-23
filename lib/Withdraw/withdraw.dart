@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:uas_emoney/Transaction.dart';
+import 'package:uas_emoney/money.dart';
+import 'package:uas_emoney/pin.dart';
 
-class WithdrawPage extends StatelessWidget {
+class WithdrawPage extends StatefulWidget {
   const WithdrawPage({Key? key}) : super(key: key);
+
+  @override
+  _WithdrawPageState createState() => _WithdrawPageState();
+}
+
+class _WithdrawPageState extends State<WithdrawPage> {
+  String selectedAmount = '';
+
+  List<String> nominalValues = [
+    '50000',
+    '100000',
+    '200000',
+    '300000',
+    '500000',
+    '1000000'
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Withdraw'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175), // Warna tema e-money
+        backgroundColor: Color.fromARGB(255, 147, 76, 175),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -24,18 +43,143 @@ class WithdrawPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             TextField(
+              readOnly: true,
+              controller: TextEditingController(text: 'Rp. $selectedAmount'),
               decoration: InputDecoration(
-                hintText: 'Enter amount',
+                hintText: 'Select nominal amount',
                 border: OutlineInputBorder(),
               ),
+              onTap: () {
+                _showNominalDialog(context);
+              },
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Jumlah Tunai',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(height: 10),
+            GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 2.0,
+              ),
+              itemCount: nominalValues.length,
+              itemBuilder: (context, index) {
+                return _buildNominalContainer(index);
+              },
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Implement withdrawal logic
+                if (selectedAmount.isNotEmpty) {
+                  double withdrawAmount =
+                      double.tryParse(selectedAmount.replaceAll('Rpp. ', '')) ??
+                          0.0;
+                  if (withdrawAmount > 0 &&
+                      withdrawAmount <= Money.totalBalance) {
+                    // Money.withdraw(withdrawAmount);
+
+                    // Money.transactionHistory.add(Transaction(
+                    //     type: 'Withdraw',
+                    //     amount: withdrawAmount,
+                    //     date: DateTime.now()));
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PinCodeWidget(
+                          onPinVerified: () {
+                            Money.withdraw(withdrawAmount);
+
+                            Money.transactionHistory.add(Transaction(
+                                type: 'Withdraw',
+                                amount: withdrawAmount,
+                                date: DateTime.now()));
+
+                            Navigator.pop(context);
+                            // This function is called when PIN is verified successfully
+                            // You can place your transaction completion logic here
+                            // For example, you can show a success dialog or navigate to a success screen.
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Success'),
+                                  content: Text(
+                                      'Rp.$withdrawAmount has been deducted from your balance.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          onPinFailed: () {
+                            // This function is called when PIN is incorrect
+                            // You can handle incorrect PIN logic here, for example, show an error message
+                            // and reset any changes made during the PIN entry
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Incorrect PIN'),
+                                  content:
+                                      Text('The entered PIN is incorrect.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  } else {
+                    double balanceShort = withdrawAmount - Money.totalBalance;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Not enough balance'),
+                          content: Text(
+                              'You are Rp.$balanceShort short from being able to withdraw.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                } else {
+                  print('Pilih nominal untuk penarikan');
+                }
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175), // Warna tema e-money
+                primary: Color.fromARGB(255, 147, 76, 175),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -50,6 +194,56 @@ class WithdrawPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildNominalContainer(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedAmount = nominalValues[index];
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Center(
+          child: Text(
+            'Rp. ${double.parse(nominalValues[index]).toStringAsFixed(0)}',
+            style: TextStyle(fontSize: 16.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNominalDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Nominal Amount'),
+          content: Column(
+            children: nominalValues
+                .map(
+                  (value) => ListTile(
+                    title:
+                        Text('Rp. ${double.parse(value).toStringAsFixed(0)}'),
+                    onTap: () {
+                      setState(() {
+                        selectedAmount = value;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      },
     );
   }
 }

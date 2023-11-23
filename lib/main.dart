@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'Home/home.dart';
-
-void main(){
-  runApp(const myApp());
+import 'package:uas_emoney/registerlogin/login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+void main() async { 
+    WidgetsFlutterBinding.ensureInitialized();
+    Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
 }
 
-class myApp extends StatelessWidget {
-  const myApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: LoginPage(),
     );
   }
 }
