@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
                     Container(
                       decoration: new BoxDecoration(
                         image: new DecorationImage(
-                          image: new AssetImage('assets/images/Wizzzzz test bg.png'),
+                          image: new AssetImage("assets/images/Wizzzzz test bg.png"),
                           fit: BoxFit.cover,
                         ),
                       ),
