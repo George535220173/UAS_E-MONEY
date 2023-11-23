@@ -56,12 +56,13 @@ class _HomeState extends State<Home> {
   Future<void> _updateGreeting() async {
     var now = DateTime.now();
     var timeZoneOffset = now.timeZoneOffset;
-    var jakartaTimeZone = TimeZone(
-        timeZoneOffset.isNegative ? -7 * 60 : 7 * 60, 'WIB'); // Jakarta timezone
+    var jakartaTimeZone = TimeZone(timeZoneOffset.isNegative ? -7 * 60 : 7 * 60,
+        'WIB'); // Jakarta timezone
 
-    var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
-        ? jakartaTimeZone.offset
-        : -jakartaTimeZone.offset));
+    var jakartaTime = now.toUtc().add(Duration(
+        minutes: timeZoneOffset.inMinutes > 0
+            ? jakartaTimeZone.offset
+            : -jakartaTimeZone.offset));
 
     if (jakartaTime.hour < 12) {
       greeting = 'Selamat Pagi,';
@@ -110,6 +111,14 @@ class _HomeState extends State<Home> {
                 Stack(
                   alignment: Alignment.topCenter,
                   children: [
+                    Container(
+                      decoration: new BoxDecoration(
+                        image: new DecorationImage(
+                          image: new AssetImage('assets/images/Wizzzzz test bg.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                     Container(
                       width: double.infinity,
                       height: 240,
@@ -194,7 +203,8 @@ class _HomeState extends State<Home> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 3),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Total Balance',
@@ -258,14 +268,14 @@ class _HomeState extends State<Home> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          buildNavigationButton(
-                              Icons.arrow_downward, 'Withdraw', WithdrawalPage()),
+                          buildNavigationButton(Icons.arrow_downward,
+                              'Withdraw', WithdrawalPage()),
                           buildNavigationButton(
                               Icons.arrow_upward, 'Deposit', DepositPage()),
                           buildNavigationButton(
                               Icons.swap_horiz, 'Transfer', TransferPage()),
-                          buildNavigationButton(
-                              Icons.history, 'History', TransactionHistoryPage()),
+                          buildNavigationButton(Icons.history, 'History',
+                              TransactionHistoryPage()),
                         ],
                       ),
                     ),

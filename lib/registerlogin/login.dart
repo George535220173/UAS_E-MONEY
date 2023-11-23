@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uas_emoney/Home/home.dart';
 import 'package:uas_emoney/registerlogin/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,143 +17,186 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Logo
-              Image.network(
-                'https://media.istockphoto.com/id/1028818726/id/vektor/topi-wizard-ikon-terkait-halloween-desain-kerangka-terisi-goresan-yang-dapat-diedit.jpg?s=170667a&w=0&k=20&c=AjAMfn6NFTRj6j3aowaVIlppwdN1VrHWYh3IAYAgc54=',
-                width: 100,
-                height: 100,
-              ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/Wizzzzz test bg.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Logo
+                Image.asset(
+                  'assets/images/Wizzzzz test.png',
+                  width: 380,
+                  height: 200,
+                ),
 
-              SizedBox(
-                height: 30,
-              ),
+                SizedBox(
+                  height: 1,
+                ),
 
-              Text(
-                'Sign in to Continue',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: const Color.fromARGB(255, 75, 149, 209)),
-              ),
+                Text(
+                  'Sign in to Continue',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 167, 75, 209),
+                      fontFamily: 'Poppins'),
+                ),
 
-              SizedBox(
-                height: 40,
-              ),
+                SizedBox(
+                  height: 40,
+                ),
 
-              // Bagian email
-              SizedBox(
-                width: 320,
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.info),
-                      onPressed: () {
-                        if (!emailController.text.endsWith('@gmail.com')) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Invalid email format'),
-                            ),
-                          );
-                        }
-                      },
+                // Bagian email
+                SizedBox(
+                  width: 320,
+                  child: TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 248, 240, 179),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.info,
+                            color: Color.fromARGB(255, 53, 21, 58)),
+                        onPressed: () {
+                          if (!emailController.text.endsWith('@gmail.com')) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Invalid email format'),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                      labelStyle: TextStyle(
+                          color: const Color.fromARGB(255, 53, 21, 58)),
                     ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 15),
+                SizedBox(height: 15),
 
-              // Bagian password
-              SizedBox(
-                width: 320,
-                child: TextField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    suffixIcon: IconButton(
-                      icon: isPasswordVisible
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
+                // Bagian password
+                SizedBox(
+                  width: 320,
+                  child: TextField(
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 248, 240, 179),
+                      suffixIcon: IconButton(
+                        icon: isPasswordVisible
+                            ? Icon(Icons.visibility,
+                                color: Color.fromARGB(255, 53, 21, 58))
+                            : Icon(Icons.visibility_off,
+                                color: Color.fromARGB(255, 53, 21, 58)),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                      labelStyle: TextStyle(
+                          color: const Color.fromARGB(255, 53, 21, 58)),
                     ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 30.0),
+                    obscureText: !isPasswordVisible,
                   ),
-                  obscureText: !isPasswordVisible,
                 ),
-              ),
 
-              SizedBox(
-                height: 20,
-              ),
+                SizedBox(
+                  height: 20,
+                ),
 
 // Login Button
-              ElevatedButton(
-                onPressed: () async {
-                  if (emailController.text.isEmpty ||
-                      passwordController.text.isEmpty) {
-                    _showErrorDialog('Email and password are required');
-                    return;
-                  }
+                ElevatedButton(
+                  onPressed: () async {
+                    if (emailController.text.isEmpty ||
+                        passwordController.text.isEmpty) {
+                      _showErrorDialog('Email and password are required');
+                      return;
+                    }
 
-                  try {
-                    UserCredential userCredential =
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
+                    try {
+                      UserCredential userCredential = await FirebaseAuth
+                          .instance
+                          .signInWithEmailAndPassword(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
 
-                    // Check if login is successful
-                    if (userCredential.user != null) {
+                      // Check if login is successful
+                      if (userCredential.user != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => Home(),
                           ),
                         );
-                    } else {
+                      } else {
+                        _showErrorDialog(
+                            'Email or password is incorrect or not registered.');
+                      }
+                    } on FirebaseAuthException {
                       _showErrorDialog(
                           'Email or password is incorrect or not registered.');
                     }
-                  } on FirebaseAuthException {
-                    _showErrorDialog(
-                        'Email or password is incorrect or not registered.');
-                  }
-                },
-                child: Text('Log In'),
-              ),
-              SizedBox(height: 20),
-
-              // Garis Pemisah
-              Divider(thickness: 2, color: Colors.black),
-
-              SizedBox(height: 20),
-
-              // Sign Up Button
-              TextButton(
-                onPressed: () {
-                  // Pindah ke halaman registrasi
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegisterPage(),
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(150, 30), // Set the button size here
+                    backgroundColor: Color.fromARGB(255, 194, 41, 245),
+                  ),
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 104, 44, 114),
+                      fontSize: 24,
+                      fontFamily: 'Poppins',
                     ),
-                  );
-                },
-                child: Text('Sign Up'),
-              ),
-            ],
+                  ),
+                ),
+
+                SizedBox(height: 10),
+
+                // Garis Pemisah
+                
+
+                SizedBox(height: 10),
+
+                // Sign Up Button
+                TextButton(
+                  onPressed: () {
+                    // Pindah ke halaman registrasi
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RegisterPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(125, 20), // Set the button size here
+                    backgroundColor: Color.fromARGB(255, 228, 245, 41),
+                  ),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 114, 66, 44),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
