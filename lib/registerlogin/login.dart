@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uas_emoney/Home/home.dart';
 import 'package:uas_emoney/registerlogin/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       fontSize: 24,
                       color: Color.fromARGB(255, 209, 109, 255),
-                      fontFamily: 'PoppinsRegular'),
+                      fontFamily: 'PoppinsBold'),
                 ),
 
                 SizedBox(
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'If you dont have an account',
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
                       color: Color.fromARGB(255, 248, 255, 173),
                       fontFamily: 'PoppinsRegular'),
                 ),

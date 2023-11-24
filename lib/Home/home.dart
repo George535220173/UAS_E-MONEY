@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -65,13 +65,13 @@ class _HomeState extends State<Home> {
             : -jakartaTimeZone.offset));
 
     if (jakartaTime.hour < 12) {
-      greeting = 'Selamat Pagi,';
+      greeting = 'Selamat Pagi';
     } else if (jakartaTime.hour < 17) {
-      greeting = 'Selamat Siang,';
+      greeting = 'Selamat Siang';
     } else if (jakartaTime.hour < 20) {
-      greeting = 'Selamat Sore,';
+      greeting = 'Selamat Sore';
     } else {
-      greeting = 'Selamat malam,';
+      greeting = 'Selamat malam';
     }
 
     setState(() {});
@@ -119,7 +119,7 @@ class _HomeState extends State<Home> {
                         gradient: LinearGradient(
                           colors: [
                             Color.fromARGB(255, 70, 10, 149),
-                            Color.fromARGB(255, 64, 14, 228),
+                            Color.fromARGB(255, 100, 14, 228),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -194,19 +194,19 @@ class _HomeState extends State<Home> {
                     Positioned(
                       top: 160,
                       child: Container(
-                        height: 170,
+                        height: 130,
                         width: 320,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
                               Color.fromARGB(255, 255, 253, 128),
-                              Color.fromARGB(255, 220, 255, 189),
+                              Color.fromARGB(255, 255, 212, 196),
                             ],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                           ),
                           borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(40),
+                            bottomLeft: Radius.circular(2),
                             bottomRight: Radius.circular(40),
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40),
@@ -228,7 +228,7 @@ class _HomeState extends State<Home> {
                                       fontWeight: FontWeight.w400,
                                       fontSize: 28,
                                       fontFamily: 'PoppinsBold',
-                                      color: Color.fromARGB(255, 100, 255, 185),
+                                      color: Color.fromARGB(255, 77, 234, 164),
                                     ),
                                   ),
                                   IconButton(
@@ -252,11 +252,8 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 7,
-                            ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 12, top: 40),
+                              padding: const EdgeInsets.only(left: 12, top: 20),
                               child: Row(
                                 children: [
                                   buildBalanceWidget(),
@@ -276,7 +273,7 @@ class _HomeState extends State<Home> {
                           gradient: LinearGradient(
                             colors: [
                               Color.fromARGB(255, 70, 10, 149),
-                              Color.fromARGB(255, 64, 14, 228),
+                              Color.fromARGB(255, 100, 14, 228),
                             ],
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
@@ -302,6 +299,67 @@ class _HomeState extends State<Home> {
                               Icons.swap_horiz, 'TRANSFER', TransferPage()),
                           buildNavigationButton(Icons.history, 'HISTORY',
                               TransactionHistoryPage()),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      left: 300,
+                      top: 21,
+                      child: Image.asset(
+                        'assets/images/Wizzzzz test icon.png',
+                        width: 90,
+                        height: 90,
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(vertical: 300),
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 200.0,
+                          enlargeCenterPage: true,
+                          autoPlay: true,
+                          aspectRatio: 16 / 9,
+                          autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 200),
+                          viewportFraction: 0.8,
+                        ),
+                        carouselController: CarouselController(),
+                        items: [
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage('assets/ad/sisyphus.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/ad/its official ive gone insane.jpg'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/ad/F-s7NEPWkAAVmWa.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -336,7 +394,7 @@ class _HomeState extends State<Home> {
                 fontWeight: FontWeight.w600,
                 fontSize: 30,
                 fontFamily: 'PoppinsBold',
-                color: Color.fromARGB(255, 100, 255, 185),
+                color: Color.fromARGB(255, 105, 100, 255),
               ),
             );
           },
@@ -356,7 +414,7 @@ class _HomeState extends State<Home> {
             );
           },
           icon: Icon(icon),
-          iconSize: 40,
+          iconSize: 45,
           color: Color.fromARGB(255, 255, 253, 128),
         ),
         SizedBox(height: 0),
