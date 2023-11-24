@@ -41,10 +41,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 Text(
-                  'Sign in to Continue',
+                  'Log in to Continue',
                   style: TextStyle(
                       fontSize: 24,
-                      color: Color.fromARGB(255, 167, 75, 209),
+                      color: Color.fromARGB(255, 209, 109, 255),
                       fontFamily: 'PoppinsRegular'),
                 ),
 
@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(150, 30), // Set the button size here
+                    minimumSize: Size(125, 50),
                     backgroundColor: Color.fromARGB(255, 194, 41, 245),
                   ),
                   child: Text(
@@ -164,9 +164,15 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                SizedBox(height: 10),
+                SizedBox(height: 70),
 
-                // Garis Pemisah
+                Text(
+                  'If you dont have an account',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 248, 255, 173),
+                      fontFamily: 'PoppinsRegular'),
+                ),
 
                 SizedBox(height: 10),
 

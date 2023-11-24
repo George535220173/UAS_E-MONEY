@@ -101,6 +101,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 45, 3, 100),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _refreshData,
@@ -112,21 +113,20 @@ class _HomeState extends State<Home> {
                   alignment: Alignment.topCenter,
                   children: [
                     Container(
-                      decoration: new BoxDecoration(
-                        image: new DecorationImage(
-                          image: new AssetImage("assets/images/Wizzzzz test bg.png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Container(
                       width: double.infinity,
                       height: 240,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 147, 76, 175),
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 70, 10, 149),
+                            Color.fromARGB(255, 64, 14, 228),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
                         borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(70),
+                          bottomRight: Radius.circular(70),
                         ),
                       ),
                       child: Stack(
@@ -167,16 +167,20 @@ class _HomeState extends State<Home> {
                                       greeting,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w300,
-                                        fontSize: 16,
-                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontFamily: 'PoppinsRegular',
+                                        color:
+                                            Color.fromARGB(255, 255, 253, 128),
                                       ),
                                     ),
                                     Text(
                                       '$firstName $lastName',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 23,
-                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontFamily: 'PoppinsBold',
+                                        color:
+                                            Color.fromARGB(255, 255, 253, 128),
                                       ),
                                     ),
                                   ],
@@ -193,8 +197,20 @@ class _HomeState extends State<Home> {
                         height: 170,
                         width: 320,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 95, 42, 118),
-                          borderRadius: BorderRadius.circular(15),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 255, 253, 128),
+                              Color.fromARGB(255, 220, 255, 189),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(40),
+                            bottomRight: Radius.circular(40),
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40),
+                          ),
                         ),
                         child: Column(
                           children: [
@@ -210,19 +226,22 @@ class _HomeState extends State<Home> {
                                     'Total Balance',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 26,
-                                      color: Colors.white,
+                                      fontSize: 28,
+                                      fontFamily: 'PoppinsBold',
+                                      color: Color.fromARGB(255, 100, 255, 185),
                                     ),
                                   ),
                                   IconButton(
                                     icon: isEyeOpen
                                         ? Icon(
                                             Icons.remove_red_eye,
-                                            color: Colors.white,
+                                            color: Color.fromARGB(
+                                                255, 100, 255, 185),
                                           )
                                         : Icon(
                                             Icons.visibility_off,
-                                            color: Colors.white,
+                                            color: Color.fromARGB(
+                                                255, 100, 255, 185),
                                           ),
                                     onPressed: () {
                                       setState(() {
@@ -249,32 +268,39 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 600),
+                      padding: EdgeInsets.only(top: 665),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(138, 194, 194, 194),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 70, 10, 149),
+                              Color.fromARGB(255, 64, 14, 228),
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
+                            topLeft: Radius.circular(70),
+                            topRight: Radius.circular(70),
                           ),
                         ),
                       ),
                     ),
                     SizedBox(height: 50),
                     Padding(
-                      padding: const EdgeInsets.only(top: 615),
+                      padding: const EdgeInsets.only(top: 690),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           buildNavigationButton(Icons.arrow_downward,
-                              'Withdraw', WithdrawalPage()),
+                              'WITHDRAW', WithdrawalPage()),
                           buildNavigationButton(
-                              Icons.arrow_upward, 'Deposit', DepositPage()),
+                              Icons.arrow_upward, 'DEPOSIT', DepositPage()),
                           buildNavigationButton(
-                              Icons.swap_horiz, 'Transfer', TransferPage()),
-                          buildNavigationButton(Icons.history, 'History',
+                              Icons.swap_horiz, 'TRANSFER', TransferPage()),
+                          buildNavigationButton(Icons.history, 'HISTORY',
                               TransactionHistoryPage()),
                         ],
                       ),
@@ -309,7 +335,8 @@ class _HomeState extends State<Home> {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 30,
-                color: Colors.white,
+                fontFamily: 'PoppinsBold',
+                color: Color.fromARGB(255, 100, 255, 185),
               ),
             );
           },
@@ -330,15 +357,16 @@ class _HomeState extends State<Home> {
           },
           icon: Icon(icon),
           iconSize: 40,
-          color: Color.fromARGB(255, 168, 78, 224),
+          color: Color.fromARGB(255, 255, 253, 128),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: 0),
         Text(
           label,
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+              fontSize: 16,
+              fontFamily: 'PoppinsBold',
+              fontWeight: FontWeight.w500,
+              color: Color.fromARGB(255, 26, 0, 87)),
         ),
       ],
     );
