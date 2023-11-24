@@ -72,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         style: TextStyle(
                             color: Color.fromARGB(255, 226, 145, 255),
-                            fontFamily: 'Poppins'),
+                            fontFamily: 'PoppinsRegular'),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -99,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         style: TextStyle(
                             color: Color.fromARGB(255, 226, 145, 255),
-                            fontFamily: 'Poppins'),
+                            fontFamily: 'PoppinsRegular'),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -159,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               style: TextStyle(
                                   color: Color.fromARGB(255, 226, 145, 255),
-                                  fontFamily: 'Poppins'),
+                                  fontFamily: 'PoppinsRegular'),
                             ),
                           ),
                         ],
@@ -189,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         style: TextStyle(
                             color: Color.fromARGB(255, 226, 145, 255),
-                            fontFamily: 'Poppins'),
+                            fontFamily: 'PoppinsRegular'),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -227,7 +227,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         style: TextStyle(
                             color: Color.fromARGB(255, 226, 145, 255),
-                            fontFamily: 'Poppins'),
+                            fontFamily: 'PoppinsRegular'),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -266,7 +266,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         style: TextStyle(
                             color: Color.fromARGB(255, 226, 145, 255),
-                            fontFamily: 'Poppins'),
+                            fontFamily: 'PoppinsRegular'),
                       ),
                     ),
 
@@ -350,7 +350,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: TextStyle(
                           color: Color.fromARGB(255, 114, 66, 44),
                           fontSize: 20,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'PoppinsBold',
                         ),
                       ),
                     ),

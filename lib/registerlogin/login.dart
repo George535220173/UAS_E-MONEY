@@ -43,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'Sign in to Continue',
                   style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 24,
                       color: Color.fromARGB(255, 167, 75, 209),
-                      fontFamily: 'Poppins'),
+                      fontFamily: 'PoppinsRegular'),
                 ),
 
                 SizedBox(
@@ -155,11 +155,11 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundColor: Color.fromARGB(255, 194, 41, 245),
                   ),
                   child: Text(
-                    'Log In',
+                    'Log In!',
                     style: TextStyle(
                       color: const Color.fromARGB(255, 104, 44, 114),
                       fontSize: 24,
-                      fontFamily: 'Poppins',
+                      fontFamily: 'PoppinsBold',
                     ),
                   ),
                 ),
@@ -186,11 +186,11 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundColor: Color.fromARGB(255, 228, 245, 41),
                   ),
                   child: Text(
-                    'Sign Up',
+                    'Sign Up!',
                     style: TextStyle(
                       color: Color.fromARGB(255, 114, 66, 44),
                       fontSize: 20,
-                      fontFamily: 'Poppins',
+                      fontFamily: 'PoppinsBold',
                     ),
                   ),
                 ),

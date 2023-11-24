@@ -27,8 +27,9 @@ class _CreatePINPageState extends State<CreatePINPage> {
           });
         },
         style: ElevatedButton.styleFrom(
-          primary: Colors.white,
-          onPrimary: Colors.black,
+          primary: Color.fromARGB(255, 255, 244, 145),
+          onPrimary: Color.fromARGB(255, 29, 0, 62),
+          minimumSize: Size(60, 60),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -36,7 +37,7 @@ class _CreatePINPageState extends State<CreatePINPage> {
         child: Text(
           number.toString(),
           style: const TextStyle(
-            fontSize: 24,
+            fontSize: 36,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -64,9 +65,9 @@ class _CreatePINPageState extends State<CreatePINPage> {
                   // Kembali ke halaman sebelumnya
                   Navigator.pop(context);
                   Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
                 },
                 child: Text('OK'),
               ),
@@ -128,46 +129,47 @@ class _CreatePINPageState extends State<CreatePINPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 41, 8, 80),
       body: SafeArea(
-        child: SingleChildScrollView( // Tambahkan SingleChildScrollView di sini
+        child: SingleChildScrollView(
+          // Tambahkan SingleChildScrollView di sini
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 35),
               const Center(
                 child: Text(
                   'Create Your PIN',
                   style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
+                      fontSize: 36,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'PoppinsBold'),
                 ),
               ),
-              const SizedBox(height: 50),
-
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
                   6,
                   (index) {
                     return Container(
-                      margin: const EdgeInsets.all(7.0),
-                      width: 20,
-                      height: 20,
+                      margin: const EdgeInsets.all(8.0),
+                      width: 25,
+                      height: 25,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6.0),
                         color: index < pin.length
-                            ? const Color.fromARGB(255, 208, 0, 255)
-                            : Colors.transparent,
+                            ? Color.fromARGB(255, 255, 244, 145)
+                            : const Color.fromARGB(61, 0, 0, 0),
                       ),
                       child: isPinVisible && index < pin.length
                           ? Center(
                               child: Text(
                                 '•',
                                 style: const TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 24,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -178,7 +180,6 @@ class _CreatePINPageState extends State<CreatePINPage> {
                   },
                 ),
               ),
-
               IconButton(
                 onPressed: () {
                   setState(() {
@@ -187,14 +188,14 @@ class _CreatePINPageState extends State<CreatePINPage> {
                 },
                 icon: Icon(
                   isPinVisible ? Icons.visibility_off : Icons.visibility,
+                  color: Color.fromARGB(255, 255, 244, 145),
                 ),
               ),
-
-              SizedBox(height: 50.0),
-
+              SizedBox(height: 10.0),
               for (var i = 0; i < 3; i++)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List.generate(
@@ -203,9 +204,8 @@ class _CreatePINPageState extends State<CreatePINPage> {
                     ).toList(),
                   ),
                 ),
-
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -223,14 +223,13 @@ class _CreatePINPageState extends State<CreatePINPage> {
                       },
                       child: const Icon(
                         Icons.backspace,
-                        color: Colors.black,
-                        size: 24,
+                        color: Color.fromARGB(255, 255, 244, 145),
+                        size: 40,
                       ),
                     ),
                   ],
                 ),
               ),
-
               TextButton(
                 onPressed: () {
                   setState(() {
@@ -241,12 +240,12 @@ class _CreatePINPageState extends State<CreatePINPage> {
                 child: const Text(
                   'Reset',
                   style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
+                    fontSize: 22,
+                    fontFamily: 'PoppinsBold',
+                    color: Color.fromARGB(255, 255, 244, 145),
                   ),
                 ),
               ),
-
               ElevatedButton(
                 onPressed: () {
                   // Cek apakah PIN sudah sesuai panjang
@@ -274,7 +273,17 @@ class _CreatePINPageState extends State<CreatePINPage> {
                     );
                   }
                 },
-                child: Text('Create PIN'),
+                child: Text(
+                  'Create PIN',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      fontSize: 24,
+                      color: Color.fromARGB(255, 41, 8, 80)),
+                ),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 255, 244, 145),
+                    minimumSize: Size(100, 50)),
+                    
               ),
             ],
           ),
