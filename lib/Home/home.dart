@@ -360,6 +360,17 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/ad/Ad4.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

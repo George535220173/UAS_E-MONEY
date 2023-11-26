@@ -54,7 +54,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
                 hintText: 'Select nominal amount',
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Color.fromARGB(255, 134, 255, 154), width: 3.5),
+                      color: Color.fromARGB(255, 134, 255, 154), 
+                      width: 3.5),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
