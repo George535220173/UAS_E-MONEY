@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
         child: RefreshIndicator(
           onRefresh: _refreshData,
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 Stack(
@@ -177,7 +177,7 @@ class _HomeState extends State<Home> {
                                       '$firstName $lastName',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 30,
+                                        fontSize: 40,
                                         fontFamily: 'PoppinsBold',
                                         color:
                                             Color.fromARGB(255, 255, 253, 128),
@@ -265,7 +265,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 665),
+                      padding: EdgeInsets.only(top: 600),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 120,
@@ -287,7 +287,7 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: 50),
                     Padding(
-                      padding: const EdgeInsets.only(top: 690),
+                      padding: const EdgeInsets.only(top: 610),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

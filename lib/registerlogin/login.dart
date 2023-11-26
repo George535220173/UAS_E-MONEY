@@ -3,7 +3,6 @@ import 'package:uas_emoney/Home/home.dart';
 import 'package:uas_emoney/registerlogin/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -78,6 +77,10 @@ class _LoginPageState extends State<LoginPage> {
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(255, 53, 21, 58)),
                     ),
+                    style: TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      fontSize: 20,
+                    ),
                   ),
                 ),
 
@@ -109,6 +112,10 @@ class _LoginPageState extends State<LoginPage> {
                           color: const Color.fromARGB(255, 53, 21, 58)),
                     ),
                     obscureText: !isPasswordVisible,
+                    style: TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      fontSize: 20,
+                    ),
                   ),
                 ),
 
@@ -151,14 +158,14 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(125, 50),
+                    minimumSize: Size(175, 65),
                     backgroundColor: Color.fromARGB(255, 194, 41, 245),
                   ),
                   child: Text(
                     'Log In!',
                     style: TextStyle(
                       color: const Color.fromARGB(255, 104, 44, 114),
-                      fontSize: 24,
+                      fontSize: 34,
                       fontFamily: 'PoppinsBold',
                     ),
                   ),

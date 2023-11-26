@@ -25,43 +25,52 @@ class _WithdrawPageState extends State<WithdrawPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Withdraw'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175),
-      ),
+      backgroundColor: Color.fromARGB(255, 51, 22, 138),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 50),
             Text(
               'Withdraw Amount',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 134, 255, 154),
+                  fontFamily: 'PoppinsBold'),
             ),
             SizedBox(height: 10),
             TextField(
               readOnly: true,
               controller: TextEditingController(text: 'Rp. $selectedAmount'),
+              style: TextStyle(
+                  fontSize: 20.0,
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 134, 255, 154)),
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Color.fromARGB(255, 73, 37, 190),
                 hintText: 'Select nominal amount',
-                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Color.fromARGB(255, 134, 255, 154), width: 3.5),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
               onTap: () {
                 _showNominalDialog(context);
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 60),
             Text(
               'Jumlah Tunai',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 134, 255, 154)),
             ),
-            SizedBox(height: 10),
             GridView.builder(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -179,14 +188,18 @@ class _WithdrawPageState extends State<WithdrawPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175),
+                padding: EdgeInsets.all(8),
+                primary: Color.fromARGB(255, 134, 255, 154),
+                minimumSize: Size(50, 10)
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   'Withdraw',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 28,
+                    color: Color.fromARGB(255, 73, 37, 190)
                   ),
                 ),
               ),
@@ -207,13 +220,18 @@ class _WithdrawPageState extends State<WithdrawPage> {
       child: Container(
         margin: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(8.0),
+          color: Color.fromARGB(255, 73, 37, 190),
+          border:
+              Border.all(color: Color.fromARGB(255, 134, 255, 154), width: 3.5),
+          borderRadius: BorderRadius.circular(16.0),
         ),
         child: Center(
           child: Text(
             'Rp. ${double.parse(nominalValues[index]).toStringAsFixed(0)}',
-            style: TextStyle(fontSize: 16.0),
+            style: TextStyle(
+                fontSize: 20.0,
+                fontFamily: 'PoppinsBold',
+                color: Color.fromARGB(255, 134, 255, 154)),
           ),
         ),
       ),
