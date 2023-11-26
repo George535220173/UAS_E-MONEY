@@ -313,10 +313,10 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(vertical: 300),
+                      margin: EdgeInsets.symmetric(vertical: 340),
                       child: CarouselSlider(
                         options: CarouselOptions(
-                          height: 200.0,
+                          height: 190.0,
                           enlargeCenterPage: true,
                           autoPlay: true,
                           aspectRatio: 20 / 9,
