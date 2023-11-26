@@ -319,7 +319,7 @@ class _HomeState extends State<Home> {
                           height: 200.0,
                           enlargeCenterPage: true,
                           autoPlay: true,
-                          aspectRatio: 16 / 9,
+                          aspectRatio: 20 / 9,
                           autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
                           enableInfiniteScroll: true,
                           autoPlayAnimationDuration:
@@ -333,7 +333,7 @@ class _HomeState extends State<Home> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
-                                image: AssetImage('assets/ad/sisyphus.png'),
+                                image: AssetImage('assets/ad/Ad1.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -344,7 +344,7 @@ class _HomeState extends State<Home> {
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
                                 image: AssetImage(
-                                    'assets/ad/its official ive gone insane.jpg'),
+                                    'assets/ad/Ad2.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -355,7 +355,7 @@ class _HomeState extends State<Home> {
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
                                 image: AssetImage(
-                                    'assets/ad/F-s7NEPWkAAVmWa.png'),
+                                    'assets/ad/Ad3.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
