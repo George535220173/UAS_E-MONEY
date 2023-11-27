@@ -12,23 +12,33 @@ class TransferPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transfer'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175),
+        title: Text(
+          'Transfer',
+          style: TextStyle(fontFamily: 'PoppinsBold', fontSize: 26),
+        ),
+        backgroundColor: Color.fromARGB(255, 149, 10, 98),
       ),
       resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/Wizzzzz test bg.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: 30),
               CircleAvatar(
-                radius: 40,
-                backgroundColor: Color.fromARGB(255, 147, 76, 175),
+                radius: 60,
+                backgroundColor: Color.fromARGB(255, 230, 15, 122),
                 child: Icon(
                   Icons.account_circle,
-                  size: 60,
-                  color: Colors.white,
+                  size: 85,
+                  color: Color.fromARGB(255, 94, 3, 48),
                 ),
               ),
               SizedBox(height: 20),
@@ -36,17 +46,19 @@ class TransferPage extends StatelessWidget {
                 'Nomor Penerima',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 30,
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 230, 15, 122),
                 ),
               ),
               // TextField Nomor Penerima
               Container(
                 width: 350,
                 decoration: BoxDecoration(
+                  color: Color.fromARGB(150, 94, 3, 48),
                   border: Border.all(
-                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
+                      color: Color.fromARGB(255, 230, 15, 122), width: 3.5),
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: Row(
                   children: [
@@ -55,7 +67,10 @@ class TransferPage extends StatelessWidget {
                       child: Text(
                         '(+62)',
                         style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'PoppinsBold',
+                            color: Color.fromARGB(255, 230, 15, 122)),
                       ),
                     ),
                     Expanded(
@@ -68,10 +83,19 @@ class TransferPage extends StatelessWidget {
                         ],
                         decoration: InputDecoration(
                           hintText: 'Masukkan Nomor Penerima',
+                          hintStyle: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'PoppinsRegular',
+                              color: Color.fromARGB(255, 230, 15, 122)),
                           border: InputBorder.none,
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 15.0),
                         ),
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'PoppinsBold',
+                            color: Color.fromARGB(255, 230, 15, 122)),
                       ),
                     ),
                   ],
@@ -82,7 +106,9 @@ class TransferPage extends StatelessWidget {
                 'Jumlah',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 28,
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 230, 15, 122),
                 ),
               ),
               SizedBox(height: 10),
@@ -94,17 +120,28 @@ class TransferPage extends StatelessWidget {
                   ThousandsFormatter(),
                 ],
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color.fromARGB(255, 230, 15, 122),
                   hintText: 'Masukkan Jumlah',
+                  hintStyle: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'PoppinsRegular',
+                      color: Color.fromARGB(255, 94, 3, 48)),
                   border: OutlineInputBorder(),
                   errorText: _validateAmount(amountController.text),
                 ),
+                style: TextStyle(
+                    fontSize: 21.0,
+                    fontFamily: 'PoppinsBold',
+                    color: Color.fromARGB(255, 94, 3, 48)),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
                   // Get the entered amount from the controller
                   String amount = amountController.text;
-                  final double transferAmount = double.tryParse(amount.replaceAll('.', '')) ?? 0.0;
+                  final double transferAmount =
+                      double.tryParse(amount.replaceAll('.', '')) ?? 0.0;
                   // Check if the transfer amount is greater than or equal to 10,000
                   if (transferAmount >= 10000) {
                     _showPasswordDialog(context);
@@ -131,20 +168,25 @@ class TransferPage extends StatelessWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 147, 76, 175),
+                  primary: Color.fromARGB(255, 230, 15, 122),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.send),
+                      Icon(
+                        Icons.send,
+                        color: Color.fromARGB(255, 94, 3, 48),
+                        size: 35,
+                      ),
                       SizedBox(width: 10),
                       Text(
                         'Transfer',
                         style: TextStyle(
-                          fontSize: 18,
-                        ),
+                            fontSize: 25.0,
+                            fontFamily: 'PoppinsBold',
+                            color: Color.fromARGB(255, 94, 3, 48)),
                       ),
                     ],
                   ),
