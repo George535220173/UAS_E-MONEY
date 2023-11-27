@@ -137,7 +137,6 @@ class _CreatePINPageState extends State<CreatePINPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 35),
               const Center(
                 child: Text(
                   'Create Your PIN',
@@ -148,7 +147,7 @@ class _CreatePINPageState extends State<CreatePINPage> {
                       fontFamily: 'PoppinsBold'),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
