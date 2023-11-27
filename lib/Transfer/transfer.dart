@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
 import 'package:uas_emoney/pin.dart';
@@ -68,7 +69,8 @@ class TransferPage extends StatelessWidget {
                         decoration: InputDecoration(
                           hintText: 'Masukkan Nomor Penerima',
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 15.0),
                         ),
                       ),
                     ),
@@ -87,7 +89,10 @@ class TransferPage extends StatelessWidget {
               TextField(
                 controller: amountController,
                 keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  ThousandsFormatter(),
+                ],
                 decoration: InputDecoration(
                   hintText: 'Masukkan Jumlah',
                   border: OutlineInputBorder(),
@@ -99,8 +104,7 @@ class TransferPage extends StatelessWidget {
                 onPressed: () {
                   // Get the entered amount from the controller
                   String amount = amountController.text;
-                  double transferAmount = double.tryParse(amount) ?? 0.0;
-
+                  final double transferAmount = double.tryParse(amount.replaceAll('.', '')) ?? 0.0;
                   // Check if the transfer amount is greater than or equal to 10,000
                   if (transferAmount >= 10000) {
                     _showPasswordDialog(context);
@@ -111,7 +115,8 @@ class TransferPage extends StatelessWidget {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Error'),
-                          content: Text('Minimum transfer amount is Rp 10,000.'),
+                          content:
+                              Text('Minimum transfer amount is Rp 10,000.'),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
@@ -153,7 +158,7 @@ class TransferPage extends StatelessWidget {
   }
 
   void _showPasswordDialog(BuildContext context) {
-    String amount = amountController.text;
+    String amount = amountController.text.replaceAll('.', ''); // Hilangkan koma
     String recipient = recipientController.text;
     double transferAmount = double.tryParse(amount) ?? 0.0;
     Navigator.push(
@@ -171,7 +176,7 @@ class TransferPage extends StatelessWidget {
                 return AlertDialog(
                   title: Text('Success'),
                   content: Text(
-                      'Rp. $amount has been transferred to another account.'),
+                      'Rp. ${NumberFormat('#,###', 'id_ID').format(transferAmount)} has been transferred to another account.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
@@ -210,9 +215,12 @@ class TransferPage extends StatelessWidget {
   }
 
   String? _validateAmount(String value) {
-    double enteredAmount = double.tryParse(value) ?? 0.0;
+    // Hilangkan koma dari nilai yang dimasukkan
+    final double transferAmount =
+        double.tryParse(value.replaceAll('.', '')) ?? 0.0;
 
-    if (enteredAmount < 10000) {
+    // Periksa apakah nilai setelah diformat kurang dari 10000
+    if (transferAmount < 10000) {
       return 'Minimum transfer amount is Rp 10,000.';
     }
 
@@ -282,6 +290,27 @@ class TransferSuccessPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ThousandsFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    final String newText = newValue.text.replaceAll(',', '');
+    final double value = double.parse(newText);
+
+    final String formattedValue =
+        NumberFormat('#,###', 'id_ID').format(value).replaceAll('IDR', '');
+
+    return newValue.copyWith(
+      text: formattedValue,
+      selection: TextSelection.collapsed(offset: formattedValue.length),
     );
   }
 }

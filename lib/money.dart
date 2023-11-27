@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:uas_emoney/Transaction.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
 class Money {
   static double totalBalance = 0.0;
@@ -27,60 +27,92 @@ class Money {
   }
 
   static void transferToPhoneNumber(String phoneNumber, double amount) async {
+  try {
+    firestore.QuerySnapshot users = await firestore.FirebaseFirestore.instance
+        .collection('users')
+        .where('phone', isEqualTo: phoneNumber)
+        .get();
+
+    if (users.docs.isNotEmpty) {
+      String recipientUserId = users.docs.first.id;
+      String senderPhoneNumber =
+          await getPhoneNumber(FirebaseAuth.instance.currentUser?.uid ?? '');
+
+      totalBalance -= amount;
+      await _updateFirestoreBalance(-amount, "Transfer to $phoneNumber");
+
+      await _updateFirestoreBalanceForRecipient(recipientUserId, amount, senderPhoneNumber);
+
+      await firestore.FirebaseFirestore.instance
+          .collection('transactions')
+          .add({
+        'sender': FirebaseAuth.instance.currentUser?.uid,
+        'recipient': recipientUserId,
+        'amount': amount,
+        'date': DateTime.now(),
+      });
+
+      _notifyBalanceChange();
+    } else {
+      print('Phone number not found in Firestore.');
+      
+    }
+  } catch (error) {
+    print('Error during phone number transfer: $error');
+  }
+}
+  
+
+  static Future<void> _updateFirestoreBalanceForRecipient(
+      String recipientUserId, double amount, String senderPhoneNumber) async {
     try {
-      firestore.QuerySnapshot users = await firestore.FirebaseFirestore.instance
+      String senderUid = FirebaseAuth.instance.currentUser?.uid ?? '';
+      firestore.DocumentReference senderDocRef = firestore
+          .FirebaseFirestore.instance
           .collection('users')
-          .where('phone', isEqualTo: phoneNumber)
-          .get();
+          .doc(senderUid);
 
-      if (users.docs.isNotEmpty) {
-        String recipientUserId = users.docs.first.id;
+      firestore.DocumentReference recipientDocRef = firestore
+          .FirebaseFirestore.instance
+          .collection('users')
+          .doc(recipientUserId);
 
-        totalBalance -= amount;
-        await _updateFirestoreBalance(-amount, "Transfer to Phone Number");
+      await firestore.FirebaseFirestore.instance
+          .runTransaction((transaction) async {
+        firestore.DocumentSnapshot senderSnapshot =
+            await transaction.get(senderDocRef);
+        firestore.DocumentSnapshot recipientSnapshot =
+            await transaction.get(recipientDocRef);
 
-        await _updateFirestoreBalanceForRecipient(recipientUserId, amount);
+        double currentSenderBalance =
+            (senderSnapshot.get('balance') ?? 0).toDouble();
+        double currentRecipientBalance =
+            (recipientSnapshot.get('balance') ?? 0).toDouble();
 
-        await firestore.FirebaseFirestore.instance
-            .collection('transactions')
-            .add({
-          'sender': FirebaseAuth.instance.currentUser?.uid,
-          'recipient': recipientUserId,
+        double newSenderBalance = currentSenderBalance - amount;
+        double newRecipientBalance = currentRecipientBalance + amount;
+
+        transaction.update(senderDocRef, {'balance': newSenderBalance});
+        transaction.update(recipientDocRef, {'balance': newRecipientBalance});
+
+        firestore.CollectionReference recipientHistoryCollection =
+            recipientDocRef.collection('history');
+        await recipientHistoryCollection.add({
+          'type': "Receive from $senderPhoneNumber",
           'amount': amount,
           'date': DateTime.now(),
+          'sender': senderUid,
         });
-
-        _notifyBalanceChange();
-      } else {
-        print('Phone number not found in Firestore.');
-        // Handle phone number not found error
-      }
-    } catch (error) {
-      print('Error during phone number transfer: $error');
-    }
-  }
-
-  static Future<void> _updateFirestoreBalanceForRecipient(String recipientUserId, double amount) async {
-    try {
-      firestore.DocumentReference recipientDocRef =
-          firestore.FirebaseFirestore.instance.collection('users').doc(recipientUserId);
-
-      await firestore.FirebaseFirestore.instance.runTransaction((transaction) async {
-        firestore.DocumentSnapshot snapshot = await transaction.get(recipientDocRef);
-
-        double currentBalance = (snapshot.get('balance') ?? 0).toDouble();
-        double newBalance = currentBalance + amount;
-
-        transaction.update(recipientDocRef, {'balance': newBalance});
       });
     } catch (error) {
-      print('Error updating recipient balance in Firestore: $error');
+      print(
+          'Error updating recipient balance and sender history in Firestore: $error');
     }
   }
 
   static void withdraw(double amount) async {
     totalBalance -= amount;
-    await _updateFirestoreBalance(-amount, "Withdraw");
+    await _updateFirestoreBalance(-amount, "Withdraw With Atm");
     _notifyBalanceChange();
   }
 
@@ -91,13 +123,38 @@ class Money {
     }
   }
 
-  static Future<void> _updateFirestoreBalance(double amount, String transactionType) async {
+ static Future<String> getPhoneNumber(String uid) async {
+    try {
+      firestore.DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await firestore.FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .get();
+
+      if (userSnapshot.exists) {
+
+        String phone = userSnapshot.data()?['phone'] ?? '';
+        return phone;
+      } else {
+
+        return '';
+      }
+    } catch (error) {
+      print('Error getting phone number: $error');
+      return ''; 
+    }
+  }
+
+  static Future<void> _updateFirestoreBalance(
+      double amount, String transactionType) async {
     try {
       String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
       firestore.DocumentReference userDocRef =
           firestore.FirebaseFirestore.instance.collection('users').doc(uid);
 
-      await firestore.FirebaseFirestore.instance.runTransaction((transaction) async {
+
+      await firestore.FirebaseFirestore.instance
+          .runTransaction((transaction) async {
         firestore.DocumentSnapshot snapshot = await transaction.get(userDocRef);
 
         double currentBalance = (snapshot.get('balance') ?? 0).toDouble();
@@ -105,7 +162,8 @@ class Money {
 
         transaction.update(userDocRef, {'balance': newBalance});
 
-        firestore.CollectionReference historyCollection = userDocRef.collection('history');
+        firestore.CollectionReference historyCollection =
+            userDocRef.collection('history');
         await historyCollection.add({
           'type': transactionType,
           'amount': amount,
@@ -137,7 +195,8 @@ class Money {
   }
 
   static String formatCurrency(double amount) {
-    final currencyFormatter = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
+    final currencyFormatter =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
     return currencyFormatter.format(amount);
   }
 }
