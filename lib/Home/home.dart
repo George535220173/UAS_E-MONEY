@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -56,21 +56,22 @@ class _HomeState extends State<Home> {
   Future<void> _updateGreeting() async {
     var now = DateTime.now();
     var timeZoneOffset = now.timeZoneOffset;
-    var jakartaTimeZone = TimeZone(
-        timeZoneOffset.isNegative ? -7 * 60 : 7 * 60, 'WIB'); // Jakarta timezone
+    var jakartaTimeZone = TimeZone(timeZoneOffset.isNegative ? -7 * 60 : 7 * 60,
+        'WIB'); // Jakarta timezone
 
-    var jakartaTime = now.toUtc().add(Duration(minutes: timeZoneOffset.inMinutes > 0
-        ? jakartaTimeZone.offset
-        : -jakartaTimeZone.offset));
+    var jakartaTime = now.toUtc().add(Duration(
+        minutes: timeZoneOffset.inMinutes > 0
+            ? jakartaTimeZone.offset
+            : -jakartaTimeZone.offset));
 
     if (jakartaTime.hour < 12) {
-      greeting = 'Selamat Pagi,';
+      greeting = 'Selamat Pagi';
     } else if (jakartaTime.hour < 17) {
-      greeting = 'Selamat Siang,';
+      greeting = 'Selamat Siang';
     } else if (jakartaTime.hour < 20) {
-      greeting = 'Selamat Sore,';
+      greeting = 'Selamat Sore';
     } else {
-      greeting = 'Selamat malam,';
+      greeting = 'Selamat malam';
     }
 
     setState(() {});
@@ -100,11 +101,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 45, 3, 100),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _refreshData,
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 Stack(
@@ -114,10 +116,17 @@ class _HomeState extends State<Home> {
                       width: double.infinity,
                       height: 240,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 147, 76, 175),
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 70, 10, 149),
+                            Color.fromARGB(255, 100, 14, 228),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
                         borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(70),
+                          bottomRight: Radius.circular(70),
                         ),
                       ),
                       child: Stack(
@@ -158,16 +167,20 @@ class _HomeState extends State<Home> {
                                       greeting,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w300,
-                                        fontSize: 16,
-                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontFamily: 'PoppinsRegular',
+                                        color:
+                                            Color.fromARGB(255, 255, 253, 128),
                                       ),
                                     ),
                                     Text(
                                       '$firstName $lastName',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 23,
-                                        color: Colors.white,
+                                        fontSize: 40,
+                                        fontFamily: 'PoppinsBold',
+                                        color:
+                                            Color.fromARGB(255, 255, 253, 128),
                                       ),
                                     ),
                                   ],
@@ -181,11 +194,23 @@ class _HomeState extends State<Home> {
                     Positioned(
                       top: 160,
                       child: Container(
-                        height: 170,
+                        height: 130,
                         width: 320,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 95, 42, 118),
-                          borderRadius: BorderRadius.circular(15),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 255, 253, 128),
+                              Color.fromARGB(255, 255, 212, 196),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(2),
+                            bottomRight: Radius.circular(40),
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40),
+                          ),
                         ),
                         child: Column(
                           children: [
@@ -194,25 +219,29 @@ class _HomeState extends State<Home> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 3),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Total Balance',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 26,
-                                      color: Colors.white,
+                                      fontSize: 28,
+                                      fontFamily: 'PoppinsBold',
+                                      color: Color.fromARGB(255, 77, 234, 164),
                                     ),
                                   ),
                                   IconButton(
                                     icon: isEyeOpen
                                         ? Icon(
                                             Icons.remove_red_eye,
-                                            color: Colors.white,
+                                            color: Color.fromARGB(
+                                                255, 100, 255, 185),
                                           )
                                         : Icon(
                                             Icons.visibility_off,
-                                            color: Colors.white,
+                                            color: Color.fromARGB(
+                                                255, 100, 255, 185),
                                           ),
                                     onPressed: () {
                                       setState(() {
@@ -223,11 +252,8 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 7,
-                            ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 12, top: 40),
+                              padding: const EdgeInsets.only(left: 12, top: 20),
                               child: Row(
                                 children: [
                                   buildBalanceWidget(),
@@ -244,28 +270,107 @@ class _HomeState extends State<Home> {
                         width: MediaQuery.of(context).size.width,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(138, 194, 194, 194),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 70, 10, 149),
+                              Color.fromARGB(255, 100, 14, 228),
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
+                            topLeft: Radius.circular(70),
+                            topRight: Radius.circular(70),
                           ),
                         ),
                       ),
                     ),
                     SizedBox(height: 50),
                     Padding(
-                      padding: const EdgeInsets.only(top: 615),
+                      padding: const EdgeInsets.only(top: 610),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          buildNavigationButton(Icons.arrow_downward,
+                              'WITHDRAW', WithdrawalPage()),
                           buildNavigationButton(
-                              Icons.arrow_downward, 'Withdraw', WithdrawalPage()),
+                              Icons.arrow_upward, 'DEPOSIT', DepositPage()),
                           buildNavigationButton(
-                              Icons.arrow_upward, 'Deposit', DepositPage()),
-                          buildNavigationButton(
-                              Icons.swap_horiz, 'Transfer', TransferPage()),
-                          buildNavigationButton(
-                              Icons.history, 'History', TransactionHistoryPage()),
+                              Icons.swap_horiz, 'TRANSFER', TransferPage()),
+                          buildNavigationButton(Icons.history, 'HISTORY',
+                              TransactionHistoryPage()),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      left: 300,
+                      top: 21,
+                      child: Image.asset(
+                        'assets/images/Wizzzzz test icon.png',
+                        width: 90,
+                        height: 90,
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(vertical: 340),
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 190.0,
+                          enlargeCenterPage: true,
+                          autoPlay: true,
+                          aspectRatio: 20 / 9,
+                          autoPlayCurve: Curves.fastEaseInToSlowEaseOut,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 200),
+                          viewportFraction: 0.8,
+                        ),
+                        carouselController: CarouselController(),
+                        items: [
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage('assets/ad/Ad1.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/ad/Ad2.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/ad/Ad3.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/ad/Ad4.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -299,7 +404,8 @@ class _HomeState extends State<Home> {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 30,
-                color: Colors.white,
+                fontFamily: 'PoppinsBold',
+                color: Color.fromARGB(255, 105, 100, 255),
               ),
             );
           },
@@ -319,16 +425,17 @@ class _HomeState extends State<Home> {
             );
           },
           icon: Icon(icon),
-          iconSize: 40,
-          color: Color.fromARGB(255, 168, 78, 224),
+          iconSize: 45,
+          color: Color.fromARGB(255, 255, 253, 128),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: 0),
         Text(
           label,
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+              fontSize: 16,
+              fontFamily: 'PoppinsBold',
+              fontWeight: FontWeight.w500,
+              color: Color.fromARGB(255, 26, 0, 87)),
         ),
       ],
     );

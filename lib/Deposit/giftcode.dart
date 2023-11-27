@@ -36,18 +36,19 @@ class _giftcodePageState extends State<giftcodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Redeem Gift Code'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175),
-      ),
+      backgroundColor: Color.fromARGB(255, 51, 22, 138),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 50),
             Text(
-              'Enter Gift Code:',
-              style: TextStyle(fontSize: 24),
+              'Enter Gift Code',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                  color: Color.fromARGB(255, 134, 255, 154),
+                  fontFamily: 'PoppinsBold'),
             ),
             SizedBox(height: 10),
             Row(
@@ -61,8 +62,23 @@ class _giftcodePageState extends State<giftcodePage> {
                     onChanged: (value) {},
                     decoration: InputDecoration(
                       labelText: 'Code',
-                      border: OutlineInputBorder(),
+                      labelStyle: TextStyle(
+                          fontFamily: 'PoppinsBold',
+                          fontSize: 24,
+                          color: Color.fromARGB(255, 51, 22, 138)),
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 134, 255, 154),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 134, 255, 154),
+                            width: 3.5),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
+                    style: TextStyle(
+                        fontFamily: 'PoppinsBold',
+                        fontSize: 24,
+                        color: Color.fromARGB(255, 51, 22, 138)),
                   ),
                 ),
               ],
@@ -72,22 +88,36 @@ class _giftcodePageState extends State<giftcodePage> {
               onPressed: () {
                 _redeemCode();
               },
-              child: Text('Redeem'),
+              child: Text(
+                'Redeem',
+                style: TextStyle(
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 24,
+                    color: Color.fromARGB(255, 51, 22, 138)),
+              ),
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175),
+                primary: Color.fromARGB(255, 134, 255, 154),
               ),
             ),
             Divider(
                 height: 100,
                 thickness: 10,
-                color: Color.fromARGB(255, 147, 76, 175)),
+                color: Color.fromARGB(255, 45, 19, 121)),
             Text(
-              'Generated Code:',
-              style: TextStyle(fontSize: 24),
+              'Generated Code',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                  color: Color.fromARGB(255, 134, 255, 154),
+                  fontFamily: 'PoppinsBold'),
             ),
             Text(
               '${isCodeVisible ? generatedCode : '*******'}',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: Color.fromARGB(255, 134, 255, 154),
+                  fontFamily: 'PoppinsBold'),
             ),
             SizedBox(height: 10),
             ElevatedButton(
@@ -96,22 +126,37 @@ class _giftcodePageState extends State<giftcodePage> {
                   isCodeVisible = !isCodeVisible;
                 });
               },
-              child: Text('Show/Hide Code'),
+              child: Text('Show/Hide Code',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      fontSize: 22,
+                      color: Color.fromARGB(255, 51, 22, 138))),
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175),
+                primary: Color.fromARGB(255, 134, 255, 154),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Text(
               'Choose amount',
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 134, 255, 154),
+                  fontFamily: 'PoppinsBold'),
             ),
             DropdownButton<int>(
+              dropdownColor: Color.fromARGB(255, 44, 19, 119),
               value: selectedAmount,
               items: amounts.map((amount) {
                 return DropdownMenuItem<int>(
                   value: amount,
-                  child: Text('Rp $amount'),
+                  child: Text(
+                    'Rp $amount',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 134, 255, 154)),
+                  ),
                 );
               }).toList(),
               onChanged: (value) {
@@ -125,9 +170,13 @@ class _giftcodePageState extends State<giftcodePage> {
               onPressed: () {
                 _generateAndDisplayCode();
               },
-              child: Text('Pay'),
+              child: Text('Pay',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      fontSize: 32,
+                      color: Color.fromARGB(255, 51, 22, 138))),
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175),
+                primary: Color.fromARGB(255, 134, 255, 154),
               ),
             ),
           ],
