@@ -11,11 +11,20 @@ class TransactionHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('History'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175),
+        title: Text(
+          'History',
+          style: TextStyle(fontFamily: 'PoppinsBold', fontSize: 30),
+        ),
+        backgroundColor: Color.fromARGB(255, 149, 10, 98),
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/Wizzzzz test bg.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: FutureBuilder<List<Transaction>>(
           future: _getTransactionHistory(),
           builder: (context, snapshot) {
@@ -39,13 +48,15 @@ class TransactionHistoryPage extends StatelessWidget {
     );
   }
 
-    Future<List<Transaction>> _getTransactionHistory() async {
+  Future<List<Transaction>> _getTransactionHistory() async {
     String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
     firestore.DocumentReference userDocRef =
         firestore.FirebaseFirestore.instance.collection('users').doc(uid);
 
-    firestore.QuerySnapshot historySnapshot =
-        await userDocRef.collection('history').orderBy('date', descending: true).get();
+    firestore.QuerySnapshot historySnapshot = await userDocRef
+        .collection('history')
+        .orderBy('date', descending: true)
+        .get();
 
     List<Transaction> transaction = historySnapshot.docs
         .map((doc) => Transaction(
@@ -54,35 +65,52 @@ class TransactionHistoryPage extends StatelessWidget {
               date: (doc['date'] as firestore.Timestamp).toDate(),
             ))
         .toList();
-        return transaction;
-        
+    return transaction;
   }
 
   Widget buildTransactionCard(Transaction transaction) {
-    final currencyFormatter = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
+    final currencyFormatter =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ');
 
     return Card(
+      color: Color.fromARGB(57, 230, 15, 122),
       elevation: 3,
       margin: EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Colors.grey,
+          backgroundColor: Color.fromARGB(255, 230, 15, 122),
           child: Icon(Icons.monetization_on, color: Colors.white),
         ),
-        title: Text('${transaction.type}'),
+        title: Text(
+          '${transaction.type}',
+          style: TextStyle(
+              fontFamily: 'PoppinsBold',
+              color: Color.fromARGB(255, 230, 15, 122),
+              fontSize: 20),
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Tanggal: ${transaction.date.toString()}'),
-            Text('Nominal: ${currencyFormatter.format(transaction.amount)}'),
+            Text(
+              'Tanggal: ${transaction.date.toString()}',
+              style: TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  color: Color.fromARGB(255, 230, 15, 122)),
+            ),
+            Text(
+              'Nominal: ${currencyFormatter.format(transaction.amount)}',
+              style: TextStyle(
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 230, 15, 122)),
+            ),
           ],
         ),
-        onTap: () {
-        },
+        onTap: () {},
       ),
     );
   }
-   Widget _buildTransactionList(List<Transaction> transactionHistory) {
+
+  Widget _buildTransactionList(List<Transaction> transactionHistory) {
     Map<String, List<Transaction>> transactionsByDate = {};
 
     for (var transaction in transactionHistory) {
@@ -91,7 +119,8 @@ class TransactionHistoryPage extends StatelessWidget {
       transactionsByDate[dateKey]!.add(transaction);
     }
 
-    List<String> sortedDates = transactionsByDate.keys.toList()..sort((a, b) => b.compareTo(a));
+    List<String> sortedDates = transactionsByDate.keys.toList()
+      ..sort((a, b) => b.compareTo(a));
 
     return ListView.builder(
       itemCount: sortedDates.length * 2 - 1,
@@ -111,10 +140,15 @@ class TransactionHistoryPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 dateKey,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'PoppinsBold',
+                    color: Color.fromARGB(255, 255, 217, 236)),
               ),
             ),
-            ...transactionsForDate.map((transaction) => buildTransactionCard(transaction)),
+            ...transactionsForDate
+                .map((transaction) => buildTransactionCard(transaction)),
           ],
         );
       },

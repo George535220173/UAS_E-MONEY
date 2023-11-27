@@ -33,11 +33,11 @@ class TransferPage extends StatelessWidget {
             children: [
               SizedBox(height: 30),
               CircleAvatar(
-                radius: 60,
+                radius: 50,
                 backgroundColor: Color.fromARGB(255, 230, 15, 122),
                 child: Icon(
                   Icons.account_circle,
-                  size: 85,
+                  size: 95,
                   color: Color.fromARGB(255, 94, 3, 48),
                 ),
               ),
