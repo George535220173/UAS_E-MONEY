@@ -177,7 +177,7 @@ class _HomeState extends State<Home> {
                                       '$firstName $lastName',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 40,
+                                        fontSize: 25,
                                         fontFamily: 'PoppinsBold',
                                         color:
                                             Color.fromARGB(255, 255, 253, 128),
