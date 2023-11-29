@@ -39,7 +39,35 @@ class TransactionHistoryPage extends StatelessWidget {
             List<Transaction>? transactionHistory = snapshot.data;
 
             if (transactionHistory == null || transactionHistory.isEmpty) {
-              return Text('No transaction history available');
+              return MaterialApp(
+                home: Scaffold(
+                  body: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/Wizzzzz test bg.png'), // Replace with your background image asset
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          
+                          SizedBox(height: 20),
+                          Text(
+                            'No Transaction has made',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
             }
             return _buildTransactionList(transactionHistory);
           },
