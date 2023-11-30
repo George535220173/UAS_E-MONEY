@@ -6,30 +6,25 @@ class mobileBankingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Mobile Banking'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175),
-      ),
+      backgroundColor: Color.fromARGB(255, 51, 22, 138),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              SizedBox(height: 10),
-              buildResizedImage(
-                  'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/smartphone-design-template-9a9102d0b9ea974ef58f33bb47a1f3b7_screen.jpg?ts=1633702996',
-                  width: 200,
-                  height: 200),
-              SizedBox(height: 20),
+              SizedBox(height: 70),
+              buildResizedImage('assets/ad/HPLogo.png',
+                  width: 200, height: 200),
+              SizedBox(height: 40),
               buildElevatedButton(context, 'BCA',
                   'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png'),
-              SizedBox(height: 10),
+              SizedBox(height: 30),
               buildElevatedButton(context, 'BNI',
                   'https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png'),
-              SizedBox(height: 10),
+              SizedBox(height: 30),
               buildElevatedButton(context, 'BRI',
                   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/1280px-BANK_BRI_logo.svg.png'),
-              SizedBox(height: 10),
+              SizedBox(height: 30),
               buildElevatedButton(context, 'Mandiri',
                   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png'),
             ],
@@ -41,7 +36,7 @@ class mobileBankingPage extends StatelessWidget {
 
   Widget buildResizedImage(String imageUrl,
       {double width = 100, double height = 100}) {
-    return Image.network(
+    return Image.asset(
       imageUrl,
       width: width,
       height: height,
@@ -58,7 +53,7 @@ class mobileBankingPage extends StatelessWidget {
           _showExtraPage(context, bankName);
         },
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 147, 76, 175),
+          primary: Color.fromARGB(255, 134, 255, 154),
           padding: const EdgeInsets.all(12.0),
         ),
         child: Row(
@@ -69,14 +64,15 @@ class mobileBankingPage extends StatelessWidget {
               height: 40,
               fit: BoxFit.contain,
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 20),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 bankName,
                 style: TextStyle(
-                  fontSize: 20,
-                ),
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 24,
+                    color: Color.fromARGB(255, 51, 22, 138)),
               ),
             ),
           ],
@@ -91,16 +87,19 @@ class mobileBankingPage extends StatelessWidget {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
+          color: Color.fromARGB(255, 210, 255, 210),
           padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Istruction for $bankName',
+                'Instruction for $bankName',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 22,
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 3, 90, 3)
                 ),
               ),
               SizedBox(height: 10),
@@ -124,18 +123,25 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> Login ke akun m-BCA anda.'),
+        Text('> Login ke akun m-BCA anda.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih m-Transfer.'),
+        Text('> Pilih m-Transfer.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih BCA Virtual Account.'),
+        Text('> Pilih BCA Virtual Account.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Masukkan 77665 + nomor ponsel anda :'),
-        Text('   77665 08xx-xxxx-xxxx'),
+        Text('> Masukkan 77665 + nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
+        Text('   77665 08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
       ],
     );
   }
@@ -144,18 +150,25 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> Login ke akun BNI Mobile anda.'),
+        Text('> Login ke akun BNI Mobile anda.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Transfer.'),
+        Text('> Pilih Transfer.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Virtual Account Billing.'),
+        Text('> Pilih Virtual Account Billing.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Masukkan 0987 + nomor ponsel anda :'),
-        Text('   0987 08xx-xxxx-xxxx'),
+        Text('> Masukkan 0987 + nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
+        Text('   0987 08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
       ],
     );
   }
@@ -164,16 +177,22 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('> Login ke akun BRI Mobile anda.'),
+        Text('> Login ke akun BRI Mobile anda.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Dompet Digital.'),
+        Text('> Pilih Dompet Digital.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Wizdrawal dan masukkan nomor ponsel anda :'),
-        Text('   08xx-xxxx-xxxx'),
+        Text('> Pilih Wizdrawal dan masukkan nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
+        Text('   08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
       ],
     );
   }
@@ -182,20 +201,28 @@ class mobileBankingPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("> Login ke akun Livin' by Mandiri anda."),
+        Text("> Login ke akun Livin' by Mandiri anda.",
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Pembayaran.'),
+        Text('> Pilih Pembayaran.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Buat Pembayaran Baru.'),
+        Text('> Pilih Buat Pembayaran Baru.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Multipayment'),
+        Text('> Pilih Multipayment',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Pilih Wizdrawal dan masukkan nomor ponsel anda :'),
-        Text('   08xx-xxxx-xxxx'),
+        Text('> Pilih Wizdrawal dan masukkan nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
+        Text('   08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular')),
       ],
     );
   }

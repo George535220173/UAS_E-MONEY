@@ -6,25 +6,27 @@ class atmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('ATM'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175),
-      ),
+      backgroundColor: Color.fromARGB(255, 51, 22, 138),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              SizedBox(height: 10),
-              buildResizedImage('https://upload.wikimedia.org/wikipedia/commons/5/59/Logo_ATM.png', width: 200, height: 200),
-              SizedBox(height: 20),
-              buildElevatedButton(context, 'BCA', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png'),
-              SizedBox(height: 10),
-              buildElevatedButton(context, 'BNI', 'https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png'),
-              SizedBox(height: 10),
-              buildElevatedButton(context, 'Mega', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Bank_Mega_2013.svg/2560px-Bank_Mega_2013.svg.png'),
-              SizedBox(height: 10),
-              buildElevatedButton(context, 'Mandiri', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png'),
+              SizedBox(height: 70),
+              buildResizedImage('assets/ad/ATMLogo.png',
+                  width: 200, height: 200),
+              SizedBox(height: 40),
+              buildElevatedButton(context, 'BCA',
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png'),
+              SizedBox(height: 30),
+              buildElevatedButton(context, 'BNI',
+                  'https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png'),
+              SizedBox(height: 30),
+              buildElevatedButton(context, 'Mega',
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Bank_Mega_2013.svg/2560px-Bank_Mega_2013.svg.png'),
+              SizedBox(height: 30),
+              buildElevatedButton(context, 'Mandiri',
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png'),
             ],
           ),
         ),
@@ -32,8 +34,9 @@ class atmPage extends StatelessWidget {
     );
   }
 
-  Widget buildResizedImage(String imageUrl, {double width = 100, double height = 100}) {
-    return Image.network(
+  Widget buildResizedImage(String imageUrl,
+      {double width = 100, double height = 100}) {
+    return Image.asset(
       imageUrl,
       width: width,
       height: height,
@@ -41,7 +44,8 @@ class atmPage extends StatelessWidget {
     );
   }
 
-  Widget buildElevatedButton(BuildContext context, String bankName, String logoImageUrl) {
+  Widget buildElevatedButton(
+      BuildContext context, String bankName, String logoImageUrl) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -49,7 +53,7 @@ class atmPage extends StatelessWidget {
           _showExtraPage(context, bankName);
         },
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 147, 76, 175),
+          primary: Color.fromARGB(255, 134, 255, 154),
           padding: const EdgeInsets.all(12.0),
         ),
         child: Row(
@@ -60,14 +64,15 @@ class atmPage extends StatelessWidget {
               height: 40,
               fit: BoxFit.contain,
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 20),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 bankName,
                 style: TextStyle(
-                  fontSize: 20,
-                ),
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 24,
+                    color: Color.fromARGB(255, 51, 22, 138)),
               ),
             ),
           ],
@@ -82,16 +87,19 @@ class atmPage extends StatelessWidget {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
+          color: Color.fromARGB(255, 210, 255, 210),
           padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Istruction for $bankName',
+                'Instruction for $bankName',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 22,
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 3, 90, 3)
                 ),
               ),
               SizedBox(height: 10),
@@ -115,87 +123,126 @@ class atmPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("> Masukkan kartu ATM dan PIN BCA anda."),
+        Text(
+          "> Masukkan kartu ATM dan PIN BCA anda.",
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),
+        ),
         SizedBox(height: 8),
-        Text('> Pilih Transaksi Lainnya.'),
+        Text('> Pilih Transaksi Lainnya.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Transfer.'),
+        Text('> Pilih Transfer.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Ke Rek BCA Virtual Account.'),
+        Text('> Pilih Ke Rek BCA Virtual Account.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan 77665 + nomor ponsel anda :'),
-        Text('   77665 08xx-xxxx-xxxx'),
+        Text('> Masukkan 77665 + nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
+        Text('   77665 08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
       ],
     );
   }
+
   Column _instruksiBNI() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("> Masukkan kartu ATM dan PIN BNI anda."),
+        Text("> Masukkan kartu ATM dan PIN BNI anda.",
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Lainnya.'),
+        Text('> Pilih Lainnya.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Transfer.'),
+        Text('> Pilih Transfer.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Virtual Account Billing.'),
+        Text('> Pilih Virtual Account Billing.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan 0987 + nomor ponsel anda :'),
-        Text('   0987 08xx-xxxx-xxxx'),
+        Text('> Masukkan 0987 + nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
+        Text('   0987 08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
       ],
     );
   }
+
   Column _instruksiMega() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("> Masukkan kartu ATM dan PIN Mega anda."),
+        Text("> Masukkan kartu ATM dan PIN Mega anda.",
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Pembayaran.'),
+        Text('> Pilih Pembayaran.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Lainnya.'),
+        Text('> Pilih Lainnya.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Dompet Elektronik.'),
+        Text('> Pilih Dompet Elektronik.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Wizdrawal.'),
+        Text('> Pilih Wizdrawal.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan nomor ponsel anda :'),
-        Text('   08xx-xxxx-xxxx'),
+        Text('> Masukkan nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
+        Text('   08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
       ],
     );
   }
+
   Column _instruksiMANDIRI() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("> Masukkan kartu ATM dan PIN Mandiri anda."),
+        Text("> Masukkan kartu ATM dan PIN Mandiri anda.",
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Bayar/Beli.'),
+        Text('> Pilih Bayar/Beli.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih Lainnya, kemudian pilih Lainnya lagi.'),
+        Text('> Pilih Lainnya, kemudian pilih Lainnya lagi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Pilih E-Commerce.'),
+        Text('> Pilih E-Commerce.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan kode Wizdrawal 19001.'),
+        Text('> Masukkan kode Wizdrawal 19001.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan nomor ponsel anda :'),
-        Text('   08xx-xxxx-xxxx'),
+        Text('> Masukkan nomor ponsel anda :',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
+        Text('   08xx-xxxx-xxxx',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Masukkan nominal deposit.'),
+        Text('> Masukkan nominal deposit.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
         SizedBox(height: 8),
-        Text('> Selesaikan transaksi.'),
+        Text('> Selesaikan transaksi.',
+          style: TextStyle(fontSize: 14, fontFamily: 'PoppinsRegular'),),
       ],
     );
   }

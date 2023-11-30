@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
+import 'package:uas_emoney/pin.dart';
 
 class debitPage extends StatefulWidget {
   const debitPage({Key? key}) : super(key: key);
@@ -36,53 +37,104 @@ class _debitPageState extends State<debitPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Debit Visa/Mastercard'),
-        backgroundColor: Color.fromARGB(255, 147, 76, 175),
-      ),
+      backgroundColor: Color.fromARGB(255, 51, 22, 138),
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 65),
             Text(
               'Choose Amount',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 34,
+                  color: Color.fromARGB(255, 134, 255, 154),
+                  fontFamily: 'PoppinsBold'),
             ),
             SizedBox(height: 10),
             buildAmountDropdown(),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             Text(
               'Card Information',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+                  fontSize: 26.0,
+                  fontFamily: 'PoppinsBold',
+                  color: Color.fromARGB(255, 134, 255, 154)),
             ),
             SizedBox(height: 10),
             buildCardInfoField('Card Number', 16, cardNumberError),
-            SizedBox(height: 10),
+            SizedBox(height: 30),
             buildExpirationDateFields(),
-            SizedBox(height: 10),
-            buildCardInfoField('CVV', 3, cvvError),
             SizedBox(height: 20),
+            buildCardInfoField('CVV', 3, cvvError),
+            SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                depositAmount();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PinCodeWidget(
+                      onPinVerified: () {
+                        Navigator.pop(context);
+                        depositAmount();
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Success'),
+                              content: Text(
+                                  'Rp. $selectedAmount has been added to your balance.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      onPinFailed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Incorrect PIN'),
+                              content: Text('The entered PIN is incorrect.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 147, 76, 175),
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.all(8),
+                primary: Color.fromARGB(255, 134, 255, 154),
+                minimumSize: Size(50, 10)
               ),
               child: Text(
                 'Deposit',
                 style: TextStyle(
-                  fontSize: 18,
-                ),
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 28,
+                    color: Color.fromARGB(255, 73, 37, 190)),
               ),
             ),
           ],
@@ -93,6 +145,7 @@ class _debitPageState extends State<debitPage> {
 
   Widget buildAmountDropdown() {
     return DropdownButton<String>(
+      dropdownColor: Color.fromARGB(255, 44, 19, 119),
       value: selectedAmount,
       onChanged: (String? newValue) {
         setState(() {
@@ -103,7 +156,13 @@ class _debitPageState extends State<debitPage> {
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Text(
+            value,
+            style: TextStyle(
+                fontFamily: 'PoppinsRegular',
+                fontSize: 20,
+                color: Color.fromARGB(255, 134, 255, 154)),
+          ),
         );
       }).toList(),
     );
@@ -111,26 +170,36 @@ class _debitPageState extends State<debitPage> {
 
   Widget buildCardInfoField(String labelText, int maxLength, String errorText) {
     return TextField(
-      controller: labelText == 'Card Number' ? cardNumberController : cvvController,
-      focusNode: labelText == 'Card Number' ? cardNumberFocusNode : null,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-        LengthLimitingTextInputFormatter(maxLength),
-      ],
-      onChanged: (text) {
-        if (labelText == 'CVV') {
-          setState(() {
-            cvvError = _validateCVV(text);
-          });
-        }
-      },
-      decoration: InputDecoration(
-        labelText: labelText,
-        border: OutlineInputBorder(),
-        errorText: errorText,
-      ),
-    );
+        controller:
+            labelText == 'Card Number' ? cardNumberController : cvvController,
+        focusNode: labelText == 'Card Number' ? cardNumberFocusNode : null,
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(maxLength),
+        ],
+        onChanged: (text) {
+          if (labelText == 'CVV') {
+            setState(() {
+              cvvError = _validateCVV(text);
+            });
+          }
+        },
+        decoration: InputDecoration(
+          labelText: labelText,
+          filled: true,
+          fillColor: Color.fromARGB(255, 134, 255, 154),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Color.fromARGB(255, 134, 255, 154), width: 3.5),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          errorText: errorText,
+        ),
+        style: TextStyle(
+            fontFamily: 'PoppinsBold',
+            fontSize: 20,
+            color: Color.fromARGB(255, 73, 37, 190)));
   }
 
   Widget buildExpirationDateFields() {
@@ -143,12 +212,21 @@ class _debitPageState extends State<debitPage> {
             },
             child: AbsorbPointer(
               child: TextFormField(
-                controller: monthController,
-                decoration: InputDecoration(
-                  labelText: 'Month',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+                  controller: monthController,
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 134, 255, 154),
+                      labelText: 'Month',
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 134, 255, 154),
+                            width: 15.5),
+                        borderRadius: BorderRadius.circular(10.0),
+                      )),
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 73, 37, 190))),
             ),
           ),
         ),
@@ -160,12 +238,21 @@ class _debitPageState extends State<debitPage> {
             },
             child: AbsorbPointer(
               child: TextFormField(
-                controller: yearController,
-                decoration: InputDecoration(
-                  labelText: 'Year',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+                  controller: yearController,
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 134, 255, 154),
+                      labelText: 'Year',
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 134, 255, 154),
+                            width: 15.5),
+                        borderRadius: BorderRadius.circular(10.0),
+                      )),
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 73, 37, 190))),
             ),
           ),
         ),
@@ -245,33 +332,35 @@ class _debitPageState extends State<debitPage> {
     cardNumberError = _validateCardNumber(cardNumber);
     cvvError = _validateCVV(cvv);
 
-    if (cardNumberError.isEmpty && cvvError.isEmpty && expirationMonth.isNotEmpty && expirationYear.isNotEmpty) {
+    if (cardNumberError.isEmpty &&
+        cvvError.isEmpty &&
+        expirationMonth.isNotEmpty &&
+        expirationYear.isNotEmpty) {
       double amount = double.parse(selectedAmount.replaceAll(',', ''));
       showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content:
-              Text('Balance has been updated.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: Text('Done!'),
-            ),
-          ],
-        );
-      },
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Balance has been updated.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text('Done!'),
+              ),
+            ],
+          );
+        },
+      );
       Money.deposit(amount);
 
       String transactionDescription = 'Deposit ke $cardNumber';
-      Money.transactionHistory.add(Transaction(type: transactionDescription, amount: amount, date: DateTime.now()));
-      
+      Money.transactionHistory.add(Transaction(
+          type: transactionDescription, amount: amount, date: DateTime.now()));
     } else {
       showDialog(
         context: context,
