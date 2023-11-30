@@ -41,25 +41,22 @@ class TransactionHistoryPage extends StatelessWidget {
             if (transactionHistory == null || transactionHistory.isEmpty) {
               return MaterialApp(
                 home: Scaffold(
+                  backgroundColor:
+                      Colors.transparent, // Hapus warna latar belakang Scaffold
                   body: Center(
                     child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/images/Wizzzzz test bg.png'), // Replace with your background image asset
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      padding: const EdgeInsets.all(80.0),
+                      color: Colors.white.withOpacity(
+                          0.0), // Warna putih dengan tingkat transparansi 0.0
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          
-                          SizedBox(height: 20),
+                          SizedBox(height: 27),
                           Text(
                             'No Transaction has made',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 25,
                             ),
                           ),
                         ],
