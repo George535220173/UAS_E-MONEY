@@ -64,8 +64,9 @@ class _giftcodePageState extends State<giftcodePage> {
                       labelText: 'Code',
                       labelStyle: TextStyle(
                           fontFamily: 'PoppinsBold',
+                          height: 3.5,
                           fontSize: 24,
-                          color: Color.fromARGB(255, 51, 22, 138)),
+                          color: Color.fromARGB(255, 51, 22, 138),),
                       filled: true,
                       fillColor: Color.fromARGB(255, 134, 255, 154),
                       border: OutlineInputBorder(
