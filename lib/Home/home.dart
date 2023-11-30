@@ -73,8 +73,6 @@ class _HomeState extends State<Home> {
     } else {
       greeting = 'Selamat malam';
     }
-
-    setState(() {});
   }
 
   Future<Map<String, dynamic>> getUserData() async {
