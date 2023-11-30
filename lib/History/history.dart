@@ -39,7 +39,32 @@ class TransactionHistoryPage extends StatelessWidget {
             List<Transaction>? transactionHistory = snapshot.data;
 
             if (transactionHistory == null || transactionHistory.isEmpty) {
-              return Text('No transaction history available');
+              return MaterialApp(
+                home: Scaffold(
+                  backgroundColor:
+                      Colors.transparent, // Hapus warna latar belakang Scaffold
+                  body: Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(80.0),
+                      color: Colors.white.withOpacity(
+                          0.0), // Warna putih dengan tingkat transparansi 0.0
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 27),
+                          Text(
+                            'No Transaction has made',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
             }
             return _buildTransactionList(transactionHistory);
           },

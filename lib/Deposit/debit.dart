@@ -220,7 +220,7 @@ class _debitPageState extends State<debitPage> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 134, 255, 154),
-                            width: 3.5),
+                            width: 15.5),
                         borderRadius: BorderRadius.circular(10.0),
                       )),
                   style: TextStyle(
@@ -246,7 +246,7 @@ class _debitPageState extends State<debitPage> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromARGB(255, 134, 255, 154),
-                            width: 3.5),
+                            width: 15.5),
                         borderRadius: BorderRadius.circular(10.0),
                       )),
                   style: TextStyle(
