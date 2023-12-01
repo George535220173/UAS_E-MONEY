@@ -22,8 +22,7 @@ class mobileBankingPage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 70),
-              buildResizedImage('assets/ad/HPLogo.png',
-                  width: 200, height: 200),
+              buildResizedImage('assets/ad/HPLogo.png'),
               SizedBox(height: 40),
               buildElevatedButton(context, 'BCA',
                   'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png'),
@@ -44,7 +43,7 @@ class mobileBankingPage extends StatelessWidget {
   }
 
   Widget buildResizedImage(String imageUrl,
-      {double width = 100, double height = 100}) {
+      {double width = 150, double height = 150}) { //Function menampilkan gambar di atas layar
     return Image.asset(
       imageUrl,
       width: width,
@@ -53,7 +52,7 @@ class mobileBankingPage extends StatelessWidget {
     );
   }
 
-  Widget buildElevatedButton(
+  Widget buildElevatedButton( // Function membuat button dan isi button
       BuildContext context, String bankName, String logoImageUrl) {
     return SizedBox(
       width: double.infinity,
@@ -90,7 +89,7 @@ class mobileBankingPage extends StatelessWidget {
     );
   }
 
-  void _showExtraPage(BuildContext context, String bankName) {
+  void _showExtraPage(BuildContext context, String bankName) { // Menampilkan halaman modal dari bawah ketika button dipencet
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -128,7 +127,7 @@ class mobileBankingPage extends StatelessWidget {
     );
   }
 
-  Column _instruksiBCA() {
+  Column _instruksiBCA() { // Isi dari halaman modal
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

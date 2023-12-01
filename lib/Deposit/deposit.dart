@@ -48,7 +48,7 @@ class DepositPage extends StatelessWidget {
     );
   }
 
-  void navigateToPage(BuildContext context, Widget page) {
+  void navigateToPage(BuildContext context, Widget page) { // Fungsi pindah page
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
@@ -56,7 +56,7 @@ class DepositPage extends StatelessWidget {
   }
 
   Widget buildDepositButton(
-      BuildContext context, IconData icon, String label, Widget page) {
+      BuildContext context, IconData icon, String label, Widget page) { // Buat tombol-tombol
     return Column(
       children: [
         ElevatedButton(
