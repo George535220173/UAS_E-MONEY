@@ -25,7 +25,7 @@ class _debitPageState extends State<debitPage> {
   void initState() {
     super.initState();
 
-    cardNumberFocusNode.addListener(() {
+    cardNumberFocusNode.addListener(() { // Mengecek input nomor kartu benar/salah ketika sudah tidak dipilih pengguna
       if (!cardNumberFocusNode.hasFocus) {
         setState(() {
           cardNumberError = _validateCardNumber(cardNumberController.text);
@@ -152,7 +152,7 @@ class _debitPageState extends State<debitPage> {
     );
   }
 
-  Widget buildAmountDropdown() {
+  Widget buildAmountDropdown() { // Buat input nominal berupa dropdown
     return DropdownButton<String>(
       dropdownColor: Color.fromARGB(255, 44, 19, 119),
       value: selectedAmount,
@@ -177,7 +177,7 @@ class _debitPageState extends State<debitPage> {
     );
   }
 
-  Widget buildCardInfoField(String labelText, int maxLength, String errorText) {
+  Widget buildCardInfoField(String labelText, int maxLength, String errorText) { // Buat input field nomor kartu
     return TextField(
         controller:
             labelText == 'Card Number' ? cardNumberController : cvvController,
@@ -211,7 +211,7 @@ class _debitPageState extends State<debitPage> {
             color: Color.fromARGB(255, 73, 37, 190)));
   }
 
-  Widget buildExpirationDateFields() {
+  Widget buildExpirationDateFields() { // Buat input field bulan dan tahun
     return Row(
       children: [
         Expanded(
@@ -269,7 +269,7 @@ class _debitPageState extends State<debitPage> {
     );
   }
 
-  Future<void> _selectMonth(BuildContext context) async {
+  Future<void> _selectMonth(BuildContext context) async { // Buat pilihan bulan
     final List<String> monthNames = [
       'January',
       'February',
@@ -308,7 +308,7 @@ class _debitPageState extends State<debitPage> {
     }
   }
 
-  Future<void> _selectYear(BuildContext context) async {
+  Future<void> _selectYear(BuildContext context) async { // Buat pilihan 10 tahun yang akan datang
     int? selectedYear = await showDialog<int>(
       context: context,
       builder: (BuildContext context) {
@@ -332,7 +332,7 @@ class _debitPageState extends State<debitPage> {
     }
   }
 
-  void depositAmount() {
+  void depositAmount() { // Fungsi untuk mengatur saldo ketika deposit berhasil/gagal
     String cardNumber = _getCardInfoFieldValue('Card Number');
     String expirationMonth = monthController.text;
     String expirationYear = yearController.text;
@@ -391,7 +391,7 @@ class _debitPageState extends State<debitPage> {
     }
   }
 
-  String _getCardInfoFieldValue(String labelText) {
+  String _getCardInfoFieldValue(String labelText) { // Menagmbil input field
     if (labelText == 'Card Number') {
       return cardNumberController.text;
     } else if (labelText == 'CVV') {
@@ -400,14 +400,14 @@ class _debitPageState extends State<debitPage> {
     return '';
   }
 
-  String _validateCardNumber(String cardNumber) {
+  String _validateCardNumber(String cardNumber) { // Cek panjang nomor kartu
     if (cardNumber.length != 16) {
       return 'Card number must be 16 digits';
     }
     return '';
   }
 
-  String _validateCVV(String cvv) {
+  String _validateCVV(String cvv) { // Cek panjang nomor CVV
     if (cvv.length != 3) {
       return 'CVV must be 3 digits';
     }

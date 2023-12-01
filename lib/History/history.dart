@@ -42,12 +42,12 @@ class TransactionHistoryPage extends StatelessWidget {
               return MaterialApp(
                 home: Scaffold(
                   backgroundColor:
-                      Colors.transparent, // Hapus warna latar belakang Scaffold
+                      Colors.transparent,
                   body: Center(
                     child: Container(
                       padding: const EdgeInsets.all(80.0),
                       color: Colors.white.withOpacity(
-                          0.0), // Warna putih dengan tingkat transparansi 0.0
+                          0.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

@@ -51,7 +51,6 @@ class TransferPage extends StatelessWidget {
                   color: Color.fromARGB(255, 230, 15, 122),
                 ),
               ),
-              // TextField Nomor Penerima
               Container(
                 width: 350,
                 decoration: BoxDecoration(
@@ -138,15 +137,12 @@ class TransferPage extends StatelessWidget {
               SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
-                  // Get the entered amount from the controller
                   String amount = amountController.text;
                   final double transferAmount =
                       double.tryParse(amount.replaceAll('.', '')) ?? 0.0;
-                  // Check if the transfer amount is greater than or equal to 10,000
                   if (transferAmount >= 10000) {
                     _showPasswordDialog(context);
                   } else {
-                    // Show an error message if the amount is less than 10,000
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {

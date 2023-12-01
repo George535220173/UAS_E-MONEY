@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:uas_emoney/Transaction.dart';
 import 'package:uas_emoney/money.dart';
 
-class GiftCodeTransaction extends Transaction {
+class GiftCodeTransaction extends Transaction { // Untuk mencatat history
   final String code;
 
   GiftCodeTransaction({
@@ -195,7 +195,7 @@ class _giftcodePageState extends State<giftcodePage> {
     );
   }
 
-  void _generateAndDisplayCode() {
+  void _generateAndDisplayCode() { // Membuat dan menampilkan giftcode
     generatedCode = _generateRandomCode();
 
     giftCodes.add(generatedCode);
@@ -224,7 +224,7 @@ class _giftcodePageState extends State<giftcodePage> {
     );
   }
 
-  void _redeemCode() {
+  void _redeemCode() { // Fungsi menambahkan balance ketika giftcode benar
     String enteredCode = enteredCodeController.text;
 
     if (isCodeVisible && enteredCode == generatedCode) {
@@ -232,7 +232,7 @@ class _giftcodePageState extends State<giftcodePage> {
 
       Money.transactionHistory.add(
         GiftCodeTransaction(
-          recipient: 'GiftCode', // Provide the recipient value as needed
+          recipient: 'GiftCode',
           amount: selectedAmount.toDouble(),
           date: DateTime.now(),
           code: enteredCode,
@@ -280,7 +280,7 @@ class _giftcodePageState extends State<giftcodePage> {
     }
   }
 
-  String _generateRandomCode() {
+  String _generateRandomCode() { // buat kode random
     const String characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     Random random = Random();
     String code = '';
