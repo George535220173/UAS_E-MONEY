@@ -10,7 +10,7 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterPage> { //buat setiap textbox dimasukin ke controller
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -41,7 +41,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         child: ListView(
-            // Wrap with ListView
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
                 .onDrag, // Handle keyboard dismissal
             children: [
@@ -50,6 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+
                     // Box First Name
                     Container(
                       height: 60,
@@ -104,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 20),
 
-// Box Phone
+                    // Box Phone
                     Container(
                       height: 60,
                       width: 350,
@@ -249,11 +249,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           labelText: 'Confirm Password',
                           suffixIcon: IconButton(
                             icon: isConfirmPasswordVisible
-                                ? Icon(Icons.visibility)
+                                ? Icon(Icons.visibility) //jika ? maka dia nyala, lainnya tutup
                                 : Icon(Icons.visibility_off),
                             onPressed: () {
                               setState(() {
-                                isConfirmPasswordVisible =
+                                isConfirmPasswordVisible = //jadi keliatan ato ga
                                     !isConfirmPasswordVisible;
                               });
                             },
@@ -296,16 +296,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           );
                         } else {
                           try {
-                            UserCredential userCredential = await FirebaseAuth
+                            UserCredential userCredential = await FirebaseAuth //ngambil usercredential di firebase
                                 .instance
                                 .createUserWithEmailAndPassword(
                               email: emailController.text,
                               password: passwordController.text,
-                            );
+                            ); 
 
-                            String uid = userCredential.user?.uid ?? '';
+                            String uid = userCredential.user?.uid ?? ''; //ambil uid dari firestore
 
-                            await FirebaseFirestore.instance
+                            await FirebaseFirestore.instance //memasukan semua controller tadi ke firestore
                                 .collection('users')
                                 .doc(uid)
                                 .set({
@@ -313,14 +313,14 @@ class _RegisterPageState extends State<RegisterPage> {
                               'lastName': lastNameController.text,
                               'phone': phoneController.text,
                               'email': emailController.text,
-                              'pin': '',
-                              'balance': 0,
+                              'pin': '', //sengaja gaada biar ada di createpin.dart
+                              'balance': 0, //awalnya 0
                             });
 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CreatePINPage(
+                                builder: (context) => CreatePINPage( //kalo udah selesai, dia suruh create pin dan pindah halaman
                                   userId: uid,
                                 ),
                               ),
@@ -328,10 +328,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           } on FirebaseAuthException catch (e) {
                             print(
                                 'FirebaseAuthException during registration: $e');
-                            // Handle FirebaseAuthException (weak-password, email-already-in-use, etc.)
+                            // ngehandle kalo weak password dkk
                           } catch (e) {
                             print('Error during registration: $e');
-                            // Handle other exceptions
+                            // Handle lainnya 
                           }
                         }
                       },
