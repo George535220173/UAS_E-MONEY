@@ -263,7 +263,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 600),
+                      padding: EdgeInsets.only(top: 700),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 120,
@@ -285,7 +285,7 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: 50),
                     Padding(
-                      padding: const EdgeInsets.only(top: 610),
+                      padding: const EdgeInsets.only(top: 715),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -311,10 +311,10 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(vertical: 340),
+                      margin: EdgeInsets.symmetric(vertical: 380),
                       child: CarouselSlider(
                         options: CarouselOptions(
-                          height: 190.0,
+                          height: 200.0,
                           enlargeCenterPage: true,
                           autoPlay: true,
                           aspectRatio: 20 / 9,
