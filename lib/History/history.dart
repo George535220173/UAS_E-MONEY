@@ -53,7 +53,7 @@ class TransactionHistoryPage extends StatelessWidget {
                         children: [
                           SizedBox(height: 27),
                           Text(
-                            'No Transaction has made',
+                            'No Transaction has been made.',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 25,

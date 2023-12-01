@@ -25,6 +25,18 @@ class _WithdrawPageState extends State<WithdrawPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Withdraw',
+          style: TextStyle(
+              fontFamily: 'PoppinsBold',
+              fontSize: 30,
+              color: Color.fromARGB(255, 51, 22, 138)),
+        ),
+        backgroundColor: Color.fromARGB(255, 134, 255, 154),
+        iconTheme: IconThemeData(
+            color: Color.fromARGB(255, 51, 22, 138)),
+      ),
       backgroundColor: Color.fromARGB(255, 51, 22, 138),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -54,8 +66,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                 hintText: 'Select nominal amount',
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Color.fromARGB(255, 134, 255, 154), 
-                      width: 3.5),
+                      color: Color.fromARGB(255, 134, 255, 154), width: 3.5),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
@@ -189,19 +200,17 @@ class _WithdrawPageState extends State<WithdrawPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.all(8),
-                primary: Color.fromARGB(255, 134, 255, 154),
-                minimumSize: Size(50, 10)
-              ),
+                  padding: EdgeInsets.all(8),
+                  primary: Color.fromARGB(255, 134, 255, 154),
+                  minimumSize: Size(50, 10)),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   'Withdraw',
                   style: TextStyle(
-                    fontFamily: 'PoppinsBold',
-                    fontSize: 28,
-                    color: Color.fromARGB(255, 73, 37, 190)
-                  ),
+                      fontFamily: 'PoppinsBold',
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 73, 37, 190)),
                 ),
               ),
             ),
