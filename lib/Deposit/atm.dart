@@ -6,6 +6,15 @@ class atmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Deposit',
+          style: TextStyle(fontFamily: 'PoppinsBold', fontSize: 30, color:Color.fromARGB(255, 51, 22, 138)),
+        ),
+        backgroundColor: Color.fromARGB(255, 134, 255, 154),
+        iconTheme: IconThemeData(
+            color: Color.fromARGB(255, 51, 22, 138)),
+      ),
       backgroundColor: Color.fromARGB(255, 51, 22, 138),
       body: Center(
         child: Padding(

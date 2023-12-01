@@ -31,9 +31,9 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    _updateGreeting(); // Set initial greeting
+    _updateGreeting();
     Timer.periodic(Duration(minutes: 1), (timer) {
-      _updateGreeting(); // Update greeting every minute
+      _updateGreeting();
     });
 
     Money.initializeTotalBalance().then((_) {
@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
     var now = DateTime.now();
     var timeZoneOffset = now.timeZoneOffset;
     var jakartaTimeZone = TimeZone(timeZoneOffset.isNegative ? -7 * 60 : 7 * 60,
-        'WIB'); // Jakarta timezone
+        'WIB'); // timezone jkt
 
     var jakartaTime = now.toUtc().add(Duration(
         minutes: timeZoneOffset.inMinutes > 0
@@ -262,8 +262,8 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 700),
+                    Positioned(
+                      bottom: 160,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 120,
@@ -281,23 +281,19 @@ class _HomeState extends State<Home> {
                             topRight: Radius.circular(70),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 50),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 715),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          buildNavigationButton(Icons.arrow_downward,
-                              'WITHDRAW', WithdrawalPage()),
-                          buildNavigationButton(
-                              Icons.arrow_upward, 'DEPOSIT', DepositPage()),
-                          buildNavigationButton(
-                              Icons.swap_horiz, 'TRANSFER', TransferPage()),
-                          buildNavigationButton(Icons.history, 'HISTORY',
-                              TransactionHistoryPage()),
-                        ],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            buildNavigationButton(Icons.arrow_downward,
+                                'WITHDRAW', WithdrawalPage()),
+                            buildNavigationButton(
+                                Icons.arrow_upward, 'DEPOSIT', DepositPage()),
+                            buildNavigationButton(
+                                Icons.swap_horiz, 'TRANSFER', TransferPage()),
+                            buildNavigationButton(Icons.history, 'HISTORY',
+                                TransactionHistoryPage()),
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(
@@ -341,8 +337,7 @@ class _HomeState extends State<Home> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/ad/Ad2.png'),
+                                image: AssetImage('assets/ad/Ad2.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -352,8 +347,7 @@ class _HomeState extends State<Home> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/ad/Ad3.png'),
+                                image: AssetImage('assets/ad/Ad3.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -363,8 +357,7 @@ class _HomeState extends State<Home> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/ad/Ad4.png'),
+                                image: AssetImage('assets/ad/Ad4.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -433,7 +426,7 @@ class _HomeState extends State<Home> {
               fontSize: 16,
               fontFamily: 'PoppinsBold',
               fontWeight: FontWeight.w500,
-              color: Color.fromARGB(255, 26, 0, 87)),
+              color: Color.fromARGB(255, 255, 253, 128)),
         ),
       ],
     );
