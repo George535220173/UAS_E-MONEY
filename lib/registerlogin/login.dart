@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                         icon: Icon(Icons.info,
                             color: Color.fromARGB(255, 53, 21, 58)),
                         onPressed: () {
-                          if (!emailController.text.endsWith('@gmail.com')) {
+                          if (!emailController.text.endsWith('@gmail.com')) { //harus pake @gmail.com, kalo tidak kena invalid
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Invalid email format'),
@@ -96,14 +96,14 @@ class _LoginPageState extends State<LoginPage> {
                       filled: true,
                       fillColor: Color.fromARGB(255, 248, 240, 179),
                       suffixIcon: IconButton(
-                        icon: isPasswordVisible
+                        icon: isPasswordVisible //jika ? maka icon kebuka, jika tidak maka icon tutup
                             ? Icon(Icons.visibility,
                                 color: Color.fromARGB(255, 53, 21, 58))
                             : Icon(Icons.visibility_off,
                                 color: Color.fromARGB(255, 53, 21, 58)),
                         onPressed: () {
                           setState(() {
-                            isPasswordVisible = !isPasswordVisible;
+                            isPasswordVisible = !isPasswordVisible; //kalo dipencet password keliatan
                           });
                         },
                       ),
@@ -120,32 +120,32 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 SizedBox(
-                  height: 20,
+                  height: 20, //buat spasing
                 ),
 
-// Login Button
+                  // Login Button
                 ElevatedButton(
                   onPressed: () async {
                     if (emailController.text.isEmpty ||
                         passwordController.text.isEmpty) {
-                      _showErrorDialog('Email and password are required');
+                      _showErrorDialog('Email and password are required'); //kalo password kosong, dia kena error
                       return;
                     }
 
                     try {
-                      UserCredential userCredential = await FirebaseAuth
+                      UserCredential userCredential = await FirebaseAuth //mengambil kredensial dari firebase
                           .instance
-                          .signInWithEmailAndPassword(
+                          .signInWithEmailAndPassword( //method di firebase pake email dan password
                         email: emailController.text,
                         password: passwordController.text,
                       );
 
-                      // Check if login is successful
+                      // Kalo login success
                       if (userCredential.user != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Home(),
+                            builder: (context) => Home(), //pindah page ke Home
                           ),
                         );
                       } else {
@@ -173,6 +173,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 SizedBox(height: 70),
 
+                //bagian registrasi
                 Text(
                   'If you dont have an account',
                   style: TextStyle(
