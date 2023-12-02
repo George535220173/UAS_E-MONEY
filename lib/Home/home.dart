@@ -263,7 +263,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Positioned(
-                      bottom: 160,
+                      bottom: 220,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 120,
