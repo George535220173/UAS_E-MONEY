@@ -263,7 +263,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Positioned(
-                      bottom: 220,
+                      bottom: 140,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 120,
@@ -307,7 +307,7 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(vertical: 380),
+                      margin: EdgeInsets.symmetric(vertical: 330),
                       child: CarouselSlider(
                         options: CarouselOptions(
                           height: 200.0,
