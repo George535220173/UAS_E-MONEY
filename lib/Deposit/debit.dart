@@ -53,7 +53,7 @@ class _debitPageState extends State<debitPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 65),
+            SizedBox(height: 15),
             Text(
               'Choose Amount',
               style: TextStyle(
