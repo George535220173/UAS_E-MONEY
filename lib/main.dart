@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      Duration(seconds: 3), // Change the duration as needed
+      Duration(seconds: 3), // durasi lama loading
       () {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const MyApp()),
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo or any other loading indicator
+            // logo asset
             Image.asset(
               'assets/images/Wizzzzz test icon.png',
               width: 150,
