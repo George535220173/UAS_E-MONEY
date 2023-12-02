@@ -43,7 +43,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 50),
+            SizedBox(height: 15),
             Text(
               'Withdraw Amount',
               style: TextStyle(
