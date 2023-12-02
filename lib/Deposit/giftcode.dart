@@ -50,7 +50,7 @@ class _giftcodePageState extends State<giftcodePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 50),
+            SizedBox(height: 24),
             Text(
               'Enter Gift Code',
               style: TextStyle(
